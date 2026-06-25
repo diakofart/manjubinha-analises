@@ -1,0 +1,43 @@
+name: Manjubinha — Análises Automáticas
+
+on:
+  schedule:
+    # Terça-feira às 08:00 BRT (11:00 UTC)
+    - cron: '0 11 * * 2'
+    # Sexta-feira às 08:00 BRT (11:00 UTC)
+    - cron: '0 11 * * 5'
+  # Permite rodar manualmente pelo painel do GitHub
+  workflow_dispatch:
+
+jobs:
+  analisar:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Baixar repositório
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependências
+        run: pip install anthropic requests pypdf
+
+      - name: Rodar análises
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASS: ${{ secrets.WP_APP_PASS }}
+        run: python analises.py
+
+      - name: Salvar controle e ranking atualizados
+        run: |
+          git config user.name "Manjubinha Bot"
+          git config user.email "bot@manjubinha.com"
+          git add controle_docs.json ranking.json
+          git diff --staged --quiet || git commit -m "Auto: atualiza controle e ranking $(date '+%Y-%m-%d')"
+          git push
