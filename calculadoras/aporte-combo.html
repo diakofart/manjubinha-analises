@@ -41,8 +41,10 @@ input:focus{border-color:#D95218}
 .res-row span:first-child{color:#666}
 .res-row span:last-child{font-weight:600;color:#222}
 .res-row span.highlight{color:#D95218}
-.info{font-size:12px;color:#888;margin-top:14px;line-height:1.5}
+.info{font-size:12px;color:#888;margin-top:14px;line-height:1.6}
 .info strong{color:#444}
+.info code{background:#f5f5f5;padding:1px 5px;border-radius:4px;font-size:11px;color:#555}
+.nota{font-size:12px;color:#92600A;background:#FEF3D0;border-left:3px solid #BA7517;border-radius:6px;padding:10px 12px;margin-top:14px;line-height:1.5}
 .btn-fechar{display:block;width:100%;margin-top:20px;padding:11px;border-radius:8px;border:2px solid #D95218;background:#fff;color:#D95218;cursor:pointer;font-weight:700;font-size:14px;text-align:center;text-decoration:none;transition:all .15s}
 .btn-fechar:hover{background:#D95218;color:#fff}
 .mnj-footer{background:#D95218;color:#fff;text-align:center;font-size:12px;padding:12px 20px;line-height:1.5}
@@ -70,7 +72,7 @@ input:focus{border-color:#D95218}
 
   <label>Taxa anual esperada (%)</label>
   <input id="rate" type="number" step="0.01" value="8"/>
-  <div class="hint">Rendimento esperado ao longo de 1 ano. Referência comum: <strong>8% ao ano</strong>.</div>
+  <div class="hint">Rendimento esperado ao longo de 1 ano. Vale para qualquer investimento: FIIs, Tesouro Direto, CDB, ações, etc. Referência comum: <strong>8% ao ano</strong>.</div>
 
   <label>Período (anos)</label>
   <input id="years" type="number" step="1" value="10"/>
@@ -105,7 +107,7 @@ input:focus{border-color:#D95218}
     </div>
 
     <div class="res-compare">
-      <div class="res-label">&#128202; Comparação: o poder do aporte mensal</div>
+      <div class="res-label">&#128202; O poder do aporte mensal</div>
       <div class="res-row"><span>Só com o aporte inicial (sem mensais)</span><span id="r-only-pv"></span></div>
       <div class="res-row"><span>Com aportes mensais</span><span class="highlight" id="r-with-pmt"></span></div>
       <div class="res-row"><span>Diferença gerada pelos aportes mensais</span><span class="highlight" id="r-diff"></span></div>
@@ -126,8 +128,14 @@ input:focus{border-color:#D95218}
   <hr class="divider">
   <div class="info">
     <strong>O que é esta calculadora?</strong><br>
-    Combina um aporte inicial com contribuições mensais e mostra o crescimento do patrimônio com juros compostos ao longo do tempo.<br><br>
-    <strong>Fórmula:</strong> FV = PV x (1 + r)^t + PMT x [((1 + i)^N - 1) / i]
+    Simula o crescimento de um patrimônio combinando aporte inicial com contribuições mensais e juros compostos. Funciona para qualquer tipo de investimento que renda a taxa informada.<br><br>
+    <strong>Fórmula utilizada:</strong><br>
+    <code>FV = PV x (1+i)^N + PMT x [((1+i)^N - 1) / i]</code><br>
+    onde <code>i</code> = taxa mensal (taxa anual / 12) e <code>N</code> = número de meses
+  </div>
+
+  <div class="nota">
+    &#9888;&#65039; <strong>Nota sobre reinvestimento:</strong> Para investimentos que pagam rendimento na conta e não se reinvestem sozinhos como FIIs, ações com dividendos, LCI/LCA: para os juros compostos e esta simulação funcionarem, você precisaria reinvestir manualmente o rendimento todo mês.
   </div>
 
   <a class="btn-fechar" href="https://manjubinhainvestidor.wordpress.com/calculadoras/">&#8592; Voltar às Calculadoras</a>
@@ -140,77 +148,80 @@ input:focus{border-color:#D95218}
 
 <script>
 function brl(x){return x.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
+
 function calcular(){
   var PV    = parseFloat(document.getElementById('pv').value)||0;
   var PMT   = parseFloat(document.getElementById('pmt').value)||0;
   var ann   = (parseFloat(document.getElementById('rate').value)||0)/100;
   var years = parseFloat(document.getElementById('years').value)||0;
   var goal  = parseFloat(document.getElementById('goal').value)||0;
-  var i     = ann/12;
-  var N     = years*12;
+  var i     = ann / 12;   // taxa mensal
+  var N     = years * 12; // número de meses
 
-  // Valor futuro total
-  var fvPV   = PV*Math.pow(1+ann,years);
-  var fvPMT  = i===0 ? PMT*N : PMT*((Math.pow(1+i,N)-1)/i);
-  var total  = fvPV+fvPMT;
-  var aport  = PV+PMT*N;
-  var juros  = total-aport;
-  var mult   = aport>0 ? (total/aport) : 0;
+  // Cálculo consistente: ambos PV e PMT usando composta MENSAL
+  var fvPV   = PV  * Math.pow(1 + i, N);
+  var fvPMT  = i === 0 ? PMT * N : PMT * ((Math.pow(1 + i, N) - 1) / i);
+  var total  = fvPV + fvPMT;
+  var aport  = PV + PMT * N;
+  var juros  = total - aport;
+  var mult   = aport > 0 ? (total / aport) : 0;
 
-  // Só com aporte inicial
-  var onlyPV = PV*Math.pow(1+ann,years);
+  // Só com aporte inicial (composta mensal)
+  var onlyPV = PV * Math.pow(1 + i, N);
 
   var el = document.getElementById('res');
-  el.style.display='block';
+  el.style.display = 'block';
 
   document.getElementById('r-total').textContent = brl(total);
   document.getElementById('r-total-desc').textContent =
     'Com ' + brl(PV) + ' inicial e ' + brl(PMT) + ' por mês durante ' + years + ' anos.';
 
-  document.getElementById('r-period').textContent = years + (years===1?' ano':' anos');
+  document.getElementById('r-period').textContent = years + (years === 1 ? ' ano' : ' anos');
   document.getElementById('r-period-desc').textContent =
-    'Taxa de ' + (ann*100).toFixed(1) + '% ao ano (' + (ann/12*100).toFixed(3) + '% ao mês).';
+    'Taxa de ' + (ann * 100).toFixed(2) + '% ao ano (' + (i * 100).toFixed(4) + '% ao mês).';
 
-  document.getElementById('r-aport').textContent  = brl(aport);
-  document.getElementById('r-juros').textContent  = brl(juros);
-  document.getElementById('r-mult').textContent   = mult.toFixed(1) + 'x';
+  document.getElementById('r-aport').textContent    = brl(aport);
+  document.getElementById('r-juros').textContent    = brl(juros);
+  document.getElementById('r-mult').textContent     = mult.toFixed(1) + 'x';
 
   document.getElementById('r-only-pv').textContent  = brl(onlyPV);
   document.getElementById('r-with-pmt').textContent = brl(total);
-  document.getElementById('r-diff').textContent     = brl(total-onlyPV);
+  document.getElementById('r-diff').textContent     = brl(total - onlyPV);
 
   // Regra dos 72
-  var doubleYears = ann>0 ? (72/(ann*100)).toFixed(1) : '?';
+  var doubleYears = ann > 0 ? (72 / (ann * 100)).toFixed(1) : '?';
+  var doubles     = ann > 0 ? (years / parseFloat(doubleYears)).toFixed(1) : '?';
   document.getElementById('r-double').innerHTML =
-    'Com taxa de <strong>' + (ann*100).toFixed(1) + '% ao ano</strong>, seu dinheiro dobra a cada aproximadamente <strong>' + doubleYears + ' anos</strong>.<br>' +
-    'Isso significa que em ' + years + ' anos o dinheiro pode dobrar cerca de <strong>' + (ann>0?(years/doubleYears).toFixed(1):'?') + ' vezes</strong>.';
+    'Com taxa de <strong>' + (ann * 100).toFixed(2) + '% ao ano</strong>, seu dinheiro dobra a cada aproximadamente <strong>' + doubleYears + ' anos</strong>.<br>' +
+    'Em ' + years + ' anos o dinheiro pode dobrar cerca de <strong>' + doubles + ' vezes</strong>.';
 
   // Meta de patrimônio
   var goalBlock = document.getElementById('r-goal-block');
   var goalText  = document.getElementById('r-goal-text');
-  if(goal>0){
-    goalBlock.style.display='block';
-    if(total>=goal){
+  if(goal > 0){
+    goalBlock.style.display = 'block';
+    if(total >= goal){
       goalText.innerHTML = 'Você <strong>atinge sua meta de ' + brl(goal) + '</strong> dentro do período simulado de ' + years + ' anos.';
     } else {
-      // Calcula quando atinge a meta
-      var monthsToGoal = 0;
       var found = false;
-      for(var n=1;n<=1200;n++){
-        var fvN = PV*Math.pow(1+i,n) + (i===0?PMT*n:PMT*((Math.pow(1+i,n)-1)/i));
-        if(fvN>=goal){monthsToGoal=n;found=true;break}
+      for(var n = 1; n <= 1200; n++){
+        var fvN = PV * Math.pow(1 + i, n) + (i === 0 ? PMT * n : PMT * ((Math.pow(1 + i, n) - 1) / i));
+        if(fvN >= goal){ 
+          var anosGoal  = Math.floor(n / 12);
+          var mesesGoal = n % 12;
+          goalText.innerHTML =
+            'Sua meta de <strong>' + brl(goal) + '</strong> será atingida em aproximadamente <strong>' + anosGoal + ' anos' + (mesesGoal > 0 ? ' e ' + mesesGoal + ' meses' : '') + '</strong>.<br>' +
+            (anosGoal > years ? 'Ou seja, mais <strong>' + (anosGoal - years) + ' anos</strong> além do período simulado.' : 'Dentro do período simulado de ' + years + ' anos.');
+          found = true;
+          break;
+        }
       }
-      if(found){
-        var anosGoal=Math.floor(monthsToGoal/12), mesesGoal=monthsToGoal%12;
-        goalText.innerHTML =
-          'Sua meta de <strong>' + brl(goal) + '</strong> será atingida em aproximadamente <strong>' + anosGoal + ' anos' + (mesesGoal>0?' e '+mesesGoal+' meses':'') + '</strong>.<br>' +
-          'Ou seja, <strong>' + (anosGoal-years>0?'mais '+(anosGoal-years)+' anos além do período simulado':anosGoal+' anos no total') + '</strong>.';
-      } else {
+      if(!found){
         goalText.innerHTML = 'Com os valores informados, a meta de <strong>' + brl(goal) + '</strong> não é atingida em 100 anos. Aumente os aportes ou revise a meta.';
       }
     }
   } else {
-    goalBlock.style.display='none';
+    goalBlock.style.display = 'none';
   }
 }
 </script>
