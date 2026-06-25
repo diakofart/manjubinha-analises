@@ -16,7 +16,7 @@ WP_API     = f"https://public-api.wordpress.com/wp/v2/sites/{WP_SITE}"
 WP_HEADERS = {"Authorization": f"Bearer {WP_TOKEN}"}
 
 # Gemini Flash com Google Search grounding
-GEMINI_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={GEMINI_KEY}"
+GEMINI_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={GEMINI_KEY}"
 
 CAT_FIIS   = 790154326
 CAT_ACOES  = 790154327
