@@ -2,15 +2,18 @@ name: Gerar Token WordPress
 
 on:
   workflow_dispatch:
+    inputs:
+      wp_code:
+        description: 'Cole aqui o codigo ?code= da URL'
+        required: true
 
 jobs:
   token:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Instalar requests
-        run: pip install requests
-
+      - run: pip install requests
       - name: Gerar token
+        env:
+          WP_CODE: ${{ github.event.inputs.wp_code }}
         run: python get_token.py
