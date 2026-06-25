@@ -1,48 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Independência Financeira — Manjubinha</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700&display=swap');
-.mnj-calc *{box-sizing:border-box}
-.mnj-calc{font-family:system-ui,Arial,sans-serif;color:#222;max-width:560px}
-.mnj-card{border:2px solid #D95218;padding:20px;border-radius:10px;box-shadow:0 2px 10px rgba(217,82,24,.1)}
-.mnj-card h3{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:#D95218;margin:0 0 16px;line-height:1.2}
-.mnj-card label{display:block;margin-top:12px;font-size:14px;font-weight:500;color:#444}
-.mnj-card input{width:100%;padding:9px 12px;margin-top:4px;border:1.5px solid #ddd;border-radius:7px;font-size:15px;outline:none}
-.mnj-card input:focus{border-color:#D95218}
-.mnj-hint{font-size:12px;color:#888;margin-top:4px}
-.mnj-hint strong{color:#D95218}
-.mnj-btn{margin-top:16px;width:100%;padding:12px;border-radius:8px;border:0;background:#D95218;color:#fff;cursor:pointer;font-weight:700;font-size:15px}
-.mnj-btn:hover{background:#B83D0E}
-.mnj-result{margin-top:16px;padding:14px;border-radius:8px;background:#fff5f2;border-left:4px solid #D95218;font-size:14px;line-height:1.8;display:none}
-.mnj-result strong{color:#D95218}
-.mnj-hr{border:0;border-top:1px solid #f0e0da;margin:12px 0}
-.mnj-info{font-size:12px;color:#888;margin-top:14px;line-height:1.5}
-.mnj-info strong{color:#444}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,Arial,sans-serif;background:#fff;color:#222}
+.mnj-header{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:2px solid #D95218}
+.mnj-header-left{display:flex;align-items:center;gap:10px;text-decoration:none}
+.mnj-header-left img{height:36px;width:auto}
+.mnj-header-left span{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:#000}
+.mnj-back{font-size:13px;color:#D95218;text-decoration:none;font-weight:500}
+.mnj-back:hover{color:#B83D0E}
+.mnj-content{padding:20px}
+.card{border:2px solid #D95218;padding:20px;border-radius:10px;box-shadow:0 2px 10px rgba(217,82,24,.1);max-width:560px}
+h3{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:#D95218;margin-bottom:16px;line-height:1.2}
+label{display:block;margin-top:12px;font-size:14px;font-weight:500;color:#444}
+input{width:100%;padding:9px 12px;margin-top:4px;border:1.5px solid #ddd;border-radius:7px;font-size:15px;outline:none;transition:border .2s}
+input:focus{border-color:#D95218}
+.hint{font-size:12px;color:#888;margin-top:4px;line-height:1.4}
+.hint strong{color:#D95218}
+button{margin-top:16px;width:100%;padding:12px;border-radius:8px;border:0;background:#D95218;color:#fff;cursor:pointer;font-weight:700;font-size:15px;transition:background .15s}
+button:hover{background:#B83D0E}
+.result{margin-top:16px;padding:14px;border-radius:8px;background:#fff5f2;border-left:4px solid #D95218;font-size:14px;line-height:1.8;display:none}
+.result strong{color:#D95218}
+.divider{border:0;border-top:1px solid #f0e0da;margin:12px 0}
+.info{font-size:12px;color:#888;margin-top:14px;line-height:1.5}
+.info strong{color:#444}
+.mnj-footer{background:#D95218;color:#fff;text-align:center;font-size:12px;padding:12px 20px;margin-top:24px;line-height:1.5}
+.mnj-footer strong{font-weight:600}
 </style>
+</head>
+<body>
 
-<div class="mnj-calc">
-<div class="mnj-card">
+<header class="mnj-header">
+  <a class="mnj-header-left" href="https://manjubinhainvestidor.wordpress.com/">
+    <img src="https://manjubinhainvestidor.wordpress.com/wp-content/uploads/2026/06/majubinharight-3.png" alt="Manjubinha"/>
+    <span>Manjubinha</span>
+  </a>
+  <a class="mnj-back" href="https://manjubinhainvestidor.wordpress.com/calculadoras/">← Calculadoras</a>
+</header>
+
+<div class="mnj-content">
+<div class="card">
   <h3>🎯 Independência Financeira<br>Aporte Inicial + Mensal</h3>
 
   <label>Despesas mensais desejadas (R$)</label>
-  <input id="mnj_exp" type="number" step="0.01" value="3000"/>
+  <input id="exp" type="number" step="0.01" value="3000"/>
 
   <label>Taxa anual esperada do investimento (%)</label>
-  <input id="mnj_rate" type="number" step="0.01" value="8"/>
-  <div class="mnj-hint">Rendimento esperado ao ano. Referência comum: <strong>8% ao ano</strong>.</div>
+  <input id="rate" type="number" step="0.01" value="8"/>
+  <div class="hint">Rendimento esperado ao longo de 1 ano. Referência comum: <strong>8% ao ano</strong>.</div>
 
   <label>Regra de retirada segura anual (%)</label>
-  <input id="mnj_wd" type="number" step="0.1" value="4"/>
+  <input id="wd" type="number" step="0.1" value="4"/>
 
   <label>Aporte inicial (R$)</label>
-  <input id="mnj_pv" type="number" step="0.01" value="10000"/>
+  <input id="pv" type="number" step="0.01" value="10000"/>
 
   <label>Contribuição mensal (R$)</label>
-  <input id="mnj_pmt" type="number" step="0.01" value="500"/>
+  <input id="pmt" type="number" step="0.01" value="500"/>
 
-  <button class="mnj-btn" onclick="mnjCalcIF()">Calcular Independência Financeira</button>
-  <div class="mnj-result" id="mnj_res"></div>
+  <button onclick="calcular()">Calcular Independência Financeira</button>
+  <div class="result" id="res"></div>
 
-  <hr class="mnj-hr">
-  <div class="mnj-info">
+  <hr class="divider">
+  <div class="info">
     <strong>O que é Independência Financeira?</strong><br>
     Quando seus investimentos geram renda suficiente para cobrir suas despesas sem precisar trabalhar.<br><br>
     <strong>Fórmula base:</strong> Valor Necessário = Despesas × 12 ÷ Taxa de Retirada
@@ -50,19 +75,23 @@
 </div>
 </div>
 
+<footer class="mnj-footer">
+  ⚠️ <strong>Atenção:</strong> Simulação educacional. Não é recomendação de investimento. Consulte sempre um profissional antes de tomar decisões financeiras.
+</footer>
+
 <script>
-function mnjBrl(x){return x.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
-function mnjCalcIF(){
-  var exp=parseFloat(document.getElementById('mnj_exp').value)||0;
-  var ann=(parseFloat(document.getElementById('mnj_rate').value)||0)/100;
-  var wd=(parseFloat(document.getElementById('mnj_wd').value)||0)/100;
-  var PV=parseFloat(document.getElementById('mnj_pv').value)||0;
-  var PMT=parseFloat(document.getElementById('mnj_pmt').value)||0;
-  var el=document.getElementById('mnj_res');
+function brl(x){return x.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
+function calcular(){
+  var exp=parseFloat(document.getElementById('exp').value)||0;
+  var ann=(parseFloat(document.getElementById('rate').value)||0)/100;
+  var wd=(parseFloat(document.getElementById('wd').value)||0)/100;
+  var PV=parseFloat(document.getElementById('pv').value)||0;
+  var PMT=parseFloat(document.getElementById('pmt').value)||0;
+  var el=document.getElementById('res');
   el.style.display='block';
-  if(!exp||!wd){el.innerHTML='Preencha todos os campos.';return}
+  if(!exp||!wd){el.innerHTML='Preencha todos os campos corretamente.';return}
   var req=(exp*12)/wd;
-  var mr=ann/12, mw=wd/12, MAX=1200, months=MAX;
+  var mr=ann/12,mw=wd/12,MAX=1200,months=MAX;
   for(var n=0;n<=MAX;n++){
     var b=PV;
     for(var m=0;m<n;m++) b=b*(1+mr)+PMT-(b*mw);
@@ -75,12 +104,14 @@ function mnjCalcIF(){
   var fv=PV*Math.pow(1+mr,months)+(mr>0?PMT*((Math.pow(1+mr,months)-1)/mr):PMT*months);
   var renda=fv*ann/12;
   var tot=PV+PMT*months;
-  el.innerHTML='Patrimônio necessário: <strong>'+mnjBrl(req)+'</strong><br><br>'
-    +'Com <strong>'+mnjBrl(PV)+'</strong> inicial e <strong>'+mnjBrl(PMT)+'</strong>/mês você atinge a meta em <strong>'+anos+' anos e '+meses+' meses</strong>.<br>'
-    +'Patrimônio projetado (com retiradas): <strong>'+mnjBrl(bWd)+'</strong><br>'
-    +'Total aportado: <strong>'+mnjBrl(tot)+'</strong>'
-    +'<hr class="mnj-hr"><strong>🔄 Sem retiradas (reinvestindo tudo):</strong><br>'
-    +'Patrimônio no mesmo período: <strong>'+mnjBrl(fv)+'</strong><br>'
-    +'Renda mensal gerada: <strong>'+mnjBrl(renda)+'/mês</strong>';
+  el.innerHTML='Patrimônio necessário: <strong>'+brl(req)+'</strong><br><br>'
+    +'Com <strong>'+brl(PV)+'</strong> inicial e <strong>'+brl(PMT)+'</strong>/mês você atinge a meta em <strong>'+anos+' anos e '+meses+' meses</strong>.<br>'
+    +'Patrimônio projetado (com retiradas): <strong>'+brl(bWd)+'</strong><br>'
+    +'Total aportado: <strong>'+brl(tot)+'</strong>'
+    +'<hr class="divider"><strong>🔄 Reinvestindo tudo:</strong><br>'
+    +'Patrimônio: <strong>'+brl(fv)+'</strong><br>'
+    +'Renda mensal: <strong>'+brl(renda)+'/mês</strong>';
 }
 </script>
+</body>
+</html>
