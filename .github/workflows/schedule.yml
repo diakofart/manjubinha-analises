@@ -4,7 +4,7 @@ on:
   schedule:
     - cron: '0 11 * * 2'   # Terça 08h BRT
     - cron: '0 11 * * 5'   # Sexta 08h BRT
-  workflow_dispatch:         # Permite rodar manualmente
+  workflow_dispatch:
 
 jobs:
   analisar:
@@ -27,8 +27,7 @@ jobs:
       - name: Rodar análises
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          WP_USER:        ${{ secrets.WP_USER }}
-          WP_APP_PASS:    ${{ secrets.WP_APP_PASS }}
+          WP_TOKEN:       ${{ secrets.WP_TOKEN }}
         run: python analises.py
 
       - name: Salvar controle e ranking atualizados
