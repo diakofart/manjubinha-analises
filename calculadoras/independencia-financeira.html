@@ -35,7 +35,18 @@ input:focus{border-color:#D95218}
 .res-age.ok{border-left-color:#3B6D11;background:#EAF3DE}
 .res-age.warn{border-left-color:#BA7517;background:#FEF3D0}
 .res-money{background:#fff5f2;border:1px solid #fde0d6;border-radius:10px;padding:16px;margin-bottom:12px}
-.res-retire{background:#f9f9f9;border:1px solid #eee;border-radius:10px;padding:16px;margin-bottom:12px;display:none}
+.res-scenarios{border-radius:10px;overflow:hidden;margin-bottom:12px;border:1px solid #e0e0e0}
+.scen-header{background:#f0f0f0;padding:12px 16px;font-size:12px;font-weight:600;color:#555;text-transform:uppercase;letter-spacing:.05em}
+.scen-block{padding:16px;border-bottom:1px solid #eee}
+.scen-block:last-child{border-bottom:none}
+.scen-block.green{background:#EAF3DE}
+.scen-block.yellow{background:#FEF3D0}
+.scen-title{font-size:13px;font-weight:700;margin-bottom:8px}
+.scen-title.green{color:#3B6D11}
+.scen-title.yellow{color:#92600A}
+.scen-row{display:flex;justify-content:space-between;font-size:13px;padding:3px 0;color:#555}
+.scen-row span:last-child{font-weight:600;color:#222}
+.scen-note{font-size:12px;color:#888;margin-top:8px;line-height:1.5}
 .res-label{font-size:12px;font-weight:500;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
 .res-value{font-size:22px;font-weight:700;color:#D95218;font-family:'Syne',sans-serif}
 .res-desc{font-size:13px;color:#666;margin-top:4px;line-height:1.5}
@@ -46,8 +57,9 @@ input:focus{border-color:#D95218}
 .tag{display:inline-block;font-size:12px;font-weight:600;padding:2px 8px;border-radius:20px;margin-bottom:6px}
 .tag.ok{background:#EAF3DE;color:#3B6D11}
 .tag.warn{background:#FEF3D0;color:#92600A}
-.info{font-size:12px;color:#888;margin-top:14px;line-height:1.5}
+.info{font-size:12px;color:#888;margin-top:14px;line-height:1.6}
 .info strong{color:#444}
+.info code{background:#f5f5f5;padding:1px 5px;border-radius:4px;font-size:11px;color:#555}
 .btn-fechar{display:block;width:100%;margin-top:20px;padding:11px;border-radius:8px;border:2px solid #D95218;background:#fff;color:#D95218;cursor:pointer;font-weight:700;font-size:14px;text-align:center;text-decoration:none;transition:all .15s}
 .btn-fechar:hover{background:#D95218;color:#fff}
 .mnj-footer{background:#D95218;color:#fff;text-align:center;font-size:12px;padding:12px 20px;line-height:1.5}
@@ -75,7 +87,7 @@ input:focus{border-color:#D95218}
 
   <label>Taxa de retirada segura anual (%)</label>
   <input id="wd" type="number" step="0.1" value="4"/>
-  <div class="hint">Percentual do patrimônio retirado por ano na aposentadoria. Referência comum: <strong>4% ao ano</strong>.</div>
+  <div class="hint">Percentual do patrimônio retirado por ano na aposentadoria sem acabar com o dinheiro. Referência: <strong>4% ao ano</strong>.</div>
 
   <label>Aporte inicial (R$)</label>
   <input id="pv" type="number" step="0.01" value="10000"/>
@@ -108,7 +120,7 @@ input:focus{border-color:#D95218}
     </div>
 
     <div class="res-block res-time">
-      <div class="res-label">&#128197; Tempo acumulando para chegar lá</div>
+      <div class="res-label">&#128197; Tempo acumulando sem fazer retiradas</div>
       <div class="res-value" id="r-time"></div>
       <div class="res-desc" id="r-time-desc"></div>
     </div>
@@ -126,9 +138,24 @@ input:focus{border-color:#D95218}
       <div class="res-row"><span>Rendimento gerado pelos juros</span><span id="r-juros"></span></div>
     </div>
 
-    <div class="res-retire" id="r-retire-block">
-      <div class="res-label">&#128260; Na aposentadoria (a partir dos <span id="r-retire-age"></span> anos)</div>
-      <div id="r-retire-text" style="font-size:14px;line-height:1.8;margin-top:6px"></div>
+    <div class="res-scenarios">
+      <div class="scen-header">&#128260; Na aposentadoria: dois cenários possíveis</div>
+
+      <div class="scen-block green">
+        <div class="scen-title green">&#9989; Cenário 1: Reinvestindo o excedente (recomendado)</div>
+        <div class="res-row"><span>Dividendos recebidos por mês</span><span id="s1-renda"></span></div>
+        <div class="res-row"><span>Você retira para viver</span><span id="s1-gasto"></span></div>
+        <div class="res-row"><span>Excedente reinvestido automaticamente</span><span id="s1-excesso"></span></div>
+        <div class="scen-note" id="s1-note"></div>
+      </div>
+
+      <div class="scen-block yellow">
+        <div class="scen-title yellow">&#9888;&#65039; Cenário 2: Excedente fica na conta corrente</div>
+        <div class="res-row"><span>Dividendos recebidos por mês</span><span id="s2-renda"></span></div>
+        <div class="res-row"><span>Você retira para viver</span><span id="s2-gasto"></span></div>
+        <div class="res-row"><span>Excedente parado na conta corrente</span><span id="s2-excesso"></span></div>
+        <div class="scen-note" id="s2-note"></div>
+      </div>
     </div>
 
   </div>
@@ -136,8 +163,11 @@ input:focus{border-color:#D95218}
   <hr class="divider">
   <div class="info">
     <strong>Como funciona?</strong><br>
-    Durante a acumulação você investe regularmente sem retirar nada. Ao atingir o patrimônio necessário, começa a viver dos rendimentos na aposentadoria.<br><br>
-    <strong>Fórmula:</strong> Patrimônio necessário = Despesas x 12 / Taxa de retirada
+    Durante a acumulação você investe regularmente sem retirar nada. Ao atingir o patrimônio necessário, para de aportar e começa a viver dos dividendos na aposentadoria.<br><br>
+    <strong>Fórmulas utilizadas:</strong><br>
+    Patrimônio necessário = Despesas x 12 / Taxa de retirada<br>
+    Acumulação: <code>FV = PV x (1+i)^N + PMT x [((1+i)^N - 1) / i]</code><br>
+    onde <code>i</code> = taxa mensal (taxa anual / 12) e <code>N</code> = número de meses
   </div>
 
   <a class="btn-fechar" href="https://manjubinhainvestidor.wordpress.com/calculadoras/">&#8592; Voltar às Calculadoras</a>
@@ -152,7 +182,6 @@ input:focus{border-color:#D95218}
 function brl(x){return x.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
 
 function fvAccum(n, PV, PMT, mr){
-  // Crescimento SEM retiradas — fase de acumulação pura
   var fvPV  = PV * Math.pow(1 + mr, n);
   var fvPMT = mr > 0 ? PMT * ((Math.pow(1 + mr, n) - 1) / mr) : PMT * n;
   return fvPV + fvPMT;
@@ -174,7 +203,6 @@ function calcular(){
   var MAX = 1200;
   var months = MAX;
 
-  // Busca quantos meses acumulando (sem retiradas) para atingir req
   for(var n = 0; n <= MAX; n++){
     if(fvAccum(n, PV, PMT, mr) >= req){ months = n; break; }
   }
@@ -182,7 +210,6 @@ function calcular(){
   var el = document.getElementById('res');
   el.style.display = 'block';
 
-  // Patrimônio necessário
   document.getElementById('r-meta').textContent = brl(req);
   document.getElementById('r-meta-desc').textContent =
     'Para retirar ' + brl(exp) + ' por mês na aposentadoria, com taxa de retirada de ' + (wd*100).toFixed(1) + '% ao ano.';
@@ -191,7 +218,6 @@ function calcular(){
     document.getElementById('r-time').textContent = 'Meta não alcançada em 100 anos';
     document.getElementById('r-time-desc').textContent = 'Aumente os aportes mensais ou revise as despesas desejadas.';
     document.getElementById('r-age-block').style.display = 'none';
-    document.getElementById('r-retire-block').style.display = 'none';
     document.getElementById('r-aport').textContent = '';
     document.getElementById('r-pat').textContent = '';
     document.getElementById('r-juros').textContent = '';
@@ -203,9 +229,8 @@ function calcular(){
 
   document.getElementById('r-time').textContent = anos + ' anos' + (meses > 0 ? ' e ' + meses + ' meses' : '');
   document.getElementById('r-time-desc').textContent =
-    'Acumulando ' + brl(PV) + ' inicial mais ' + brl(PMT) + ' por mês, sem fazer retiradas.';
+    'Acumulando ' + brl(PV) + ' inicial mais ' + brl(PMT) + ' por mês, sem fazer nenhuma retirada.';
 
-  // Patrimônio acumulado ao atingir a meta
   var pat   = fvAccum(months, PV, PMT, mr);
   var aport = PV + PMT * months;
   var juros = pat - aport;
@@ -214,14 +239,14 @@ function calcular(){
   document.getElementById('r-pat').textContent   = brl(pat);
   document.getElementById('r-juros').textContent = brl(juros);
 
-  // Linha do tempo por idade
+  // Linha do tempo
   var ageBlock = document.getElementById('r-age-block');
   if(age > 0 && retire > age){
     ageBlock.style.display = 'block';
-    var ageAtGoal   = age + anos + (meses > 0 ? 1 : 0);
-    var yearsAvail  = retire - age;
-    var tag         = document.getElementById('r-tag');
-    var ageText     = document.getElementById('r-age-text');
+    var ageAtGoal  = age + anos + (meses > 0 ? 1 : 0);
+    var yearsAvail = retire - age;
+    var tag        = document.getElementById('r-tag');
+    var ageText    = document.getElementById('r-age-text');
 
     if(ageAtGoal <= retire){
       ageBlock.className = 'res-age ok';
@@ -231,7 +256,7 @@ function calcular(){
         'Você tem <strong>' + yearsAvail + ' anos</strong> para acumular até a aposentadoria.<br>' +
         'Você atinge o patrimônio necessário aos <strong>' + ageAtGoal + ' anos</strong>, ' +
         'sobrando <strong>' + (retire - ageAtGoal) + ' anos</strong> até os ' + retire + '.<br>' +
-        'A partir dos ' + retire + ' anos, você começa a viver da renda.';
+        'A partir dos ' + retire + ' anos você para de aportar e começa a viver dos dividendos.';
     } else {
       ageBlock.className = 'res-age warn';
       tag.className = 'tag warn';
@@ -245,21 +270,37 @@ function calcular(){
     ageBlock.style.display = 'none';
   }
 
-  // Bloco de aposentadoria
-  var retireBlock = document.getElementById('r-retire-block');
+  // Dividendos mensais gerados pelo patrimônio acumulado
   var rendaMensal = pat * ann / 12;
-  retireBlock.style.display = 'block';
+  var excesso     = rendaMensal - exp;
 
-  if(age > 0 && retire > age){
-    document.getElementById('r-retire-age').textContent = retire;
-  } else {
-    document.getElementById('r-retire-age').textContent = 'aposentar';
-  }
+  // Cenário 1: reinveste o excedente
+  document.getElementById('s1-renda').textContent   = brl(rendaMensal) + ' / mês';
+  document.getElementById('s1-gasto').textContent   = brl(exp) + ' / mês';
+  document.getElementById('s1-excesso').textContent = brl(excesso) + ' / mês';
+  document.getElementById('s1-note').innerHTML =
+    'O excedente de <strong>' + brl(excesso) + ' por mês</strong> volta automaticamente para o investimento. ' +
+    'Com isso, seu patrimônio cresce ao longo do tempo, compensando a inflação. ' +
+    'A renda de <strong>' + brl(exp) + ' por mês</strong> se sustenta indefinidamente.';
 
-  document.getElementById('r-retire-text').innerHTML =
-    'Com o patrimônio de <strong>' + brl(pat) + '</strong> investido:<br>' +
-    'Renda mensal pelos juros (sem consumir o principal): <strong>' + brl(rendaMensal) + ' por mês</strong><br>' +
-    'Pela regra dos ' + (wd*100).toFixed(0) + '% você pode retirar: <strong>' + brl(exp) + ' por mês</strong> sem acabar com o patrimônio.';
+  // Cenário 2: excedente fica na conta corrente
+  document.getElementById('s2-renda').textContent   = brl(rendaMensal) + ' / mês';
+  document.getElementById('s2-gasto').textContent   = brl(exp) + ' / mês';
+  document.getElementById('s2-excesso').textContent = brl(excesso) + ' / mês';
+
+  // Patrimônio investido não cresce (dividendos saem para conta corrente)
+  // Risco: inflação corrói o poder de compra ao longo do tempo
+  // Com inflação de 5% ao ano, quando os 'exp' deixam de cobrir as despesas reais?
+  var inflacao = 0.05; // referência de 5% ao ano
+  var anosInflacao = Math.log(rendaMensal / exp) / Math.log(1 + inflacao);
+
+  document.getElementById('s2-note').innerHTML =
+    'Os dividendos de <strong>' + brl(rendaMensal) + ' por mês</strong> cobrem suas despesas de <strong>' + brl(exp) + ' por mês</strong>, ' +
+    'mas o excedente de <strong>' + brl(excesso) + ' por mês</strong> fica parado na conta corrente sem render.<br><br>' +
+    'O patrimônio investido permanece em <strong>' + brl(pat) + '</strong> e continua gerando os mesmos dividendos nominalmente.<br><br>' +
+    'Atenção: com inflação de 5% ao ano como referência, em aproximadamente <strong>' + anosInflacao.toFixed(0) + ' anos</strong> ' +
+    'suas despesas reais ultrapassariam sua renda atual. O excedente acumulado na conta corrente pode ajudar a cobrir essa diferença, ' +
+    'mas sem crescimento real, o poder de compra diminui com o tempo.';
 }
 </script>
 </body>
