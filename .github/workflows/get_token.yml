@@ -1,0 +1,16 @@
+name: Gerar Token WordPress
+
+on:
+  workflow_dispatch:
+
+jobs:
+  token:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Instalar requests
+        run: pip install requests
+
+      - name: Gerar token
+        run: python get_token.py
