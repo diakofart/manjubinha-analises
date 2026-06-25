@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manjubinha — Autenticação</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;background:#f5f5f5}
+.box{background:#fff;border-radius:12px;padding:2rem;max-width:500px;width:90%;text-align:center;box-shadow:0 2px 20px rgba(0,0,0,.08)}
+h2{color:#D95218;margin:0 0 1rem}
+.code{background:#f0f0f0;border-radius:8px;padding:1rem;font-family:monospace;font-size:13px;word-break:break-all;text-align:left;margin:1rem 0}
+.btn{background:#D95218;color:#fff;border:none;padding:10px 24px;border-radius:8px;font-size:14px;cursor:pointer;margin-top:1rem}
+.btn:hover{background:#B83D0E}
+.status{font-size:14px;color:#666;margin:1rem 0}
+.success{color:#3B6D11;font-weight:500}
+.error{color:#A32D2D;font-weight:500}
+</style>
+</head>
+<body>
+<div class="box">
+  <h2>🐟 Manjubinha</h2>
+  <p class="status" id="status">Processando autenticação...</p>
+  <div id="result"></div>
+</div>
+
+<script>
+const CLIENT_ID     = '142632';
+const CLIENT_SECRET = '3VUIzQ0LtdCBrFYjFx16YJyPb6Yw486IjgiwTshHIdN9BKrgLiXAeW35NghvdRDr';
+const REDIRECT_URI  = 'https://diakofart.github.io/manjubinha-analises/callback.html';
+
+async function getToken() {
+  const params = new URLSearchParams(window.location.search);
+  const code   = params.get('code');
+
+  if (!code) {
+    document.getElementById('status').innerHTML = '<span class="error">❌ Nenhum código encontrado. Tente o fluxo de autorização novamente.</span>';
+    return;
+  }
+
+  document.getElementById('status').textContent = 'Trocando código pelo token...';
+
+  try {
+    const resp = await fetch('https://public-api.wordpress.com/oauth2/token', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      body: new URLSearchParams({
+        client_id:     CLIENT_ID,
+        client_secret: CLIENT_SECRET,
+        redirect_uri:  REDIRECT_URI,
+        code:          code,
+        grant_type:    'authorization_code'
+      })
+    });
+
+    const data = await resp.json();
+
+    if (data.access_token) {
+      document.getElementById('status').innerHTML = '<span class="success">✅ Token gerado com sucesso!</span>';
+      document.getElementById('result').innerHTML = `
+        <p style="font-size:13px;color:#666;margin:.5rem 0">Copie o token abaixo e adicione no GitHub como secret <strong>WP_TOKEN</strong>:</p>
+        <div class="code" id="token-box">${data.access_token}</div>
+        <button class="btn" onclick="copy()">Copiar token</button>
+        <p style="font-size:12px;color:#999;margin-top:1rem">Guarde em local seguro. Este token não expira.</p>
+      `;
+    } else {
+      document.getElementById('status').innerHTML = `<span class="error">❌ Erro: ${JSON.stringify(data)}</span>`;
+    }
+  } catch(e) {
+    document.getElementById('status').innerHTML = `<span class="error">❌ Erro de rede: ${e.message}</span>`;
+  }
+}
+
+function copy() {
+  const text = document.getElementById('token-box').textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    document.querySelector('.btn').textContent = '✅ Copiado!';
+    setTimeout(() => document.querySelector('.btn').textContent = 'Copiar token', 2000);
+  });
+}
+
+getToken();
+</script>
+</body>
+</html>
