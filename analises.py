@@ -3,7 +3,7 @@ Manjubinha Investidor — Análises Automáticas
 Usa Gemini + Google Search para encontrar e analisar documentos.
 """
 
-import os, json, requests
+import os, json, requests, time
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -134,28 +134,30 @@ def salvar(path, data):
     Path(path).write_text(json.dumps(data, indent=2, ensure_ascii=False))
 
 def gemini_search(prompt):
-    """Chama Gemini com Google Search grounding."""
+    """Chama Gemini Flash com pausa para respeitar rate limit (15 RPM)."""
+    time.sleep(5)  # max 12 req/min, abaixo do limite de 15 RPM
     payload = {
         "contents": [{"parts": [{"text": prompt}]}],
-        "tools": [{"google_search_retrieval": {
-            "dynamic_retrieval_config": {
-                "mode": "MODE_DYNAMIC",
-                "dynamic_threshold": 0.3
-            }
-        }}],
         "generationConfig": {
             "temperature": 0.2,
             "maxOutputTokens": 2048
         }
     }
-    r = requests.post(GEMINI_URL, json=payload, timeout=90)
-    if r.status_code == 200:
-        data = r.json()
-        candidates = data.get("candidates", [])
-        if candidates:
-            parts = candidates[0].get("content", {}).get("parts", [])
-            return "".join(p.get("text", "") for p in parts)
-    print(f"  ❌ Gemini {r.status_code}: {r.text[:300]}")
+    for tentativa in range(3):
+        r = requests.post(GEMINI_URL, json=payload, timeout=90)
+        if r.status_code == 200:
+            data = r.json()
+            candidates = data.get("candidates", [])
+            if candidates:
+                parts = candidates[0].get("content", {}).get("parts", [])
+                return "".join(p.get("text", "") for p in parts)
+        elif r.status_code == 429:
+            print(f"  ⏳ Rate limit — aguardando 60s... (tentativa {tentativa+1}/3)")
+            time.sleep(60)
+        else:
+            print(f"  ❌ Gemini {r.status_code}: {r.text[:200]}")
+            return None
+    print("  ❌ Gemini: 3 tentativas falharam.")
     return None
 
 def get_tag(ticker):
