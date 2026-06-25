@@ -17,7 +17,7 @@ body{font-family:system-ui,Arial,sans-serif;background:#f9f9f9;color:#222;min-he
 .mnj-content{flex:1;display:flex;justify-content:center;padding:24px 16px}
 .card{border:2px solid #D95218;padding:24px;border-radius:10px;box-shadow:0 2px 10px rgba(217,82,24,.1);width:100%;max-width:560px;background:#fff}
 h3{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:#D95218;margin-bottom:20px;line-height:1.2}
-.field-group{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+.field-group{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
 label{display:block;margin-top:14px;font-size:14px;font-weight:500;color:#444}
 .field-group label{margin-top:0}
 input{width:100%;padding:9px 12px;margin-top:4px;border:1.5px solid #ddd;border-radius:7px;font-size:15px;outline:none;transition:border .2s}
@@ -31,12 +31,11 @@ input:focus{border-color:#D95218}
 .res-block{border-radius:10px;padding:16px;margin-bottom:12px}
 .res-meta{background:#f9f9f9;border:1px solid #eee}
 .res-time{background:#fff5f2;border-left:4px solid #D95218}
-.res-age{border-radius:10px;padding:16px;margin-bottom:12px;border-left:4px solid #222;background:#f9f9f9}
+.res-age{border-radius:10px;padding:16px;margin-bottom:12px;border-left:4px solid #222;background:#f9f9f9;display:none}
 .res-age.ok{border-left-color:#3B6D11;background:#EAF3DE}
 .res-age.warn{border-left-color:#BA7517;background:#FEF3D0}
-.res-age.bad{border-left-color:#A32D2D;background:#FCEBEB}
 .res-money{background:#fff5f2;border:1px solid #fde0d6;border-radius:10px;padding:16px;margin-bottom:12px}
-.res-reinvest{background:#f9f9f9;border:1px solid #eee;border-radius:10px;padding:16px;margin-bottom:12px}
+.res-retire{background:#f9f9f9;border:1px solid #eee;border-radius:10px;padding:16px;margin-bottom:12px;display:none}
 .res-label{font-size:12px;font-weight:500;color:#888;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px}
 .res-value{font-size:22px;font-weight:700;color:#D95218;font-family:'Syne',sans-serif}
 .res-desc{font-size:13px;color:#666;margin-top:4px;line-height:1.5}
@@ -47,7 +46,6 @@ input:focus{border-color:#D95218}
 .tag{display:inline-block;font-size:12px;font-weight:600;padding:2px 8px;border-radius:20px;margin-bottom:6px}
 .tag.ok{background:#EAF3DE;color:#3B6D11}
 .tag.warn{background:#FEF3D0;color:#92600A}
-.tag.bad{background:#FCEBEB;color:#A32D2D}
 .info{font-size:12px;color:#888;margin-top:14px;line-height:1.5}
 .info strong{color:#444}
 .btn-fechar{display:block;width:100%;margin-top:20px;padding:11px;border-radius:8px;border:2px solid #D95218;background:#fff;color:#D95218;cursor:pointer;font-weight:700;font-size:14px;text-align:center;text-decoration:none;transition:all .15s}
@@ -68,7 +66,7 @@ input:focus{border-color:#D95218}
 <div class="card">
   <h3>&#127919; Independência Financeira<br>Aporte Inicial + Mensal</h3>
 
-  <label>Despesas mensais desejadas (R$)</label>
+  <label>Despesas mensais desejadas na aposentadoria (R$)</label>
   <input id="exp" type="number" step="0.01" value="3000"/>
 
   <label>Taxa anual esperada do investimento (%)</label>
@@ -77,7 +75,7 @@ input:focus{border-color:#D95218}
 
   <label>Taxa de retirada segura anual (%)</label>
   <input id="wd" type="number" step="0.1" value="4"/>
-  <div class="hint">Percentual do patrimônio retirado por ano sem acabar com o dinheiro. Referência comum: <strong>4% ao ano</strong>.</div>
+  <div class="hint">Percentual do patrimônio retirado por ano na aposentadoria. Referência comum: <strong>4% ao ano</strong>.</div>
 
   <label>Aporte inicial (R$)</label>
   <input id="pv" type="number" step="0.01" value="10000"/>
@@ -104,42 +102,42 @@ input:focus{border-color:#D95218}
   <div class="result" id="res">
 
     <div class="res-block res-meta">
-      <div class="res-label">&#127919; Sua meta de patrimônio</div>
+      <div class="res-label">&#127919; Patrimônio necessário para aposentar</div>
       <div class="res-value" id="r-meta"></div>
       <div class="res-desc" id="r-meta-desc"></div>
     </div>
 
     <div class="res-block res-time">
-      <div class="res-label">&#128197; Tempo para chegar lá</div>
+      <div class="res-label">&#128197; Tempo acumulando para chegar lá</div>
       <div class="res-value" id="r-time"></div>
       <div class="res-desc" id="r-time-desc"></div>
     </div>
 
-    <div class="res-age" id="r-age-block" style="display:none">
+    <div class="res-age" id="r-age-block">
       <div class="tag" id="r-tag"></div>
       <div class="res-label">&#127874; Sua linha do tempo</div>
       <div id="r-age-text" style="font-size:14px;line-height:1.7;margin-top:4px"></div>
     </div>
 
     <div class="res-money">
-      <div class="res-label">&#128176; O que acontece no caminho</div>
-      <div class="res-row"><span>Você vai investir no total</span><span id="r-aport"></span></div>
+      <div class="res-label">&#128176; O que acontece durante a acumulação</div>
+      <div class="res-row"><span>Total investido por você</span><span id="r-aport"></span></div>
       <div class="res-row"><span>Patrimônio acumulado</span><span id="r-pat"></span></div>
       <div class="res-row"><span>Rendimento gerado pelos juros</span><span id="r-juros"></span></div>
     </div>
 
-    <div class="res-reinvest">
-      <div class="res-label">&#128260; E se reinvestir tudo sem retirar nada?</div>
-      <div id="r-reinvest" style="font-size:14px;line-height:1.8;margin-top:6px"></div>
+    <div class="res-retire" id="r-retire-block">
+      <div class="res-label">&#128260; Na aposentadoria (a partir dos <span id="r-retire-age"></span> anos)</div>
+      <div id="r-retire-text" style="font-size:14px;line-height:1.8;margin-top:6px"></div>
     </div>
 
   </div>
 
   <hr class="divider">
   <div class="info">
-    <strong>O que é Independência Financeira?</strong><br>
-    Quando seus investimentos geram renda suficiente para cobrir suas despesas sem precisar trabalhar.<br><br>
-    <strong>Fórmula base:</strong> Patrimônio necessário = Despesas x 12 / Taxa de retirada
+    <strong>Como funciona?</strong><br>
+    Durante a acumulação você investe regularmente sem retirar nada. Ao atingir o patrimônio necessário, começa a viver dos rendimentos na aposentadoria.<br><br>
+    <strong>Fórmula:</strong> Patrimônio necessário = Despesas x 12 / Taxa de retirada
   </div>
 
   <a class="btn-fechar" href="https://manjubinhainvestidor.wordpress.com/calculadoras/">&#8592; Voltar às Calculadoras</a>
@@ -152,61 +150,116 @@ input:focus{border-color:#D95218}
 
 <script>
 function brl(x){return x.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
+
+function fvAccum(n, PV, PMT, mr){
+  // Crescimento SEM retiradas — fase de acumulação pura
+  var fvPV  = PV * Math.pow(1 + mr, n);
+  var fvPMT = mr > 0 ? PMT * ((Math.pow(1 + mr, n) - 1) / mr) : PMT * n;
+  return fvPV + fvPMT;
+}
+
 function calcular(){
-  var exp=parseFloat(document.getElementById('exp').value)||0;
-  var ann=(parseFloat(document.getElementById('rate').value)||0)/100;
-  var wd=(parseFloat(document.getElementById('wd').value)||0)/100;
-  var PV=parseFloat(document.getElementById('pv').value)||0;
-  var PMT=parseFloat(document.getElementById('pmt').value)||0;
-  var age=parseInt(document.getElementById('age').value)||0;
-  var retire=parseInt(document.getElementById('retire').value)||0;
-  if(!exp||!wd){alert('Preencha despesas e taxa de retirada.');return}
-  var req=(exp*12)/wd;
-  var mr=ann/12,mw=wd/12,MAX=1200,months=MAX;
-  for(var n=0;n<=MAX;n++){var b=PV;for(var m=0;m<n;m++) b=b*(1+mr)+PMT-(b*mw);if(b>=req){months=n;break}}
-  var el=document.getElementById('res');
-  el.style.display='block';
-  document.getElementById('r-meta').textContent=brl(req);
-  document.getElementById('r-meta-desc').textContent='Para ter '+brl(exp)+' por mês sem precisar trabalhar, com retirada de '+(wd*100).toFixed(1)+'% ao ano do patrimônio.';
-  if(months===MAX){
-    document.getElementById('r-time').textContent='Meta não alcançada em 100 anos';
-    document.getElementById('r-time-desc').textContent='Aumente os aportes mensais ou revise as despesas desejadas.';
+  var exp    = parseFloat(document.getElementById('exp').value)||0;
+  var ann    = (parseFloat(document.getElementById('rate').value)||0)/100;
+  var wd     = (parseFloat(document.getElementById('wd').value)||0)/100;
+  var PV     = parseFloat(document.getElementById('pv').value)||0;
+  var PMT    = parseFloat(document.getElementById('pmt').value)||0;
+  var age    = parseInt(document.getElementById('age').value)||0;
+  var retire = parseInt(document.getElementById('retire').value)||0;
+
+  if(!exp||!wd){alert('Preencha as despesas e a taxa de retirada.');return}
+
+  var req = (exp * 12) / wd;
+  var mr  = ann / 12;
+  var MAX = 1200;
+  var months = MAX;
+
+  // Busca quantos meses acumulando (sem retiradas) para atingir req
+  for(var n = 0; n <= MAX; n++){
+    if(fvAccum(n, PV, PMT, mr) >= req){ months = n; break; }
+  }
+
+  var el = document.getElementById('res');
+  el.style.display = 'block';
+
+  // Patrimônio necessário
+  document.getElementById('r-meta').textContent = brl(req);
+  document.getElementById('r-meta-desc').textContent =
+    'Para retirar ' + brl(exp) + ' por mês na aposentadoria, com taxa de retirada de ' + (wd*100).toFixed(1) + '% ao ano.';
+
+  if(months === MAX){
+    document.getElementById('r-time').textContent = 'Meta não alcançada em 100 anos';
+    document.getElementById('r-time-desc').textContent = 'Aumente os aportes mensais ou revise as despesas desejadas.';
+    document.getElementById('r-age-block').style.display = 'none';
+    document.getElementById('r-retire-block').style.display = 'none';
+    document.getElementById('r-aport').textContent = '';
+    document.getElementById('r-pat').textContent = '';
+    document.getElementById('r-juros').textContent = '';
     return;
   }
-  var anos=Math.floor(months/12),meses=months%12;
-  document.getElementById('r-time').textContent=anos+' anos'+(meses>0?' e '+meses+' meses':'');
-  document.getElementById('r-time-desc').textContent='Começando com '+brl(PV)+' e investindo '+brl(PMT)+' todo mês.';
-  var ageBlock=document.getElementById('r-age-block');
-  if(age>0&&retire>age){
-    ageBlock.style.display='block';
-    var dispYears=anos+(meses>0?1:0);
-    var ageAtGoal=age+dispYears;
-    var yearsAvail=retire-age;
-    var tag=document.getElementById('r-tag');
-    var ageText=document.getElementById('r-age-text');
-    if(ageAtGoal<=retire){
-      ageBlock.className='res-age ok';
-      tag.className='tag ok';
-      tag.textContent='Dentro do prazo';
-      ageText.innerHTML='Você tem <strong>'+yearsAvail+' anos</strong> até a aposentadoria.<br>Você precisa de <strong>'+anos+' anos'+(meses>0?' e '+meses+' meses':'')+'</strong> para atingir a meta.<br>Você vai chegar lá com aproximadamente <strong>'+ageAtGoal+' anos</strong>, sobrando <strong>'+(retire-ageAtGoal)+' anos</strong> até os '+retire+'.';
+
+  var anos  = Math.floor(months / 12);
+  var meses = months % 12;
+
+  document.getElementById('r-time').textContent = anos + ' anos' + (meses > 0 ? ' e ' + meses + ' meses' : '');
+  document.getElementById('r-time-desc').textContent =
+    'Acumulando ' + brl(PV) + ' inicial mais ' + brl(PMT) + ' por mês, sem fazer retiradas.';
+
+  // Patrimônio acumulado ao atingir a meta
+  var pat   = fvAccum(months, PV, PMT, mr);
+  var aport = PV + PMT * months;
+  var juros = pat - aport;
+
+  document.getElementById('r-aport').textContent = brl(aport);
+  document.getElementById('r-pat').textContent   = brl(pat);
+  document.getElementById('r-juros').textContent = brl(juros);
+
+  // Linha do tempo por idade
+  var ageBlock = document.getElementById('r-age-block');
+  if(age > 0 && retire > age){
+    ageBlock.style.display = 'block';
+    var ageAtGoal   = age + anos + (meses > 0 ? 1 : 0);
+    var yearsAvail  = retire - age;
+    var tag         = document.getElementById('r-tag');
+    var ageText     = document.getElementById('r-age-text');
+
+    if(ageAtGoal <= retire){
+      ageBlock.className = 'res-age ok';
+      tag.className = 'tag ok';
+      tag.textContent = 'Dentro do prazo';
+      ageText.innerHTML =
+        'Você tem <strong>' + yearsAvail + ' anos</strong> para acumular até a aposentadoria.<br>' +
+        'Você atinge o patrimônio necessário aos <strong>' + ageAtGoal + ' anos</strong>, ' +
+        'sobrando <strong>' + (retire - ageAtGoal) + ' anos</strong> até os ' + retire + '.<br>' +
+        'A partir dos ' + retire + ' anos, você começa a viver da renda.';
     } else {
-      ageBlock.className='res-age warn';
-      tag.className='tag warn';
-      tag.textContent='Atenção ao prazo';
-      ageText.innerHTML='Você quer se aposentar aos <strong>'+retire+' anos</strong> mas precisaria até os <strong>'+ageAtGoal+' anos</strong>.<br>Faltam <strong>'+(ageAtGoal-retire)+' anos</strong> para fechar o prazo.<br>Considere aumentar o aporte mensal ou rever as despesas desejadas.';
+      ageBlock.className = 'res-age warn';
+      tag.className = 'tag warn';
+      tag.textContent = 'Atenção ao prazo';
+      ageText.innerHTML =
+        'Você quer se aposentar aos <strong>' + retire + ' anos</strong>, mas só atingiria o patrimônio necessário aos <strong>' + ageAtGoal + ' anos</strong>.<br>' +
+        'Faltam <strong>' + (ageAtGoal - retire) + ' anos</strong> para fechar o prazo.<br>' +
+        'Considere aumentar o aporte mensal ou rever as despesas desejadas.';
     }
   } else {
-    ageBlock.style.display='none';
+    ageBlock.style.display = 'none';
   }
-  var bWd=PV;
-  for(var m=0;m<months;m++) bWd=bWd*(1+mr)+PMT-(bWd*mw);
-  var aport=PV+PMT*months;
-  document.getElementById('r-aport').textContent=brl(aport);
-  document.getElementById('r-pat').textContent=brl(bWd);
-  document.getElementById('r-juros').textContent=brl(bWd-aport);
-  var fv=PV*Math.pow(1+mr,months)+(mr>0?PMT*((Math.pow(1+mr,months)-1)/mr):PMT*months);
-  var renda=fv*ann/12;
-  document.getElementById('r-reinvest').innerHTML='No mesmo período de <strong>'+anos+' anos'+(meses>0?' e '+meses+' meses':'')+'</strong>, reinvestindo tudo:<br>Patrimônio acumulado seria <strong>'+brl(fv)+'</strong><br>Renda mensal gerada por esse patrimônio seria <strong>'+brl(renda)+' por mês</strong>';
+
+  // Bloco de aposentadoria
+  var retireBlock = document.getElementById('r-retire-block');
+  var rendaMensal = pat * ann / 12;
+  retireBlock.style.display = 'block';
+
+  if(age > 0 && retire > age){
+    document.getElementById('r-retire-age').textContent = retire;
+  } else {
+    document.getElementById('r-retire-age').textContent = 'aposentar';
+  }
+
+  document.getElementById('r-retire-text').innerHTML =
+    'Com o patrimônio de <strong>' + brl(pat) + '</strong> investido:<br>' +
+    'Renda mensal pelos juros (sem consumir o principal): <strong>' + brl(rendaMensal) + ' por mês</strong><br>' +
+    'Pela regra dos ' + (wd*100).toFixed(0) + '% você pode retirar: <strong>' + brl(exp) + ' por mês</strong> sem acabar com o patrimônio.';
 }
 </script>
 </body>
