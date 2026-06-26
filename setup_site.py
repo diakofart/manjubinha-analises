@@ -19,24 +19,22 @@ WP_HEADERS = {
 
 RANKING_SLUG = "ranking-de-ativos"
 RANKING_URL  = WP_URL + "/" + RANKING_SLUG + "/"
-RANKING_TITLE = "Ranking"
 
-FOOTER_CSS = """
-/* Manjubinha: espaco antes do rodape */
-.entry-content,
-.wp-block-post-content,
-article.post,
-article.page,
-.site-main > article {
-    margin-bottom: 60px !important;
-}
-"""
+FOOTER_CSS = (
+    "/* Manjubinha: espaco antes do rodape */\n"
+    "main#wp--skip-link--target,\n"
+    ".wp-site-blocks > main,\n"
+    "main.wp-block-group {\n"
+    "    padding-bottom: 60px !important;\n"
+    "}\n"
+)
 
 RANKING_NAV_BLOCK = (
     "<!-- wp:navigation-link"
     ' {"label":"Ranking","type":"page","url":"' + WP_URL + "/" + RANKING_SLUG + '/",'
     '"kind":"post-type","isTopLevelLink":true} /-->'
 )
+MARKER = "/* Manjubinha: espaco antes do rodape */"
 
 
 def setup_block_navigation():
@@ -49,54 +47,69 @@ def setup_block_navigation():
 
     navs = r.json()
     if not isinstance(navs, list):
-        print("  navigation: unexpected response: " + str(navs)[:200])
+        print("  navigation: unexpected: " + str(navs)[:100])
         return
 
     for nav in navs:
         nid = nav["id"]
-        ntitle = nav.get("title", {}).get("rendered", "?") or nav.get("title", "?")
-        raw = nav.get("content", {}).get("raw", "") or ""
+        ntitle = (nav.get("title") or {}).get("rendered", "?")
+        raw = (nav.get("content") or {}).get("raw", "") or ""
         print("  Nav " + str(nid) + ": " + str(ntitle) + " (" + str(len(raw)) + " chars)")
-
         if not raw:
-            print("    -> sem conteudo raw, pulando")
+            print("    -> sem raw")
             continue
-
         if RANKING_SLUG in raw or "Ranking" in raw:
-            print("    -> Ranking ja existe nessa nav, pulando")
+            print("    -> ja tem Ranking")
             continue
-
-        new_raw = raw.strip() + "\n" + RANKING_NAV_BLOCK
         r2 = requests.post(WP_API + "/navigation/" + str(nid), headers=WP_HEADERS,
-                           json={"content": new_raw})
+                           json={"content": raw.strip() + "\n" + RANKING_NAV_BLOCK})
         if r2.status_code in (200, 201):
-            print("    -> Ranking adicionado!")
+            print("    -> adicionado!")
         else:
-            print("    -> Erro: " + str(r2.status_code) + " " + r2.text[:200])
+            print("    -> erro " + str(r2.status_code) + " " + r2.text[:150])
 
 
 def setup_css():
-    print("\n=== Additional CSS (rodape) ===")
-    r = requests.get(WP_URL + "/wp-json/wp/v2/settings", headers=WP_HEADERS)
-    if r.status_code != 200:
-        print("  settings endpoint: " + str(r.status_code))
-        return
-
-    settings = r.json()
-    current_css = settings.get("custom_css", "") or ""
-    marker = "/* Manjubinha: espaco antes do rodape */"
-
-    if marker in current_css:
-        print("  CSS de rodape ja aplicado.")
-        return
-
-    new_css = current_css + "\n" + FOOTER_CSS
-    r2 = requests.post(WP_URL + "/wp-json/wp/v2/settings", headers=WP_HEADERS,
-                       json={"custom_css": new_css})
-    if r2.status_code in (200, 201):
-        print("  CSS de rodape adicionado com sucesso!")
+    print("\n=== CSS via Global Styles ===")
+    r = requests.get(WP_API + "/global-styles", headers=WP_HEADERS,
+                     params={"per_page": 5, "context": "edit"})
+    if r.status_code == 200:
+        gs_list = r.json()
+        for gs in (gs_list if isinstance(gs_list, list) else []):
+            gs_id = gs.get("id")
+            if not gs_id:
+                continue
+            current_css = (gs.get("styles") or {}).get("css", "") or ""
+            print("  GS id=" + str(gs_id) + " css_len=" + str(len(current_css)))
+            if MARKER in current_css:
+                print("  CSS ja aplicado.")
+                return
+            new_css = current_css + "\n" + FOOTER_CSS
+            r2 = requests.post(WP_API + "/global-styles/" + str(gs_id), headers=WP_HEADERS,
+                               json={"styles": {"css": new_css}})
+            if r2.status_code in (200, 201):
+                print("  CSS adicionado via global-styles!")
+                return
+            else:
+                print("  erro gs " + str(r2.status_code) + " " + r2.text[:150])
     else:
-        print("  Erro ao salvar CSS: " + str(r2.status_code) + " " + r2.text[:300])
+        print("  global-styles: " + str(r.status_code) + " " + r.text[:100])
+
+    print("  Fallback: settings...")
+    r3 = requests.get(WP_URL + "/wp-json/wp/v2/settings", headers=WP_HEADERS)
+    if r3.status_code == 200:
+        current = r3.json().get("custom_css", "") or ""
+        if MARKER in current:
+            print("  CSS ja em settings.")
+            return
+        r4 = requests.post(WP_URL + "/wp-json/wp/v2/settings", headers=WP_HEADERS,
+                           json={"custom_css": current + "\n" + FOOTER_CSS})
+        if r4.status_code in (200, 201):
+            print("  CSS adicionado via settings!")
+        else:
+            print("  settings erro " + str(r4.status_code))
+    else:
+        print("  settings: " + str(r3.status_code))
 
 
 if __name__ == "__main__":
