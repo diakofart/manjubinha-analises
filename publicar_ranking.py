@@ -1,7 +1,7 @@
 """
-Manjubinha Investidor — Publica/Atualiza a página de Ranking no WordPress
-Script independente: não precisa da API Anthropic.
-Lê ranking.json e cria/atualiza a página wp em /ranking-de-ativos/.
+Manjubinha Investidor - Publica/Atualiza a pagina de Ranking no WordPress
+Script independente: nao precisa da API Anthropic.
+Le ranking.json e cria/atualiza a pagina wp em /ranking-de-ativos/.
 """
 
 import os, json, requests, base64
@@ -22,113 +22,122 @@ def carregar(path, default):
 
 
 def build_ranking_html(ranking):
-    fiis = json.dumps(ranking.get("fiis", []), ensure_ascii=False)
-    acoes = json.dumps(ranking.get("acoes", []), ensure_ascii=False)
+    fiis_json = json.dumps(ranking.get("fiis", []), ensure_ascii=False)
+    acoes_json = json.dumps(ranking.get("acoes", []), ensure_ascii=False)
     ultima = ranking.get("ultima_atualizacao", "")
     proxima = ranking.get("proxima_atualizacao", "")
-    html = (
-        "<!-- wp:html -->\n"
-        "<style>\n"
-        ".mj-ranking{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#222}\n"
-        ".mj-tabs{display:flex;gap:8px;margin-bottom:1.2rem}\n"
-        ".mj-tab{padding:7px 22px;border:1px solid #d0d0d0;border-radius:8px;background:transparent;font-size:14px;cursor:pointer;color:#666}\n"
-        ".mj-tab.active{background:#D95218;color:#fff;border-color:#D95218;font-weight:500}\n"
-        ".mj-legend{display:flex;gap:18px;margin-bottom:.8rem;flex-wrap:wrap}\n"
-        ".mj-leg{display:flex;align-items:center;gap:6px;font-size:12px;color:#888}\n"
-        ".mj-dot{width:10px;height:10px;border-radius:50%}\n"
-        ".mj-filters{display:flex;gap:6px;margin-bottom:.8rem;flex-wrap:wrap}\n"
-        ".mj-fbtn{padding:4px 12px;border:1px solid #d0d0d0;border-radius:20px;background:transparent;font-size:12px;cursor:pointer;color:#888}\n"
-        ".mj-fbtn.on{border-color:#D95218;color:#D95218;background:#fff5f2}\n"
-        ".mj-wrap{overflow-x:auto}\n"
-        ".mj-table{width:100%;border-collapse:collapse;font-size:13px;min-width:480px}\n"
-        ".mj-table thead th{padding:8px 10px;text-align:left;color:#999;font-weight:500;border-bottom:1px solid #e5e5e5;font-size:11px;white-space:nowrap;text-transform:uppercase}\n"
-        ".mj-table thead th.tc{text-align:center}\n"
-        ".mj-table tbody tr{border-bottom:1px solid #f0f0f0}\n"
-        ".mj-table tbody tr:hover{background:#fafafa}\n"
-        ".mj-table td{padding:9px 10px}\n"
-        ".mj-tk{font-weight:600;font-size:13px}\n"
-        ".mj-tk a{color:#D95218;text-decoration:none}\n"
-        ".mj-tk a:hover{text-decoration:underline}\n"
-        ".mj-tk span{color:#D95218}\n"
-        ".mj-nm{color:#999;font-size:12px}\n"
-        ".mj-tag{font-size:11px;padding:2px 8px;border-radius:10px;background:#f5f5f5;color:#888}\n"
-        ".mj-sc{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;font-size:12px;font-weight:500}\n"
-        ".mj-sh{background:#EAF3DE;color:#3B6D11}\n"
-        ".mj-sm{background:#FEF3D0;color:#92600A}\n"
-        ".mj-sl{background:#FCEBEB;color:#A32D2D}\n"
-        ".mj-tot{font-weight:600;font-size:14px}\n"
-        ".mj-rk{color:#bbb;font-size:12px}\n"
-        ".mj-badge{font-size:10px;background:#D95218;color:#fff;padding:1px 6px;border-radius:4px;margin-left:4px}\n"
-        ".mj-upd{font-size:11px;color:#bbb;text-align:right;margin-top:.8rem}\n"
-        "</style>\n"
-        "<div class=\"mj-ranking\">\n"
-        "<div class=\"mj-tabs\">\n"
-        "<button class=\"mj-tab active\" onclick=\"mjShow('fii',this)\">FIIs &#8212; Top 30</button>\n"
-        "<button class=\"mj-tab\" onclick=\"mjShow('ac',this)\">Ações &#8212; Top 30</button>\n"
-        "</div>\n"
-        "<div class=\"mj-legend\">\n"
-        "<span class=\"mj-leg\"><span class=\"mj-dot\" style=\"background:#639922\"></span>8-10 alto</span>\n"
-        "<span class=\"mj-leg\"><span class=\"mj-dot\" style=\"background:#BA7517\"></span>5-7 médio</span>\n"
-        "<span class=\"mj-leg\"><span class=\"mj-dot\" style=\"background:#E24B4A\"></span>1-4 baixo</span>\n"
-        "</div>\n"
-        "<div id=\"mj-fii-panel\">\n"
-        "<div class=\"mj-filters\" id=\"mj-fii-filters\"></div>\n"
-        "<div class=\"mj-wrap\"><table class=\"mj-table\">\n"
-        "<thead><tr><th class=\"mj-rk\">#</th><th>Ticker</th><th>Nome</th><th>Tipo</th>"
-        "<th class=\"tc\">Perene</th><th class=\"tc\">Renda</th><th class=\"tc\">Valor</th><th class=\"tc\">Liq</th><th class=\"tc\">Nota</th>"
-        "</tr></thead>\n"
-        "<tbody id=\"mj-fii-body\"></tbody>\n"
-        "</table></div></div>\n"
-        "<div id=\"mj-ac-panel\" style=\"display:none\">\n"
-        "<div class=\"mj-filters\" id=\"mj-ac-filters\"></div>\n"
-        "<div class=\"mj-wrap\"><table class=\"mj-table\">\n"
-        "<thead><tr><th class=\"mj-rk\">#</th><th>Ticker</th><th>Nome</th><th>Setor</th>"
-        "<th class=\"tc\">Perene</th><th class=\"tc\">Renda</th><th class=\"tc\">Valor</th><th class=\"tc\">Liq</th><th class=\"tc\">Nota</th>"
-        "</tr></thead>\n"
-        "<tbody id=\"mj-ac-body\"></tbody>\n"
-        "</table></div></div>\n"
-        "<div class=\"mj-upd\" id=\"mj-upd-info\"></div>\n"
-        "</div>\n"
-        "<script>\n"
-        "(function(){\n"
-        "var FII_DATA=" + fiis + ";\n"
-        "var AC_DATA=" + acoes + ";\n"
-        "document.getElementById('mj-upd-info').textContent='Última atualização: " + ultima + " \u00b7 Próxima: " + proxima + "';\n"
-        "function sc(v){return v>=8?'mj-sh':v>=5?'mj-sm':'mj-sl';}\n"
-        "function renderTable(id,data,key){\n"
-        "var s=[].concat(data).sort(function(a,b){return b.nota-a.nota;});\n"
-        "document.getElementById(id).innerHTML=s.map(function(d,i){\n"
-        "var lnk=d.post_url?'<a href=\"'+d.post_url+'\" target=\"_blank\">'+d.ticker+'</a>':'<span>'+d.ticker+'</span>';\n"
-        "var bdg=d.post_url?'<span class=\"mj-badge\">análise</span>':'';\n"
-        "return '<tr data-tipo=\"'+d[key]+'\"><td class=\"mj-rk\">'+(i+1)+'</td><td class=\"mj-tk\">'+lnk+bdg+'</td><td class=\"mj-nm\">'+d.nome+'</td><td><span class=\"mj-tag\">'+d[key]+'</span></td><td class=\"tc\"><span class=\"mj-sc '+sc(d.perene)+'\">'+d.perene+'</span></td><td class=\"tc\"><span class=\"mj-sc '+sc(d.renda)+'\">'+d.renda+'</span></td><td class=\"tc\"><span class=\"mj-sc '+sc(d.valorizacao)+'\">'+d.valorizacao+'</span></td><td class=\"tc\"><span class=\"mj-sc '+sc(d.liquidez)+'\">'+d.liquidez+'</span></td><td class=\"tc mj-tot\">'+d.nota.toFixed(1)+'</td></tr>';\n"
-        "}).join('');\n"
-        "}\n"
-        "function buildFilters(panel,data,key){\n"
-        "var tp=['Todos'].concat(data.reduce(function(a,d){if(a.indexOf(d[key])<0)a.push(d[key]);return a;},[]));"
-        "document.getElementById('mj-'+panel+'-filters').innerHTML=tp.map(function(t,i){"
-        "return '<button class=\"mj-fbtn'+(i===0?' on':'')+'\" onclick=\"mjFlt(\''+panel+'\',\''+t+'\',this)\">'+t+'</button>';"
-        "}).join('');\n"
-        "}\n"
-        "buildFilters('fii',FII_DATA,'tipo');\n"
-        "buildFilters('ac',AC_DATA,'setor');\n"
-        "renderTable('mj-fii-body',FII_DATA,'tipo');\n"
-        "renderTable('mj-ac-body',AC_DATA,'setor');\n"
-        "})();\n"
-        "window.mjFlt=function(p,t,b){"
-        "document.querySelectorAll('#mj-'+p+'-filters .mj-fbtn').forEach(function(x){x.classList.remove('on');});"
-        "b.classList.add('on');var n=1;"
-        "document.querySelectorAll('#mj-'+p+'-body tr').forEach(function(r){"
-        "var s=t==='Todos'||r.dataset.tipo===t;r.style.display=s?'':'none';"
-        "if(s)r.querySelector('.mj-rk').textContent=n++;});};\n"
-        "window.mjShow=function(w,b){"
-        "document.getElementById('mj-fii-panel').style.display=w==='fii'?'':'none';"
-        "document.getElementById('mj-ac-panel').style.display=w==='ac'?'':'none';"
-        "document.querySelectorAll('.mj-tab').forEach(function(t){t.classList.remove('active');});"
-        "b.classList.add('active');};\n"
-        "</script>\n"
-        "<!-- /wp:html -->"
+
+    css = (
+        "<style>"
+        ".mjr{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;color:#222}"
+        ".mjt{display:flex;gap:8px;margin-bottom:1.2rem}"
+        ".mjb{padding:7px 22px;border:1px solid #d0d0d0;border-radius:8px;background:transparent;font-size:14px;cursor:pointer;color:#666}"
+        ".mjb.on{background:#D95218;color:#fff;border-color:#D95218;font-weight:500}"
+        ".mjl{display:flex;gap:18px;margin-bottom:.8rem;flex-wrap:wrap}"
+        ".mjli{display:flex;align-items:center;gap:6px;font-size:12px;color:#888}"
+        ".mjd{width:10px;height:10px;border-radius:50%;display:inline-block}"
+        ".mjf{display:flex;gap:6px;margin-bottom:.8rem;flex-wrap:wrap}"
+        ".mjfb{padding:4px 12px;border:1px solid #d0d0d0;border-radius:20px;background:transparent;font-size:12px;cursor:pointer;color:#888}"
+        ".mjfb.on{border-color:#D95218;color:#D95218;background:#fff5f2}"
+        ".mjw{overflow-x:auto}"
+        ".mjtbl{width:100%;border-collapse:collapse;font-size:13px;min-width:480px}"
+        ".mjtbl thead th{padding:8px 10px;text-align:left;color:#999;font-weight:500;border-bottom:1px solid #e5e5e5;font-size:11px;white-space:nowrap;text-transform:uppercase}"
+        ".mjtbl thead th.tc{text-align:center}"
+        ".mjtbl tbody tr{border-bottom:1px solid #f0f0f0}"
+        ".mjtbl tbody tr:hover{background:#fafafa}"
+        ".mjtbl td{padding:9px 10px}"
+        ".mjk{font-weight:600;font-size:13px}"
+        ".mjk a{color:#D95218;text-decoration:none}"
+        ".mjk a:hover{text-decoration:underline}"
+        ".mjk span{color:#D95218}"
+        ".mjnm{color:#999;font-size:12px}"
+        ".mjtag{font-size:11px;padding:2px 8px;border-radius:10px;background:#f5f5f5;color:#888}"
+        ".mjsc{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;font-size:12px;font-weight:500}"
+        ".mjsh{background:#EAF3DE;color:#3B6D11}"
+        ".mjsm{background:#FEF3D0;color:#92600A}"
+        ".mjsl{background:#FCEBEB;color:#A32D2D}"
+        ".mjtot{font-weight:600;font-size:14px}"
+        ".mjrk{color:#bbb;font-size:12px}"
+        ".mjbdg{font-size:10px;background:#D95218;color:#fff;padding:1px 6px;border-radius:4px;margin-left:4px}"
+        ".mjupd{font-size:11px;color:#bbb;text-align:right;margin-top:.8rem}"
+        "</style>"
     )
-    return html
+
+    html_struct = (
+        '<div class="mjr">'
+        '<div class="mjt">'
+        '<button class="mjb on" onclick="mjShow(this,1)">FIIs &#8212; Top 30</button>'
+        '<button class="mjb" onclick="mjShow(this,2)">Ações &#8212; Top 30</button>'
+        '</div>'
+        '<div class="mjl">'
+        '<span class="mjli"><span class="mjd" style="background:#639922"></span>8-10 alto</span>'
+        '<span class="mjli"><span class="mjd" style="background:#BA7517"></span>5-7 médio</span>'
+        '<span class="mjli"><span class="mjd" style="background:#E24B4A"></span>1-4 baixo</span>'
+        '</div>'
+        '<div id="mjp1">'
+        '<div class="mjf" id="mjf1"></div>'
+        '<div class="mjw"><table class="mjtbl"><thead><tr>'
+        '<th class="mjrk">#</th><th>Ticker</th><th>Nome</th><th>Tipo</th>'
+        '<th class="tc">Perene</th><th class="tc">Renda</th><th class="tc">Valor</th><th class="tc">Liq</th><th class="tc">Nota</th>'
+        '</tr></thead><tbody id="mjb1"></tbody></table></div>'
+        '</div>'
+        '<div id="mjp2" style="display:none">'
+        '<div class="mjf" id="mjf2"></div>'
+        '<div class="mjw"><table class="mjtbl"><thead><tr>'
+        '<th class="mjrk">#</th><th>Ticker</th><th>Nome</th><th>Setor</th>'
+        '<th class="tc">Perene</th><th class="tc">Renda</th><th class="tc">Valor</th><th class="tc">Liq</th><th class="tc">Nota</th>'
+        '</tr></thead><tbody id="mjb2"></tbody></table></div>'
+        '</div>'
+        '<div class="mjupd" id="mjupd"></div>'
+        '</div>'
+    )
+
+    js = (
+        "<script>"
+        "(function(){"
+        "var D1=" + fiis_json + ";"
+        "var D2=" + acoes_json + ";"
+        "document.getElementById('mjupd').textContent='Ultima atualizacao: " + ultima + " - Proxima: " + proxima + "';"
+        "function sc(v){return v>=8?'mjsh':v>=5?'mjsm':'mjsl';}"
+        "function row(d,i,k){"
+        "var lnk=d.post_url?('<a href='+JSON.stringify(d.post_url)+' target=_blank>'+d.ticker+'</a>'):'<span>'+d.ticker+'</span>';"
+        "var bdg=d.post_url?'<span class=mjbdg>analise</span>':'';"
+        "return '<tr data-t='+JSON.stringify(d[k])+'><td class=mjrk>'+(i+1)+'</td><td class=mjk>'+lnk+bdg+'</td><td class=mjnm>'+d.nome+'</td><td><span class=mjtag>'+d[k]+'</span></td><td class=tc><span class="mjsc '+sc(d.perene)+'">'+d.perene+'</span></td><td class=tc><span class="mjsc '+sc(d.renda)+'">'+d.renda+'</span></td><td class=tc><span class="mjsc '+sc(d.valorizacao)+'">'+d.valorizacao+'</span></td><td class=tc><span class="mjsc '+sc(d.liquidez)+'">'+d.liquidez+'</span></td><td class="tc mjtot">'+d.nota.toFixed(1)+'</td></tr>';"
+        "}"
+        "function render(bid,data,key){"
+        "var s=data.slice().sort(function(a,b){return b.nota-a.nota;});"
+        "document.getElementById(bid).innerHTML=s.map(function(d,i){return row(d,i,key);}).join('');"
+        "}"
+        "function filters(fid,bid,data,key){"
+        "var tp=['Todos'].concat(data.reduce(function(a,d){if(a.indexOf(d[key])<0)a.push(d[key]);return a;},[]));"
+        "document.getElementById(fid).innerHTML=tp.map(function(t,i){"
+        "return '<button class=mjfb'+(i===0?' on':'')+' onclick=mjF(this,'+JSON.stringify(bid)+','+JSON.stringify(t)+')>'+t+'</button>';"
+        "}).join('');"
+        "}"
+        "render('mjb1',D1,'tipo');render('mjb2',D2,'setor');"
+        "filters('mjf1','mjb1',D1,'tipo');filters('mjf2','mjb2',D2,'setor');"
+        "})();"
+        "function mjF(btn,bid,tipo){"
+        "var p=btn.closest('.mjf');"
+        "p.querySelectorAll('.mjfb').forEach(function(b){b.classList.remove('on');});"
+        "btn.classList.add('on');"
+        "var n=1;"
+        "document.getElementById(bid).querySelectorAll('tr').forEach(function(r){"
+        "var ok=tipo==='Todos'||r.dataset.t===tipo;"
+        "r.style.display=ok?'':'none';"
+        "if(ok)r.querySelector('.mjrk').textContent=n++;"
+        "});"
+        "}"
+        "function mjShow(btn,panel){"
+        "document.getElementById('mjp1').style.display=panel===1?'':'none';"
+        "document.getElementById('mjp2').style.display=panel===2?'':'none';"
+        "document.querySelectorAll('.mjt .mjb').forEach(function(b){b.classList.remove('on');});"
+        "btn.classList.add('on');"
+        "}"
+        "</script>"
+    )
+
+    return "<!-- wp:html -->" + css + html_struct + js + "<!-- /wp:html -->"
 
 
 def publicar_pagina_ranking(ranking):
