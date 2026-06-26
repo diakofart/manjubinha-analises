@@ -40,11 +40,19 @@ CAT_ACOES   = None
 MES_ATUAL   = datetime.today().strftime("%B de %Y")
 MES_KEY     = datetime.today().strftime("%m-%Y")
 
+ICON_FII    = "\U0001f4e6"
+ICON_ACAO   = "\U0001f4c8"
+ICON_PEIXE  = "\U0001f41f"
+ICON_PASTA  = "\U0001f4c2"
+ICON_CAL    = "\U0001f4c5"
+ICON_ROBO   = "\U0001f916"
+ICON_MEMO   = "\U0001f4dd"
+
 # -- Prompts ------------------------------------------------------------------
 
 PROMPT_FII = """Você é analista do Manjubinha Investidor. Pesquise o relatório mensal mais recente do FII {ticker} ({nome}) publicado em {mes} no site {ri_url} e escreva uma análise em HTML WordPress.
 
-Use EXATAMENTE esta estrutura HTML (sem markdown, sem ```, apenas HTML puro):
+Use EXATAMENTE esta estrutura HTML (sem markdown, sem backticks, apenas HTML puro):
 
 <!-- wp:group {{"layout":{{"type":"constrained"}}}} -->
 <div class="wp-block-group"><!-- wp:heading {{"level":4}} --><h4 class="wp-block-heading"><mark style="background-color:rgba(0,0,0,0);color:#ff6900" class="has-inline-color">Relatório Mensal — {mes}</mark></h4><!-- /wp:heading -->
@@ -78,7 +86,7 @@ Regras: linguagem simples, máximo 500 palavras, números reais, sem texto fora 
 
 PROMPT_ACAO = """Você é analista do Manjubinha Investidor. Pesquise o resultado trimestral mais recente da empresa {ticker} ({nome}) publicado em 2026 no site {ri_url} e escreva uma análise em HTML WordPress.
 
-Use EXATAMENTE esta estrutura HTML (sem markdown, sem ```, apenas HTML puro):
+Use EXATAMENTE esta estrutura HTML (sem markdown, sem backticks, apenas HTML puro):
 
 <!-- wp:group {{"layout":{{"type":"constrained"}}}} -->
 <div class="wp-block-group"><!-- wp:heading {{"level":4}} --><h4 class="wp-block-heading"><mark style="background-color:rgba(0,0,0,0);color:#ff6900" class="has-inline-color">Resultado Trimestral — [TRIMESTRE]</mark></h4><!-- /wp:heading -->
@@ -134,18 +142,18 @@ def chamar_claude(prompt):
                 return r.json()["content"][0]["text"].strip()
             elif r.status_code == 429:
                 wait = 30 * (tentativa + 1)
-                print(f"  ⏳ Rate limit — {wait}s (tentativa {tentativa+1}/4)")
+                print("  Rate limit -- " + str(wait) + "s (tentativa " + str(tentativa+1) + "/4)")
                 time.sleep(wait)
             elif r.status_code == 529:
-                print(f"  ⏳ Overload — 60s (tentativa {tentativa+1}/4)")
+                print("  Overload -- 60s (tentativa " + str(tentativa+1) + "/4)")
                 time.sleep(60)
             else:
-                print(f"  ❌ Claude {r.status_code}: {r.text[:200]}")
+                print("  Claude " + str(r.status_code) + ": " + r.text[:200])
                 return None
         except requests.exceptions.Timeout:
-            print(f"  ⏳ Timeout — tentativa {tentativa+1}/4")
+            print("  Timeout -- tentativa " + str(tentativa+1) + "/4")
             time.sleep(15)
-    print("  ❌ Claude: 4 tentativas falharam.")
+    print("  Claude: 4 tentativas falharam.")
     return None
 
 def get_or_create_category(slug, name):
@@ -175,9 +183,9 @@ def publicar(titulo, conteudo, categoria, ticker):
     })
     if r.status_code in (200, 201):
         url = r.json()["link"]
-        print(f"  ✅ {url}")
+        print("  OK: " + url)
         return url
-    print(f"  ❌ WP {r.status_code}: {r.text[:300]}")
+    print("  WP erro " + str(r.status_code) + ": " + r.text[:300])
     return None
 
 def atualizar_ranking(ticker, url, tipo):
@@ -193,15 +201,17 @@ def atualizar_ranking(ticker, url, tipo):
 # -- Processamento ------------------------------------------------------------
 
 def processar(lista, controle, mes_key, mes_nome, tipo):
-    label = "FIIs" if tipo == "fii" else "Ações"
-    print(f"\n{'\U0001f4e6' if tipo == 'fii' else '\U0001f4c8'} {label}...")
+    label = "FIIs" if tipo == "fii" else "Acoes"
+    print("")
+    print("Processando " + label + "...")
     for ativo in lista:
         t = ativo["ticker"]
-        key = f"{t}_{mes_key}"
+        key = t + "_" + mes_key
         if key in controle and controle[key].get("status") == "ok":
-            print(f"  → {t}: já publicado.")
+            print("  " + t + ": ja publicado.")
             continue
-        print(f"\n  → {t} ({ativo['nome']})")
+        print("")
+        print("  -> " + t + " (" + ativo["nome"] + ")")
         if tipo == "fii":
             prompt = PROMPT_FII.format(
                 ticker=t, nome=ativo["nome"],
@@ -216,18 +226,18 @@ def processar(lista, controle, mes_key, mes_nome, tipo):
                 ri_url=ativo["ri_url"],
                 setor=ativo.get("setor", ""),
             )
-        print(f"  \U0001f916 Analisando com Claude Haiku...")
+        print("  Analisando com Claude Haiku...")
         analise = chamar_claude(prompt)
         if not analise:
             controle[key] = {"status": "erro_claude"}
             salvar(CONTROLE, controle)
             continue
         if tipo == "fii":
-            titulo = f"{t} — {ativo['nome']} | Relatório {mes_nome}"
+            titulo = t + " -- " + ativo["nome"] + " | Relatorio " + mes_nome
         else:
-            titulo = f"{t} — {ativo['nome']} | Resultado 2026"
+            titulo = t + " -- " + ativo["nome"] + " | Resultado 2026"
         cat = CAT_FIIS if tipo == "fii" else CAT_ACOES
-        print(f"  \U0001f4dd Publicando...")
+        print("  Publicando...")
         url = publicar(titulo, analise, cat, t)
         if url:
             atualizar_ranking(t, url, tipo)
@@ -239,17 +249,18 @@ def processar(lista, controle, mes_key, mes_nome, tipo):
 # -- Main ---------------------------------------------------------------------
 
 def main():
-    print(f"\U0001f41f Manjubinha — {datetime.today().strftime('%Y-%m-%d %H:%M UTC')}")
+    print("Manjubinha -- " + datetime.today().strftime("%Y-%m-%d %H:%M UTC"))
     config   = carregar("config.json", {})
     controle = carregar(CONTROLE, {})
     global CAT_FIIS, CAT_ACOES
-    CAT_FIIS  = get_or_create_category("analises-fiis",    "FIIs | Análises")
-    CAT_ACOES = get_or_create_category("documentos-acoes", "Ações | Análises")
-    print(f"  \U0001f4c2 FIIs: {CAT_FIIS} | Ações: {CAT_ACOES}")
-    print(f"  \U0001f4c5 Mês: {MES_ATUAL}")
+    CAT_FIIS  = get_or_create_category("analises-fiis",    "FIIs | Analises")
+    CAT_ACOES = get_or_create_category("documentos-acoes", "Acoes | Analises")
+    print("  FIIs: " + str(CAT_FIIS) + " | Acoes: " + str(CAT_ACOES))
+    print("  Mes: " + MES_ATUAL)
     processar(config.get("fiis",  []), controle, MES_KEY, MES_ATUAL, "fii")
     processar(config.get("acoes", []), controle, MES_KEY, MES_ATUAL, "acao")
-    print("\n✅ Concluído!")
+    print("")
+    print("Concluido!")
 
 if __name__ == "__main__":
     main()
