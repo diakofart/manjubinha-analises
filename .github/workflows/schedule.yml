@@ -1,40 +1,46 @@
-name: Manjubinha — Análises Automáticas
+name: "Manjubinha — Análises Automáticas"
 
 on:
   schedule:
-    - cron: '0 12 * * 2'  # Terça 09h BRT (12:00 UTC)
-    - cron: '0 12 * * 5'  # Sexta 09h BRT (12:00 UTC)
+    - cron: "0 12 * * 2"
+    - cron: "0 12 * * 5"
   workflow_dispatch:
 
 jobs:
   analisar:
     runs-on: ubuntu-latest
+    name: analisar
 
     steps:
       - name: Baixar repositório
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Configurar Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Instalar dependências
         run: pip install requests
 
       - name: Rodar análises
+        run: python analises.py
+        continue-on-error: true
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           WP_USER: ${{ secrets.WP_USER }}
           WP_APP_PASS: ${{ secrets.WP_APP_PASS }}
-        run: python analises.py
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+
+      - name: Publicar pagina de ranking
+        run: python publicar_ranking.py
+        env:
+          WP_USER: ${{ secrets.WP_USER }}
+          WP_APP_PASS: ${{ secrets.WP_APP_PASS }}
 
       - name: Salvar controle e ranking atualizados
         run: |
-          git config user.name "Manjubinha Bot"
-          git config user.email "bot@manjubinha.com"
+          git config user.name "ManjubinhaInvestidor"
+          git config user.email "contato@manjubinhainvestidor.com.br"
           git add controle_docs.json ranking.json
-          git diff --staged --quiet || git commit -m "Auto: $(date '+%Y-%m-%d')"
+          git diff --cached --quiet || git commit -m "Auto: $(date -u '+%Y-%m-%d')"
           git push
