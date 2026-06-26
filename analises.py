@@ -1,280 +1,269 @@
 """
 Manjubinha Investidor — Análises Automáticas
-Usa Gemini + Google Search para encontrar e analisar documentos.
-"""
+Usa Claude Haiku (Anthropic) para analisar e publicar no WordPress.
 
-import os, json, requests, time
+Controle de cota:
+  - Modelo: claude-haiku-4-5 (~$0.80/MTok input, $4/MTok output)
+    - ~1.000 tokens entrada + ~1.200 saída por ativo = ~2.200 tok/ativo
+      - 60 ativos x 2.200 = ~132.000 tokens por execução
+        - 2x/semana x 4 semanas = ~1.05M tokens/mês  → dentro da cota
+          - Sleep de 3s entre chamadas (limite: 50 RPM no Haiku)
+          """
+
+import os, json, requests, time, base64
 from datetime import datetime, timedelta
 from pathlib import Path
 
 # ── Config ─────────────────────────────────────────────────────────────────────
-WP_URL     = "https://manjubinhainvestidor.com.br"
-WP_USER    = os.environ["WP_USER"]
-WP_PASS    = os.environ["WP_APP_PASS"]
-GEMINI_KEY = os.environ["GEMINI_API_KEY"]
+WP_URL      = "https://manjubinhainvestidor.com.br"
+WP_USER     = os.environ["WP_USER"]
+WP_PASS     = os.environ["WP_APP_PASS"]
+CLAUDE_KEY  = os.environ["ANTHROPIC_API_KEY"]
 
-WP_API     = f"{WP_URL}/wp-json/wp/v2"
-# WordPress.org usa Basic Auth com usuário + Application Password
-import base64
-_cred = base64.b64encode(f"{WP_USER}:{WP_PASS}".encode()).decode()
-WP_HEADERS = {"Authorization": f"Basic {_cred}"}
+WP_API      = f"{WP_URL}/wp-json/wp/v2"
+_cred       = base64.b64encode(f"{WP_USER}:{WP_PASS}".encode()).decode()
+WP_HEADERS  = {"Authorization": f"Basic {_cred}"}
 
-# Gemini Flash com Google Search grounding
-GEMINI_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={GEMINI_KEY}"
+CLAUDE_URL  = "https://api.anthropic.com/v1/messages"
+CLAUDE_HEADERS = {
+        "x-api-key": CLAUDE_KEY,
+        "anthropic-version": "2023-06-01",
+        "content-type": "application/json",
+}
+CLAUDE_MODEL   = "claude-haiku-4-5"
+MAX_TOKENS_OUT = 1200   # suficiente para ~600 palavras de HTML
 
-# IDs de categoria serão buscados dinamicamente pelo slug
-CAT_FIIS   = None  # preenchido em main()
-CAT_ACOES  = None  # preenchido em main()
-CONTROLE   = Path("controle_docs.json")
+CONTROLE    = Path("controle_docs.json")
+CAT_FIIS    = None   # preenchido em main()
+CAT_ACOES   = None   # preenchido em main()
 
-MES_ATUAL  = datetime.today().strftime("%B de %Y")  # ex: junho de 2026
-MES_NUM    = datetime.today().strftime("%m/%Y")      # ex: 06/2026
+MES_ATUAL   = datetime.today().strftime("%B de %Y")   # junho de 2026
+MES_KEY     = datetime.today().strftime("%m-%Y")       # 06-2026
 
-# ── Prompt único com Google Search ────────────────────────────────────────────
+# ── Prompts ─────────────────────────────────────────────────────────────────────
 
-PROMPT_FII = """Você é analista do site Manjubinha Investidor.
+PROMPT_FII = """Você é analista do Manjubinha Investidor. Pesquise o relatório mensal mais recente do FII {ticker} ({nome}) publicado em {mes} no site {ri_url} e escreva uma análise em HTML WordPress.
 
-Pesquise no site oficial {ri_url} o relatório mensal ou fato relevante mais recente do FII {ticker} ({nome}), publicado em {mes}.
-
-Com base no documento encontrado, escreva uma análise completa em HTML puro para WordPress. Use EXATAMENTE esta estrutura:
+Use EXATAMENTE esta estrutura HTML (sem markdown, sem ```, apenas HTML puro):
 
 <!-- wp:group {{"layout":{{"type":"constrained"}}}} -->
-<div class="wp-block-group"><!-- wp:heading {{"level":4}} --><h4 class="wp-block-heading"><mark style="background-color:rgba(0,0,0,0);color:#ff6900" class="has-inline-color">TIPO DO DOCUMENTO — PERÍODO</mark></h4><!-- /wp:heading -->
-<!-- wp:paragraph {{"style":{{"typography":{{"fontSize":"14px"}}}}}} --><p style="font-size:14px">Publicado em: DD/MM/AAAA — <a href="{ri_url}" target="_blank" rel="noreferrer noopener">Site oficial do fundo ({gestora}) ↗</a></p><!-- /wp:paragraph -->
+<div class="wp-block-group"><!-- wp:heading {{"level":4}} --><h4 class="wp-block-heading"><mark style="background-color:rgba(0,0,0,0);color:#ff6900" class="has-inline-color">Relatório Mensal — {mes}</mark></h4><!-- /wp:heading -->
+<!-- wp:paragraph {{"style":{{"typography":{{"fontSize":"14px"}}}}}} --><p style="font-size:14px">Publicado em: {mes} — <a href="{ri_url}" target="_blank" rel="noreferrer noopener">Site oficial do fundo ({gestora}) ↗</a></p><!-- /wp:paragraph -->
 <!-- wp:paragraph {{"style":{{"typography":{{"fontSize":"14px"}}}}}} --><p style="font-size:14px">Tipo: {tipo} — Gestora: {gestora}</p><!-- /wp:paragraph --></div><!-- /wp:group -->
-
 <!-- wp:separator --><hr class="wp-block-separator has-alpha-channel-opacity"/><!-- /wp:separator -->
-
 <!-- wp:heading {{"level":3}} --><h3 class="wp-block-heading">💬 O que esse fundo faz?</h3><!-- /wp:heading -->
-<!-- wp:paragraph --><p>ESCREVA com dados reais do documento</p><!-- /wp:paragraph -->
-
+<!-- wp:paragraph --><p>[DESCRICAO]</p><!-- /wp:paragraph -->
 <!-- wp:heading {{"level":3}} --><h3 class="wp-block-heading">📊 Indicadores Principais</h3><!-- /wp:heading -->
-<!-- wp:paragraph --><p><strong>DY mensal: X%</strong> — explicação.</p><!-- /wp:paragraph -->
-<!-- wp:paragraph --><p><strong>P/VP: X,XX</strong> — explicação.</p><!-- /wp:paragraph -->
-<!-- wp:paragraph --><p><strong>Vacância/Liquidez: X</strong> — explicação.</p><!-- /wp:paragraph -->
-
+<!-- wp:paragraph --><p><strong>DY mensal: X%</strong> — [explicacao]</p><!-- /wp:paragraph -->
+<!-- wp:paragraph --><p><strong>P/VP: X,XX</strong> — [explicacao]</p><!-- /wp:paragraph -->
+<!-- wp:paragraph --><p><strong>Vacância: X%</strong> — [explicacao se tijolo/logístico, ou omita se papel]</p><!-- /wp:paragraph -->
 <!-- wp:heading {{"level":3}} --><h3 class="wp-block-heading">🎯 DY Real?</h3><!-- /wp:heading -->
-<!-- wp:paragraph --><p>Analise se o DY está dentro do padrão ou inflado. Se fundo de papel, inclua: "⚠️ <strong>Atenção:</strong> Fundos de papel não devem ser comprados com P/VP acima de 1,0 — você pagaria mais do que a carteira de CRIs vale."</p><!-- /wp:paragraph -->
-
+<!-- wp:paragraph --><p>[ANALISE_DY — se fundo de papel incluir aviso sobre P/VP acima de 1,0]</p><!-- /wp:paragraph -->
 <!-- wp:separator --><hr class="wp-block-separator has-alpha-channel-opacity"/><!-- /wp:separator -->
-
 <!-- wp:heading {{"level":3}} --><h3 class="wp-block-heading">⚠️ Pontos de Atenção</h3><!-- /wp:heading -->
-<!-- wp:paragraph --><p>ESCREVA com dados reais</p><!-- /wp:paragraph -->
-
+<!-- wp:paragraph --><p>[PONTOS]</p><!-- /wp:paragraph -->
 <!-- wp:heading {{"level":3}} --><h3 class="wp-block-heading">👁️ Deve Ser Acompanhado</h3><!-- /wp:heading -->
-<!-- wp:paragraph --><p>ESCREVA com dados reais</p><!-- /wp:paragraph -->
-
+<!-- wp:paragraph --><p>[ACOMPANHAMENTO]</p><!-- /wp:paragraph -->
 <!-- wp:heading {{"level":3}} --><h3 class="wp-block-heading">✅ Boa Notícia</h3><!-- /wp:heading -->
-<!-- wp:paragraph --><p>ESCREVA com dados reais</p><!-- /wp:paragraph -->
-
+<!-- wp:paragraph --><p>[BOA_NOTICIA]</p><!-- /wp:paragraph -->
 <!-- wp:separator --><hr class="wp-block-separator has-alpha-channel-opacity"/><!-- /wp:separator -->
-
 <!-- wp:heading {{"level":3}} --><h3 class="wp-block-heading">🔄 Mudou fundamento?</h3><!-- /wp:heading -->
-<!-- wp:paragraph --><p>Sim ou Não + explicação direta.</p><!-- /wp:paragraph -->
-
+<!-- wp:paragraph --><p>[SIM/NAO + explicacao curta]</p><!-- /wp:paragraph -->
 <!-- wp:separator --><hr class="wp-block-separator has-alpha-channel-opacity"/><!-- /wp:separator -->
-
 <!-- wp:heading {{"level":3}} --><h3 class="wp-block-heading">📌 Merece Aporte?</h3><!-- /wp:heading -->
-<!-- wp:paragraph --><p><strong>💰 Foco em Renda: ✅/⚠️/❌ RESULTADO</strong><br>Explicação curta.</p><!-- /wp:paragraph -->
-<!-- wp:paragraph --><p><strong>📈 Foco em Valorização: ✅/⚠️/❌ RESULTADO</strong><br>Explicação curta.</p><!-- /wp:paragraph -->
-<!-- wp:quote --><blockquote class="wp-block-quote"><!-- wp:paragraph --><p>📌 Conclusão em 2 frases.</p><!-- /wp:paragraph --></blockquote><!-- /wp:quote -->
+<!-- wp:paragraph --><p><strong>💰 Foco em Renda: [SIM/NEUTRO/NAO]</strong><br>[explicacao]</p><!-- /wp:paragraph -->
+<!-- wp:paragraph --><p><strong>📈 Foco em Valorização: [SIM/NEUTRO/NAO]</strong><br>[explicacao]</p><!-- /wp:paragraph -->
+<!-- wp:quote --><blockquote class="wp-block-quote"><!-- wp:paragraph --><p>📌 [Conclusao em 2 frases]</p><!-- /wp:paragraph --></blockquote><!-- /wp:quote -->
 
-REGRAS: linguagem simples, máximo 600 palavras, números reais encontrados, sem markdown extra."""
+Regras: linguagem simples, máximo 500 palavras, números reais, sem texto fora do HTML."""
 
-PROMPT_ACAO = """Você é analista do site Manjubinha Investidor.
+PROMPT_ACAO = """Você é analista do Manjubinha Investidor. Pesquise o resultado trimestral mais recente da empresa {ticker} ({nome}) publicado em 2026 no site {ri_url} e escreva uma análise em HTML WordPress.
 
-Pesquise no site oficial {ri_url} o resultado trimestral mais recente da empresa {ticker} ({nome}), publicado em 2026.
-
-Com base no documento encontrado, escreva uma análise completa em HTML puro para WordPress. Use EXATAMENTE esta estrutura:
+Use EXATAMENTE esta estrutura HTML (sem markdown, sem ```, apenas HTML puro):
 
 <!-- wp:group {{"layout":{{"type":"constrained"}}}} -->
-<div class="wp-block-group"><!-- wp:heading {{"level":4}} --><h4 class="wp-block-heading"><mark style="background-color:rgba(0,0,0,0);color:#ff6900" class="has-inline-color">TIPO DO DOCUMENTO — PERÍODO</mark></h4><!-- /wp:heading -->
-<!-- wp:paragraph {{"style":{{"typography":{{"fontSize":"14px"}}}}}} --><p style="font-size:14px">Publicado em: DD/MM/AAAA — <a href="{ri_url}" target="_blank" rel="noreferrer noopener">Site oficial de RI ({nome}) ↗</a></p><!-- /wp:paragraph -->
-<!-- wp:paragraph {{"style":{{"typography":{{"fontSize":"14px"}}}}}} --><p style="font-size:14px">Setor: {setor} — Empresa: {nome}</p><!-- /wp:paragraph --></div><!-- /wp:group -->
-
+<div class="wp-block-group"><!-- wp:heading {{"level":4}} --><h4 class="wp-block-heading"><mark style="background-color:rgba(0,0,0,0);color:#ff6900" class="has-inline-color">Resultado Trimestral — [TRIMESTRE]</mark></h4><!-- /wp:heading -->
+<!-- wp:paragraph {{"style":{{"typography":{{"fontSize":"14px"}}}}}} --><p style="font-size:14px">Publicado em: [DATA] — <a href="{ri_url}" target="_blank" rel="noreferrer noopener">Site oficial de RI ({nome}) ↗</a></p><!-- /wp:paragraph -->
+<!-- wp:paragraph {{"style":{{"typography":{{"fontSize":"14px"}}}}}} --><p style="font-size:14px">Setor: {setor} — Empresa: {nome} S.A.</p><!-- /wp:paragraph --></div><!-- /wp:group -->
 <!-- wp:separator --><hr class="wp-block-separator has-alpha-channel-opacity"/><!-- /wp:separator -->
-
 <!-- wp:heading {{"level":3}} --><h3 class="wp-block-heading">💬 O que essa empresa faz?</h3><!-- /wp:heading -->
-<!-- wp:paragraph --><p>ESCREVA com dados reais</p><!-- /wp:paragraph -->
-
+<!-- wp:paragraph --><p>[DESCRICAO]</p><!-- /wp:paragraph -->
 <!-- wp:heading {{"level":3}} --><h3 class="wp-block-heading">📊 Indicadores Principais</h3><!-- /wp:heading -->
-<!-- wp:paragraph --><p><strong>Receita: R$ X bi</strong> — explicação.</p><!-- /wp:paragraph -->
-<!-- wp:paragraph --><p><strong>Lucro líquido: R$ X bi</strong> — explicação.</p><!-- /wp:paragraph -->
-<!-- wp:paragraph --><p><strong>DY anual: X%</strong> — explicação.</p><!-- /wp:paragraph -->
-
+<!-- wp:paragraph --><p><strong>P/L: X,X</strong> — [explicacao]</p><!-- /wp:paragraph -->
+<!-- wp:paragraph --><p><strong>Dividend Yield anual: X%</strong> — [explicacao]</p><!-- /wp:paragraph -->
+<!-- wp:paragraph --><p><strong>Dívida/EBITDA: X,Xx</strong> — [explicacao]</p><!-- /wp:paragraph -->
 <!-- wp:heading {{"level":3}} --><h3 class="wp-block-heading">🎯 DY Real?</h3><!-- /wp:heading -->
-<!-- wp:paragraph --><p>O DY está dentro do padrão histórico ou inflado por extraordinários?</p><!-- /wp:paragraph -->
-
+<!-- wp:paragraph --><p>[ANALISE_DY — dentro do historico ou inflado por extraordinarios?]</p><!-- /wp:paragraph -->
 <!-- wp:separator --><hr class="wp-block-separator has-alpha-channel-opacity"/><!-- /wp:separator -->
-
 <!-- wp:heading {{"level":3}} --><h3 class="wp-block-heading">⚠️ Pontos de Atenção</h3><!-- /wp:heading -->
-<!-- wp:paragraph --><p>ESCREVA com dados reais</p><!-- /wp:paragraph -->
-
+<!-- wp:paragraph --><p>[PONTOS]</p><!-- /wp:paragraph -->
 <!-- wp:heading {{"level":3}} --><h3 class="wp-block-heading">👁️ Deve Ser Acompanhado</h3><!-- /wp:heading -->
-<!-- wp:paragraph --><p>ESCREVA com dados reais</p><!-- /wp:paragraph -->
-
+<!-- wp:paragraph --><p>[ACOMPANHAMENTO]</p><!-- /wp:paragraph -->
 <!-- wp:heading {{"level":3}} --><h3 class="wp-block-heading">✅ Boa Notícia</h3><!-- /wp:heading -->
-<!-- wp:paragraph --><p>ESCREVA com dados reais</p><!-- /wp:paragraph -->
-
+<!-- wp:paragraph --><p>[BOA_NOTICIA]</p><!-- /wp:paragraph -->
 <!-- wp:separator --><hr class="wp-block-separator has-alpha-channel-opacity"/><!-- /wp:separator -->
-
 <!-- wp:heading {{"level":3}} --><h3 class="wp-block-heading">🔄 Mudou fundamento?</h3><!-- /wp:heading -->
-<!-- wp:paragraph --><p>Sim ou Não + explicação direta.</p><!-- /wp:paragraph -->
-
+<!-- wp:paragraph --><p>[SIM/NAO + explicacao curta]</p><!-- /wp:paragraph -->
 <!-- wp:separator --><hr class="wp-block-separator has-alpha-channel-opacity"/><!-- /wp:separator -->
-
 <!-- wp:heading {{"level":3}} --><h3 class="wp-block-heading">📌 Merece Aporte?</h3><!-- /wp:heading -->
-<!-- wp:paragraph --><p><strong>💰 Foco em Renda: ✅/⚠️/❌ RESULTADO</strong><br>Explicação curta.</p><!-- /wp:paragraph -->
-<!-- wp:paragraph --><p><strong>📈 Foco em Valorização: ✅/⚠️/❌ RESULTADO</strong><br>Explicação curta.</p><!-- /wp:paragraph -->
-<!-- wp:quote --><blockquote class="wp-block-quote"><!-- wp:paragraph --><p>📌 Conclusão em 2 frases.</p><!-- /wp:paragraph --></blockquote><!-- /wp:quote -->
+<!-- wp:paragraph --><p><strong>💰 Foco em Renda: [SIM/NEUTRO/NAO]</strong><br>[explicacao]</p><!-- /wp:paragraph -->
+<!-- wp:paragraph --><p><strong>📈 Foco em Valorização: [SIM/NEUTRO/NAO]</strong><br>[explicacao]</p><!-- /wp:paragraph -->
+<!-- wp:quote --><blockquote class="wp-block-quote"><!-- wp:paragraph --><p>📌 [Conclusao em 2 frases]</p><!-- /wp:paragraph --></blockquote><!-- /wp:quote -->
 
-REGRAS: linguagem simples, máximo 600 palavras, números reais encontrados, sem markdown extra."""
+Regras: linguagem simples, máximo 500 palavras, números reais, sem texto fora do HTML."""
 
-# ── Helpers ────────────────────────────────────────────────────────────────────
+# ── Helpers ──────────────────────────────────────────────────────────────────
+
 def carregar(path, default):
-    p = Path(path)
-    return json.loads(p.read_text()) if p.exists() else default
+        p = Path(path)
+        return json.loads(p.read_text()) if p.exists() else default
 
 def salvar(path, data):
-    Path(path).write_text(json.dumps(data, indent=2, ensure_ascii=False))
+        Path(path).write_text(json.dumps(data, indent=2, ensure_ascii=False))
 
-def gemini_search(prompt):
-    """Chama Gemini Flash com pausa para respeitar rate limit (15 RPM)."""
-    time.sleep(5)  # max 12 req/min, abaixo do limite de 15 RPM
-    payload = {
-        "contents": [{"parts": [{"text": prompt}]}],
-        "generationConfig": {
-            "temperature": 0.2,
-            "maxOutputTokens": 2048
+def chamar_claude(prompt):
+        """Chama Claude Haiku com retry em rate limit. Dorme 3s entre chamadas."""
+        time.sleep(3)
+        payload = {
+            "model": CLAUDE_MODEL,
+            "max_tokens": MAX_TOKENS_OUT,
+            "messages": [{"role": "user", "content": prompt}],
         }
-    }
-    for tentativa in range(3):
-        r = requests.post(GEMINI_URL, json=payload, timeout=90)
-        if r.status_code == 200:
-            data = r.json()
-            candidates = data.get("candidates", [])
-            if candidates:
-                parts = candidates[0].get("content", {}).get("parts", [])
-                return "".join(p.get("text", "") for p in parts)
-        elif r.status_code == 429:
-            print(f"  ⏳ Rate limit — aguardando 60s... (tentativa {tentativa+1}/3)")
-            time.sleep(60)
-        else:
-            print(f"  ❌ Gemini {r.status_code}: {r.text[:200]}")
-            return None
-    print("  ❌ Gemini: 3 tentativas falharam.")
+        for tentativa in range(4):
+                    try:
+                                    r = requests.post(CLAUDE_URL, headers=CLAUDE_HEADERS, json=payload, timeout=60)
+                                    if r.status_code == 200:
+                                                        return r.json()["content"][0]["text"].strip()
+elif r.status_code == 429:
+                wait = 30 * (tentativa + 1)
+                print(f"  ⏳ Rate limit — aguardando {wait}s (tentativa {tentativa+1}/4)")
+                time.sleep(wait)
+elif r.status_code == 529:
+                print(f"  ⏳ Overload API — aguardando 60s (tentativa {tentativa+1}/4)")
+                time.sleep(60)
+else:
+                print(f"  ❌ Claude {r.status_code}: {r.text[:200]}")
+                    return None
+except requests.exceptions.Timeout:
+                print(f"  ⏳ Timeout — tentativa {tentativa+1}/4")
+                time.sleep(15)
+        print("  ❌ Claude: 4 tentativas falharam.")
     return None
 
 def get_or_create_category(slug, name):
-    """Busca categoria pelo slug ou cria se não existir."""
-    r = requests.get(f"{WP_API}/categories", headers=WP_HEADERS, params={"slug": slug})
-    cats = r.json()
-    if isinstance(cats, list) and cats:
-        return cats[0]["id"]
-    # Cria a categoria
-    r = requests.post(f"{WP_API}/categories", headers=WP_HEADERS, json={"name": name, "slug": slug})
+        r = requests.get(f"{WP_API}/categories", headers=WP_HEADERS, params={"slug": slug})
+        cats = r.json()
+        if isinstance(cats, list) and cats:
+                    return cats[0]["id"]
+                r = requests.post(f"{WP_API}/categories", headers=WP_HEADERS, json={"name": name, "slug": slug})
     return r.json().get("id")
 
-def get_tag(ticker):
-    r = requests.get(f"{WP_API}/tags", params={"search": ticker}, headers=WP_HEADERS)
+def get_or_create_tag(ticker):
+        r = requests.get(f"{WP_API}/tags", headers=WP_HEADERS, params={"search": ticker})
     tags = r.json()
     if isinstance(tags, list) and tags:
-        return tags[0]["id"]
-    nova = requests.post(f"{WP_API}/tags", json={"name": ticker}, headers=WP_HEADERS).json()
+                return tags[0]["id"]
+            nova = requests.post(f"{WP_API}/tags", headers=WP_HEADERS, json={"name": ticker}).json()
     return nova.get("id")
 
 def publicar(titulo, conteudo, categoria, ticker):
-    tag_id = get_tag(ticker)
+        tag_id = get_or_create_tag(ticker)
     r = requests.post(f"{WP_API}/posts", headers=WP_HEADERS, json={
-        "title": titulo,
-        "content": conteudo,
-        "status": "publish",
-        "categories": [categoria],
-        "tags": [tag_id] if tag_id else []
+                "title":      titulo,
+                "content":    conteudo,
+                "status":     "publish",
+                "categories": [categoria],
+                "tags":       [tag_id] if tag_id else [],
     })
     if r.status_code in (200, 201):
-        url = r.json()["link"]
-        print(f"  ✅ {url}")
-        return url
-    print(f"  ❌ WP {r.status_code}: {r.text[:300]}")
+                url = r.json()["link"]
+                print(f"  ✅ {url}")
+                return url
+            print(f"  ❌ WP {r.status_code}: {r.text[:300]}")
     return None
 
 def atualizar_ranking(ticker, url, tipo):
-    ranking = carregar("ranking.json", {})
+        ranking = carregar("ranking.json", {})
     lista = ranking.get("fiis" if tipo == "fii" else "acoes", [])
     for item in lista:
-        if item["ticker"] == ticker:
-            item["post_url"] = url
-            break
-    ranking["ultima_atualizacao"] = datetime.today().strftime("%Y-%m-%d")
+                if item["ticker"] == ticker:
+                                item["post_url"] = url
+                                break
+                        ranking["ultima_atualizacao"] = datetime.today().strftime("%Y-%m-%d")
     salvar("ranking.json", ranking)
 
-# ── Processamento ──────────────────────────────────────────────────────────────
-def processar(lista, controle, mes, tipo):
-    label = "FIIs" if tipo == "fii" else "Ações"
-    print(f"\n{'📦' if tipo=='fii' else '📈'} {label}...")
+# ── Processamento ────────────────────────────────────────────────────────────
+
+def processar(lista, controle, mes_key, mes_nome, tipo):
+        label = "FIIs" if tipo == "fii" else "Ações"
+    print(f"\n{'📦' if tipo == 'fii' else '📈'} {label}...")
 
     for ativo in lista:
-        t = ativo["ticker"]
-        # Chave de controle por mês — gera 1 análise por mês por ativo
-        key = f"{t}_{mes}"
-        if key in controle:
-            print(f"  → {t}: já analisado este mês.")
-            continue
+                t = ativo["ticker"]
+        key = f"{t}_{mes_key}"
+
+        if key in controle and controle[key].get("status") == "ok":
+                        print(f"  → {t}: já publicado.")
+                        continue
 
         print(f"\n  → {t} ({ativo['nome']})")
-        print(f"     🔍 Buscando e analisando com Gemini...")
 
         if tipo == "fii":
-            prompt = PROMPT_FII.format(
-                ticker=t, nome=ativo["nome"],
-                ri_url=ativo["ri_url"], tipo=ativo.get("tipo", ""),
-                gestora=ativo.get("gestora", ""), mes=mes
-            )
-        else:
+                        prompt = PROMPT_FII.format(
+                                            ticker=t, nome=ativo["nome"],
+                                            ri_url=ativo["ri_url"],
+                                            tipo=ativo.get("tipo", ""),
+                                            gestora=ativo.get("gestora", ""),
+                                            mes=mes_nome,
+                        )
+else:
             prompt = PROMPT_ACAO.format(
-                ticker=t, nome=ativo["nome"],
-                ri_url=ativo["ri_url"], setor=ativo.get("setor", ""),
-                mes=mes
+                                ticker=t, nome=ativo["nome"],
+                                ri_url=ativo["ri_url"],
+                                setor=ativo.get("setor", ""),
             )
 
-        analise = gemini_search(prompt)
-        if not analise:
-            controle[key] = {"status": "erro_gemini"}
-            salvar(CONTROLE, controle)
-            continue
+        print(f"  🤖 Analisando com Claude Haiku...")
+        analise = chamar_claude(prompt)
 
-        # Extrai título do documento da análise
-        titulo = f"{t} — {ativo['nome']} | {mes}"
+        if not analise:
+                        controle[key] = {"status": "erro_claude"}
+                        salvar(CONTROLE, controle)
+                        continue
+
+        if tipo == "fii":
+                        titulo = f"{t} — {ativo['nome']} | Relatório {mes_nome}"
+else:
+            titulo = f"{t} — {ativo['nome']} | Resultado 2026"
+
         cat = CAT_FIIS if tipo == "fii" else CAT_ACOES
-        print(f"     📝 Publicando...")
+        print(f"  📝 Publicando...")
         url = publicar(titulo, analise, cat, t)
 
         if url:
-            atualizar_ranking(t, url, tipo)
-            controle[key] = {"status": "ok", "url": url}
-        else:
+                        atualizar_ranking(t, url, tipo)
+                        controle[key] = {"status": "ok", "url": url}
+else:
             controle[key] = {"status": "erro_wp"}
 
         salvar(CONTROLE, controle)
 
+# ── Main ─────────────────────────────────────────────────────────────────────
+
 def main():
-    print(f"🐟 Manjubinha — {datetime.today().strftime('%Y-%m-%d %H:%M UTC')}")
+        print(f"🐟 Manjubinha — {datetime.today().strftime('%Y-%m-%d %H:%M UTC')}")
     config   = carregar("config.json", {})
     controle = carregar(CONTROLE, {})
 
-    # Busca/cria categorias no WordPress.org
     global CAT_FIIS, CAT_ACOES
-    CAT_FIIS  = get_or_create_category("analises-fiis", "FIIs | Análises")
+    CAT_FIIS  = get_or_create_category("analises-fiis",    "FIIs | Análises")
     CAT_ACOES = get_or_create_category("documentos-acoes", "Ações | Análises")
-    print(f"   📂 Categoria FIIs: {CAT_FIIS} | Ações: {CAT_ACOES}")
-    mes      = datetime.today().strftime("%m-%Y")  # ex: 06-2026
+    print(f"  📂 Categoria FIIs: {CAT_FIIS} | Ações: {CAT_ACOES}")
+    print(f"  📅 Mês: {MES_ATUAL}")
 
-    print(f"   📅 Mês: {MES_ATUAL}")
-
-    processar(config.get("fiis", []),  controle, mes, "fii")
-    processar(config.get("acoes", []), controle, mes, "acao")
+    processar(config.get("fiis",  []), controle, MES_KEY, MES_ATUAL, "fii")
+    processar(config.get("acoes", []), controle, MES_KEY, MES_ATUAL, "acao")
     print("\n✅ Concluído!")
 
 if __name__ == "__main__":
-    main()
+        main()
