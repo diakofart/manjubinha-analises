@@ -196,13 +196,9 @@ def processar_ativo(ativo, controle, semana, cat, tipo):
     chave = f"{t}_{semana}"
     print(f"  -> {t} ({ativo['nome']})")
     if tipo == "fii":
-        prompt = PROMPT_FII.format(
-            ticker=t, nome=ativo["nome"], ri_url=ativo.get("ri_url",""),
-            tipo=ativo.get("tipo",""), gestora=ativo.get("gestora",""))
+        prompt = PROMPT_FII.replace("{ticker}", t).replace("{nome}", ativo["nome"]).replace("{ri_url}", ativo.get("ri_url","")).replace("{tipo}", ativo.get("tipo","")).replace("{gestora}", ativo.get("gestora",""))
     else:
-        prompt = PROMPT_ACAO.format(
-            ticker=t, nome=ativo["nome"], ri_url=ativo.get("ri_url",""),
-            setor=ativo.get("setor",""))
+        prompt = PROMPT_ACAO.replace("{ticker}", t).replace("{nome}", ativo["nome"]).replace("{ri_url}", ativo.get("ri_url","")).replace("{setor}", ativo.get("setor",""))
     print("     Gemini...")
     analise = gemini(prompt)
     if not analise:
