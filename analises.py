@@ -145,7 +145,7 @@ def buscar_ultimo_doc(ticker, inv10_tipo):
             return None
         href = link["href"]
         doc_id = href.rstrip("/").split("/")[-1]
-        # Extrai descricao e data pelas classes do Investidor10 (communication-card)
+        # Extrai descricao e data via classes do Investidor10 (communication-card)
         card = link.find_parent("div", class_=lambda c: bool(c and "communication-card" in " ".join(c)))
         descricao, data = "Comunicado", ""
         if card:
