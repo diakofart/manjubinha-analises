@@ -235,5 +235,13 @@ document.querySelectorAll('#fii-seg-btns .fbtn').forEach(function(btn){
   });
 });
 </script>
+<script>
+function sendHeight(){
+  var h=document.documentElement.scrollHeight||document.body.scrollHeight;
+  window.parent.postMessage({type:'rankingHeight',height:h},'*');
+}
+window.addEventListener('load',sendHeight);
+new MutationObserver(sendHeight).observe(document.body,{childList:true,subtree:true,characterData:true});
+</script>
 </body>
 </html>
