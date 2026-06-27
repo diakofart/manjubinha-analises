@@ -36,37 +36,37 @@ PROMPT_FII = """Voce e analista do site Manjubinha Investidor. Pesquise informac
 
 <!-- wp:separator --><hr class="wp-block-separator has-alpha-channel-opacity"/><!-- /wp:separator -->
 
-<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">O que esse fundo faz?</h3><!-- /wp:heading -->
+<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">💬 O que esse fundo faz?</h3><!-- /wp:heading -->
 <!-- wp:paragraph --><p>ESCREVA com dados reais</p><!-- /wp:paragraph -->
 
-<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">Indicadores Principais</h3><!-- /wp:heading -->
+<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">📊 Indicadores Principais</h3><!-- /wp:heading -->
 <!-- wp:paragraph --><p><strong>DY mensal: X%</strong> - explicacao curta.</p><!-- /wp:paragraph -->
 <!-- wp:paragraph --><p><strong>P/VP: X,XX</strong> - explicacao curta.</p><!-- /wp:paragraph -->
 
-<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">DY Real?</h3><!-- /wp:heading -->
+<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">💰 DY Real?</h3><!-- /wp:heading -->
 <!-- wp:paragraph --><p>Analise se o DY esta dentro do padrao. Se fundo de papel: Fundos de papel nao devem ser comprados com P/VP acima de 1,0.</p><!-- /wp:paragraph -->
 
 <!-- wp:separator --><hr class="wp-block-separator has-alpha-channel-opacity"/><!-- /wp:separator -->
 
-<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">Pontos de Atencao</h3><!-- /wp:heading -->
+<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">⚠️ Pontos de Atencao</h3><!-- /wp:heading -->
 <!-- wp:paragraph --><p>ESCREVA com dados reais</p><!-- /wp:paragraph -->
 
-<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">Deve Ser Acompanhado</h3><!-- /wp:heading -->
+<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">👁️ Deve Ser Acompanhado</h3><!-- /wp:heading -->
 <!-- wp:paragraph --><p>ESCREVA com dados reais</p><!-- /wp:paragraph -->
 
-<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">Boa Noticia</h3><!-- /wp:heading -->
+<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">✅ Boa Noticia</h3><!-- /wp:heading -->
 <!-- wp:paragraph --><p>ESCREVA com dados reais</p><!-- /wp:paragraph -->
 
 <!-- wp:separator --><hr class="wp-block-separator has-alpha-channel-opacity"/><!-- /wp:separator -->
 
-<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">Mudou fundamento?</h3><!-- /wp:heading -->
+<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">🔄 Mudou fundamento?</h3><!-- /wp:heading -->
 <!-- wp:paragraph --><p>Sim ou Nao com explicacao direta.</p><!-- /wp:paragraph -->
 
 <!-- wp:separator --><hr class="wp-block-separator has-alpha-channel-opacity"/><!-- /wp:separator -->
 
-<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">Merece Aporte?</h3><!-- /wp:heading -->
-<!-- wp:paragraph --><p><strong>Foco em Renda: RESULTADO</strong><br>Explicacao curta.</p><!-- /wp:paragraph -->
-<!-- wp:paragraph --><p><strong>Foco em Valorizacao: RESULTADO</strong><br>Explicacao curta.</p><!-- /wp:paragraph -->
+<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">📌 Merece Aporte?</h3><!-- /wp:heading -->
+<!-- wp:paragraph --><p><strong>💰 Foco em Renda: RESULTADO</strong><br>Explicacao curta.</p><!-- /wp:paragraph -->
+<!-- wp:paragraph --><p><strong>📈 Foco em Valorizacao: RESULTADO</strong><br>Explicacao curta.</p><!-- /wp:paragraph -->
 <!-- wp:quote --><blockquote class="wp-block-quote"><!-- wp:paragraph --><p>Conclusao em 2 frases.</p><!-- /wp:paragraph --></blockquote><!-- /wp:quote -->
 
 Regras: linguagem simples, maximo 600 palavras, numeros reais, sem markdown extra."""
@@ -80,38 +80,38 @@ PROMPT_ACAO = """Voce e analista do site Manjubinha Investidor. Pesquise informa
 
 <!-- wp:separator --><hr class="wp-block-separator has-alpha-channel-opacity"/><!-- /wp:separator -->
 
-<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">O que essa empresa faz?</h3><!-- /wp:heading -->
+<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">💬 O que essa empresa faz?</h3><!-- /wp:heading -->
 <!-- wp:paragraph --><p>ESCREVA com dados reais</p><!-- /wp:paragraph -->
 
-<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">Indicadores Principais</h3><!-- /wp:heading -->
+<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">📊 Indicadores Principais</h3><!-- /wp:heading -->
 <!-- wp:paragraph --><p><strong>Receita: R$ X bi</strong> - explicacao curta.</p><!-- /wp:paragraph -->
 <!-- wp:paragraph --><p><strong>Lucro: R$ X bi</strong> - explicacao curta.</p><!-- /wp:paragraph -->
 <!-- wp:paragraph --><p><strong>DY anual: X%</strong> - explicacao curta.</p><!-- /wp:paragraph -->
 
-<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">DY Real?</h3><!-- /wp:heading -->
+<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">💰 DY Real?</h3><!-- /wp:heading -->
 <!-- wp:paragraph --><p>DY dentro do padrao historico ou inflado por extraordinarios?</p><!-- /wp:paragraph -->
 
 <!-- wp:separator --><hr class="wp-block-separator has-alpha-channel-opacity"/><!-- /wp:separator -->
 
-<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">Pontos de Atencao</h3><!-- /wp:heading -->
+<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">⚠️ Pontos de Atencao</h3><!-- /wp:heading -->
 <!-- wp:paragraph --><p>ESCREVA com dados reais</p><!-- /wp:paragraph -->
 
-<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">Deve Ser Acompanhado</h3><!-- /wp:heading -->
+<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">👁️ Deve Ser Acompanhado</h3><!-- /wp:heading -->
 <!-- wp:paragraph --><p>ESCREVA com dados reais</p><!-- /wp:paragraph -->
 
-<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">Boa Noticia</h3><!-- /wp:heading -->
+<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">✅ Boa Noticia</h3><!-- /wp:heading -->
 <!-- wp:paragraph --><p>ESCREVA com dados reais</p><!-- /wp:paragraph -->
 
 <!-- wp:separator --><hr class="wp-block-separator has-alpha-channel-opacity"/><!-- /wp:separator -->
 
-<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">Mudou fundamento?</h3><!-- /wp:heading -->
+<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">🔄 Mudou fundamento?</h3><!-- /wp:heading -->
 <!-- wp:paragraph --><p>Sim ou Nao com explicacao direta.</p><!-- /wp:paragraph -->
 
 <!-- wp:separator --><hr class="wp-block-separator has-alpha-channel-opacity"/><!-- /wp:separator -->
 
-<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">Merece Aporte?</h3><!-- /wp:heading -->
-<!-- wp:paragraph --><p><strong>Foco em Renda: RESULTADO</strong><br>Explicacao curta.</p><!-- /wp:paragraph -->
-<!-- wp:paragraph --><p><strong>Foco em Valorizacao: RESULTADO</strong><br>Explicacao curta.</p><!-- /wp:paragraph -->
+<!-- wp:heading {"level":3} --><h3 class="wp-block-heading">📌 Merece Aporte?</h3><!-- /wp:heading -->
+<!-- wp:paragraph --><p><strong>💰 Foco em Renda: RESULTADO</strong><br>Explicacao curta.</p><!-- /wp:paragraph -->
+<!-- wp:paragraph --><p><strong>📈 Foco em Valorizacao: RESULTADO</strong><br>Explicacao curta.</p><!-- /wp:paragraph -->
 <!-- wp:quote --><blockquote class="wp-block-quote"><!-- wp:paragraph --><p>Conclusao em 2 frases.</p><!-- /wp:paragraph --></blockquote><!-- /wp:quote -->
 
 Regras: linguagem simples, maximo 600 palavras, numeros reais, sem markdown extra."""
@@ -126,22 +126,16 @@ def salvar(path, data):
 def limpar_markdown(texto):
     """Remove blocos de codigo markdown que modelos mais novos adicionam mesmo sem pedir."""
     texto = texto.strip()
-    fence = chr(96) * 3  # equivale a tres backticks sem usar backtick aqui
+    fence = chr(96) * 3
     if texto.startswith(fence):
         linhas = texto.split("\n")
-        linhas = linhas[1:]  # remove linha de abertura (ex: fence + html)
+        linhas = linhas[1:]
         if linhas and linhas[-1].strip() == fence:
-            linhas = linhas[:-1]  # remove linha de fechamento
+            linhas = linhas[:-1]
         texto = "\n".join(linhas).strip()
     return texto
 
 def gemini(prompt):
-    """
-    Retorna:
-      str   -> analise gerada com sucesso (ja sem markdown)
-      None  -> falha por quota (429): nao gravar, retentar na proxima rodada
-      False -> erro permanente: marcar sem_analise
-    """
     time.sleep(5)
     payload = {"contents": [{"parts": [{"text": prompt}]}],
                "generationConfig": {"temperature": 0.2, "maxOutputTokens": 2048}}
@@ -163,7 +157,6 @@ def gemini(prompt):
         return None
     return False
 
-# Categorias fixas do WordPress Manjubinha Hostinger
 CAT_FII_PRINCIPAL = 13
 CAT_ACAO_PRINCIPAL = 2
 
@@ -249,7 +242,6 @@ def atualizar_ranking(ticker, url, tipo):
     salvar("ranking.json", ranking)
 
 def proximos(lista, controle, n):
-    """Retorna os N ativos pendentes no ciclo atual, priorizando os analisados ha mais tempo."""
     ciclo = controle.get("ciclo_atual", 1)
     pendentes = []
     for ativo in lista:
@@ -276,35 +268,21 @@ def processar_ativo(ativo, controle, tipo):
     print(f"  Categorias: {categorias}")
     print("  Gemini...")
     analise = gemini(prompt)
-
     if analise is None:
         print(f"  {t} adiado - quota Gemini, retenta na proxima rodada")
         return
-
     if analise is False:
         print(f"  {t} marcado como sem_analise - nao bloqueara o proximo ciclo")
-        controle[t] = {
-            "status": "sem_analise",
-            "ciclo":  ciclo,
-            "data":   hoje,
-            "ultima": controle.get(t, {}).get("ultima", "0")
-        }
+        controle[t] = {"status": "sem_analise", "ciclo": ciclo, "data": hoje, "ultima": controle.get(t, {}).get("ultima", "0")}
         salvar(CONTROLE, controle)
         return
-
     mes    = datetime.today().strftime("%m/%Y")
     titulo = f"{t} - {ativo['nome']} | Analise {mes}"
     print("  Publicando...")
     url = publicar(titulo, analise, categorias, t)
     if url:
         atualizar_ranking(t, url, tipo)
-        controle[t] = {
-            "status": "ok",
-            "url":    url,
-            "data":   hoje,
-            "ciclo":  ciclo,
-            "ultima": controle.get(t, {}).get("ultima", "0")
-        }
+        controle[t] = {"status": "ok", "url": url, "data": hoje, "ciclo": ciclo, "ultima": controle.get(t, {}).get("ultima", "0")}
         salvar(CONTROLE, controle)
         print(f"  Salvo (ciclo {ciclo})")
     else:
@@ -313,11 +291,7 @@ def processar_ativo(ativo, controle, tipo):
 def verificar_e_avancar_ciclo(config, controle):
     ciclo = controle.get("ciclo_atual", 1)
     todos = config.get("fiis", []) + config.get("acoes", [])
-    feitos = sum(
-        1 for a in todos
-        if controle.get(a["ticker"], {}).get("status") in STATUS_CONCLUIDO
-        and controle.get(a["ticker"], {}).get("ciclo") == ciclo
-    )
+    feitos = sum(1 for a in todos if controle.get(a["ticker"], {}).get("status") in STATUS_CONCLUIDO and controle.get(a["ticker"], {}).get("ciclo") == ciclo)
     total = len(todos)
     print(f"Progresso ciclo {ciclo}: {feitos}/{total} ativos concluidos")
     if total > 0 and feitos == total:
