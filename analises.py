@@ -188,7 +188,10 @@ def gemini(prompt):
     for tentativa in range(3):
         r = requests.post(GEMINI_URL, json=payload, timeout=90)
         if r.status_code == 200:
-            texto = r.json()["candidates"][0]["content"]["parts"][0]["text"]
+            parts = r.json()["candidates"][0]["content"]["parts"]
+            # Pega o ultimo part do tipo text (pode haver parts de tool_use antes)
+            textos = [p["text"] for p in parts if p.get("type","text") == "text" or "text" in p]
+            texto = textos[-1] if textos else ""
             return limpar_markdown(texto)
         elif r.status_code == 429:
             print(f"  429 quota: aguardando 60s ({tentativa+1}/3)")
