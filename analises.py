@@ -24,6 +24,9 @@ GEMINI_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.
 CONTROLE   = Path("controle_docs.json")
 POR_RODADA = 2  # 2 FIIs + 2 Acoes = 4 por rodada
 
+# Status que contam como "concluido" no ciclo (nao retentam nem bloqueiam avanco)
+STATUS_CONCLUIDO = ("ok", "sem_analise")
+
 PROMPT_FII = """Voce e analista do site Manjubinha Investidor. Pesquise informacoes recentes do FII {ticker} ({nome}) e escreva uma analise completa em HTML puro para WordPress seguindo EXATAMENTE esta estrutura:
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
@@ -121,22 +124,32 @@ def salvar(path, data):
     Path(path).write_text(json.dumps(data, indent=2, ensure_ascii=False))
 
 def gemini(prompt):
+    """
+    Retorna:
+      str   -> analise gerada com sucesso
+      None  -> falha por quota (429): nao gravar, retentar na proxima rodada
+      False -> erro permanente (modelo sem conteudo, erro de API): marcar sem_analise
+    """
     time.sleep(5)
     payload = {"contents": [{"parts": [{"text": prompt}]}],
                "generationConfig": {"temperature": 0.2, "maxOutputTokens": 2048}}
+    so_quota = True  # assume que todas as falhas sao 429 ate provar o contrario
     for tentativa in range(3):
         r = requests.post(GEMINI_URL, json=payload, timeout=90)
         if r.status_code == 200:
             return r.json()["candidates"][0]["content"]["parts"][0]["text"]
         elif r.status_code == 429:
-            print(f"  429 ERRO: {r.text[:300]}")
-            print(f"  Rate limit aguardando 60s ({tentativa+1}/3)")
+            print(f"  429 quota: aguardando 60s ({tentativa+1}/3)")
             time.sleep(60)
         else:
-            print(f"  Gemini {r.status_code}: {r.text[:300]}")
-            return None
-    print("  Gemini falhou apos 3 tentativas - pulando ativo")
-    return None
+            so_quota = False
+            print(f"  Gemini {r.status_code}: {r.text[:200]}")
+            return False  # erro nao recuperavel: marcar sem_analise
+    # Esgotou 3 tentativas
+    if so_quota:
+        print("  Quota esgotada apos 3 tentativas - retentara na proxima rodada")
+        return None   # retenta depois
+    return False      # mix de erros - marca sem_analise
 
 # Categorias fixas do WordPress Manjubinha Hostinger
 CAT_FII_PRINCIPAL = 13
@@ -230,8 +243,8 @@ def proximos(lista, controle, n):
     for ativo in lista:
         t = ativo["ticker"]
         entrada = controle.get(t, {})
-        # Pula apenas se concluido com OK neste ciclo
-        if entrada.get("status") == "ok" and entrada.get("ciclo") == ciclo:
+        # Pula se ja concluido neste ciclo (ok ou sem_analise)
+        if entrada.get("status") in STATUS_CONCLUIDO and entrada.get("ciclo") == ciclo:
             continue
         ultima = entrada.get("ultima", "0")
         pendentes.append((ultima, ativo))
@@ -252,34 +265,49 @@ def processar_ativo(ativo, controle, tipo):
     print(f"  Categorias: {categorias}")
     print("  Gemini...")
     analise = gemini(prompt)
-    if not analise:
-        print(f"  {t} pulado - tentara na proxima rodada")
-        return  # nao grava: retenta no proximo run
+
+    if analise is None:
+        # Quota esgotada: nao grava, retenta na proxima rodada
+        print(f"  {t} adiado - quota Gemini, retenta na proxima rodada")
+        return
+
+    if analise is False:
+        # Erro permanente: marca sem_analise para nao travar o ciclo
+        print(f"  {t} marcado como sem_analise - nao bloqueara o proximo ciclo")
+        controle[t] = {
+            "status": "sem_analise",
+            "ciclo":  ciclo,
+            "data":   hoje,
+            "ultima": controle.get(t, {}).get("ultima", "0")
+        }
+        salvar(CONTROLE, controle)
+        return
+
     mes    = datetime.today().strftime("%m/%Y")
     titulo = f"{t} - {ativo['nome']} | Analise {mes}"
     print("  Publicando...")
     url = publicar(titulo, analise, categorias, t)
     if url:
         atualizar_ranking(t, url, tipo)
-        ultima_anterior = controle.get(t, {}).get("ultima", "0")
         controle[t] = {
             "status": "ok",
             "url":    url,
             "data":   hoje,
             "ciclo":  ciclo,
-            "ultima": ultima_anterior
+            "ultima": controle.get(t, {}).get("ultima", "0")
         }
         salvar(CONTROLE, controle)
         print(f"  Salvo (ciclo {ciclo})")
     else:
-        print(f"  {t} pulado (erro WP) - tentara na proxima rodada")
+        # Erro WP transitorio: nao grava, retenta na proxima rodada
+        print(f"  {t} adiado - erro WP, retenta na proxima rodada")
 
 def verificar_e_avancar_ciclo(config, controle):
     ciclo = controle.get("ciclo_atual", 1)
     todos = config.get("fiis", []) + config.get("acoes", [])
     feitos = sum(
         1 for a in todos
-        if controle.get(a["ticker"], {}).get("status") == "ok"
+        if controle.get(a["ticker"], {}).get("status") in STATUS_CONCLUIDO
         and controle.get(a["ticker"], {}).get("ciclo") == ciclo
     )
     total = len(todos)
