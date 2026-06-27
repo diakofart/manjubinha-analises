@@ -182,7 +182,8 @@ def gemini(prompt):
     """
     time.sleep(5)
     payload = {"contents": [{"parts": [{"text": prompt}]}],
-               "generationConfig": {"temperature": 0.2, "maxOutputTokens": 2048}}
+               "generationConfig": {"temperature": 0.2, "maxOutputTokens": 8192},
+               "tools": [{"google_search": {}}]}
     so_quota = True
     for tentativa in range(3):
         r = requests.post(GEMINI_URL, json=payload, timeout=90)
