@@ -6,134 +6,196 @@
 <title>Ranking Manjubinha</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fff;color:#222;padding:0}
-.tabs{display:flex;gap:8px;margin-bottom:1.5rem}
-.tab{padding:7px 22px;border:1px solid #d0d0d0;border-radius:8px;background:transparent;font-size:14px;cursor:pointer;color:#666;transition:all .15s}
-.tab.active{background:#D95218;color:#fff;border-color:#D95218;font-weight:500}
-.legend{display:flex;gap:18px;margin-bottom:1rem;flex-wrap:wrap}
-.leg{display:flex;align-items:center;gap:6px;font-size:12px;color:#888}
-.dot{width:10px;height:10px;border-radius:50%}
-.filters{display:flex;gap:6px;margin-bottom:1rem;flex-wrap:wrap}
-.fbtn{padding:4px 12px;border:1px solid #d0d0d0;border-radius:20px;background:transparent;font-size:12px;cursor:pointer;color:#888;transition:all .15s}
-.fbtn.on{border-color:#D95218;color:#D95218;background:#fff5f2}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fff;padding:0}
+.filter-group{margin-bottom:6px}
+.filter-label{font-size:11px;font-weight:600;color:#999;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px}
+.filter-row{display:flex;gap:5px;flex-wrap:wrap}
+.fbtn{padding:5px 12px;border:1.5px solid #e0e0e0;border-radius:20px;background:#fff;font-size:12px;cursor:pointer;color:#777;transition:all .15s;white-space:nowrap}
+.fbtn:hover{border-color:#D95218;color:#D95218}
+.fbtn.active-parent{background:#D95218;color:#fff;border-color:#D95218;font-weight:600}
+.fbtn.active-sub{background:#fff3ee;color:#D95218;border-color:#D95218;font-weight:600}
+.fbtn.all-btn.active-parent{background:#222;border-color:#222}
+.sub-filters{display:none;margin-top:5px;padding:6px 10px;background:#fafafa;border-radius:8px;border:1px solid #f0e0da}
+.sub-filters.visible{display:block}
+.sub-label{font-size:10px;color:#bbb;text-transform:uppercase;letter-spacing:.05em;margin-bottom:5px;font-weight:600}
+.tabs{display:flex;gap:8px;margin-bottom:16px}
+.tab{padding:7px 20px;border:1.5px solid #ddd;border-radius:8px;background:#fff;font-size:14px;cursor:pointer;color:#666;transition:all .15s}
+.tab.active{background:#D95218;color:#fff;border-color:#D95218;font-weight:600}
+.legend{display:flex;gap:16px;margin-bottom:10px;flex-wrap:wrap}
+.leg{display:flex;align-items:center;gap:5px;font-size:11px;color:#999}
+.dot{width:9px;height:9px;border-radius:50%}
 .tbl-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:13px;min-width:500px}
-thead th{padding:8px 10px;text-align:left;color:#999;font-weight:500;border-bottom:1px solid #e5e5e5;font-size:11px;white-space:nowrap;text-transform:uppercase;letter-spacing:.04em}
+table{width:100%;border-collapse:collapse;font-size:13px;min-width:460px}
+thead th{padding:8px 10px;text-align:left;color:#aaa;font-weight:500;border-bottom:1px solid #eee;font-size:11px;text-transform:uppercase;letter-spacing:.04em;white-space:nowrap}
 thead th.tc{text-align:center}
-tbody tr{border-bottom:1px solid #f0f0f0;transition:background .1s}
+tbody tr{border-bottom:1px solid #f5f5f5;transition:background .1s}
 tbody tr:hover{background:#fafafa}
-td{padding:9px 10px}
+td{padding:8px 10px}
 .tk{font-weight:600;font-size:13px}
 .tk a{color:#D95218;text-decoration:none}
 .tk a:hover{text-decoration:underline}
 .tk span{color:#D95218}
-.nm{color:#999;font-size:12px}
-.tag{font-size:11px;padding:2px 8px;border-radius:10px;background:#f5f5f5;color:#888}
-.sc{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;font-size:12px;font-weight:500}
+.nm{color:#aaa;font-size:12px}
+.badge-tipo{font-size:10px;padding:2px 7px;border-radius:10px;background:#f0f0f0;color:#888;white-space:nowrap}
+.badge-seg{font-size:10px;padding:2px 6px;border-radius:8px;background:#fff3ee;color:#D95218;margin-left:3px;white-space:nowrap}
+.sc{display:inline-flex;align-items:center;justify-content:center;width:27px;height:27px;border-radius:50%;font-size:12px;font-weight:600}
 .sh{background:#EAF3DE;color:#3B6D11}
 .sm{background:#FEF3D0;color:#92600A}
 .sl{background:#FCEBEB;color:#A32D2D}
-.tot{font-weight:600;font-size:14px}
-.rk{color:#bbb;font-size:12px}
-.badge{font-size:10px;background:#D95218;color:#fff;padding:1px 6px;border-radius:4px;margin-left:4px;vertical-align:middle}
-.upd{font-size:11px;color:#bbb;text-align:right;margin-top:1rem}
+.tot{font-weight:700;font-size:14px;color:#222}
+.rk{color:#ccc;font-size:12px;width:24px}
+.badge-ana{font-size:10px;background:#D95218;color:#fff;padding:1px 5px;border-radius:4px;margin-left:3px;vertical-align:middle}
+.upd{font-size:11px;color:#ccc;text-align:right;margin-top:12px}
 </style>
 </head>
 <body>
 <div class="tabs">
-  <button class="tab active" onclick="show('fii',this)">FIIs — Top 30</button>
-  <button class="tab" onclick="show('ac',this)">Ações — Top 30</button>
+  <button class="tab active" onclick="showPanel('fii',this)">FIIs — Top 30</button>
+  <button class="tab" onclick="showPanel('ac',this)">Ações — Top 30</button>
 </div>
-<div class="legend">
-  <span class="leg"><span class="dot" style="background:#639922"></span>8-10 alto</span>
-  <span class="leg"><span class="dot" style="background:#BA7517"></span>5-7 médio</span>
-  <span class="leg"><span class="dot" style="background:#E24B4A"></span>1-4 baixo</span>
-</div>
-
 <div id="fii-panel">
-<div class="filters" id="fii-filters"></div>
-<div class="tbl-wrap">
-<table>
-<thead><tr>
-  <th class="rk">#</th><th>Ticker</th><th>Nome</th><th>Tipo</th>
-  <th class="tc">Perene</th><th class="tc">Renda</th><th class="tc">Valor</th><th class="tc">Liq</th><th class="tc">Nota</th>
-</tr></thead>
-<tbody id="fii-body"></tbody>
-</table>
+  <div class="filter-group">
+    <div class="filter-label">Tipo</div>
+    <div class="filter-row" id="fii-tipo-btns">
+      <button class="fbtn all-btn active-parent" onclick="fiiFilterTipo('Todos',this)">Todos</button>
+      <button class="fbtn" onclick="fiiFilterTipo('Tijolo',this)">Tijolo</button>
+      <button class="fbtn" onclick="fiiFilterTipo('Papel',this)">Papel</button>
+      <button class="fbtn" onclick="fiiFilterTipo('FoF',this)">FoF</button>
+      <button class="fbtn" onclick="fiiFilterTipo('Híbrido',this)">Híbrido</button>
+      <button class="fbtn" onclick="fiiFilterTipo('Fiagro',this)">Fiagro</button>
+    </div>
+    <div class="sub-filters" id="fii-sub-tijolo">
+      <div class="sub-label">Segmento</div>
+      <div class="filter-row">
+        <button class="fbtn active-sub" onclick="fiiFilterSeg(null,this)">Todos os Tijolo</button>
+        <button class="fbtn" onclick="fiiFilterSeg('Logístico',this)">Logístico / Galpões</button>
+        <button class="fbtn" onclick="fiiFilterSeg('Shoppings',this)">Shoppings / Varejo</button>
+        <button class="fbtn" onclick="fiiFilterSeg('Lajes Corp.',this)">Lajes Corporativas</button>
+      </div>
+    </div>
+  </div>
+  <div class="legend">
+    <span class="leg"><span class="dot" style="background:#639922"></span>8-10 alto</span>
+    <span class="leg"><span class="dot" style="background:#BA7517"></span>5-7 médio</span>
+    <span class="leg"><span class="dot" style="background:#E24B4A"></span>1-4 baixo</span>
+  </div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr>
+      <th class="rk">#</th><th>Ticker</th><th>Nome</th><th>Tipo</th>
+      <th class="tc">Perene</th><th class="tc">Renda</th><th class="tc">Valor</th><th class="tc">Liq</th><th class="tc">Nota</th>
+    </tr></thead>
+    <tbody id="fii-body"></tbody>
+  </table>
+  </div>
 </div>
-</div>
-
 <div id="ac-panel" style="display:none">
-<div class="filters" id="ac-filters"></div>
-<div class="tbl-wrap">
-<table>
-<thead><tr>
-  <th class="rk">#</th><th>Ticker</th><th>Nome</th><th>Setor</th>
-  <th class="tc">Perene</th><th class="tc">Renda</th><th class="tc">Valor</th><th class="tc">Liq</th><th class="tc">Nota</th>
-</tr></thead>
-<tbody id="ac-body"></tbody>
-</table>
+  <div class="filter-group">
+    <div class="filter-label">Setor</div>
+    <div class="filter-row" id="ac-setor-btns"></div>
+  </div>
+  <div class="legend">
+    <span class="leg"><span class="dot" style="background:#639922"></span>8-10 alto</span>
+    <span class="leg"><span class="dot" style="background:#BA7517"></span>5-7 médio</span>
+    <span class="leg"><span class="dot" style="background:#E24B4A"></span>1-4 baixo</span>
+  </div>
+  <div class="tbl-wrap">
+  <table>
+    <thead><tr>
+      <th class="rk">#</th><th>Ticker</th><th>Nome</th><th>Setor</th>
+      <th class="tc">Perene</th><th class="tc">Renda</th><th class="tc">Valor</th><th class="tc">Liq</th><th class="tc">Nota</th>
+    </tr></thead>
+    <tbody id="ac-body"></tbody>
+  </table>
+  </div>
 </div>
-</div>
-
 <div class="upd" id="upd-info"></div>
-
 <script>
-fetch('ranking.json?v=' + Date.now())
-  .then(r => r.json())
-  .then(data => {
-    document.getElementById('upd-info').textContent = 'Última atualização: ' + data.ultima_atualizacao + ' · Próxima: ' + data.proxima_atualizacao;
-    buildFilters('fii', data.fiis, 'tipo');
-    buildFilters('ac', data.acoes, 'setor');
-    renderTable('fii-body', data.fiis, 'tipo');
-    renderTable('ac-body', data.acoes, 'setor');
-  });
-
-function sc(v){ return v>=8?'sh':v>=5?'sm':'sl'; }
-
-function renderTable(id, data, key) {
-  const sorted = [...data].sort((a,b) => b.nota - a.nota);
-  document.getElementById(id).innerHTML = sorted.map((d,i) => {
-    const tick = d.post_url
-      ? `<a href="${d.post_url}" target="_parent">${d.ticker}</a>`
-      : `<span>${d.ticker}</span>`;
-    const badge = d.post_url ? '<span class="badge">análise</span>' : '';
-    return `<tr data-tipo="${d[key]}">
-      <td class="rk">${i+1}</td>
-      <td class="tk">${tick}${badge}</td>
-      <td class="nm">${d.nome}</td>
-      <td><span class="tag">${d[key]}</span></td>
-      <td class="tc"><span class="sc ${sc(d.perene)}">${d.perene}</span></td>
-      <td class="tc"><span class="sc ${sc(d.renda)}">${d.renda}</span></td>
-      <td class="tc"><span class="sc ${sc(d.valorizacao)}">${d.valorizacao}</span></td>
-      <td class="tc"><span class="sc ${sc(d.liquidez)}">${d.liquidez}</span></td>
-      <td class="tc tot">${d.nota.toFixed(1)}</td>
-    </tr>`;
-  }).join('');
+var _data=null,_fiiTipo='Todos',_fiiSeg=null,_acSetor='Todos';
+fetch('ranking.json?v='+Date.now()).then(r=>r.json()).then(d=>{
+  _data=d;
+  document.getElementById('upd-info').textContent='Atualizado em '+d.ultima_atualizacao+' · Próxima: '+d.proxima_atualizacao;
+  buildAcFiltros(d.acoes);renderFiis();renderAcoes();
+});
+function sc(v){return v>=8?'sh':v>=5?'sm':'sl'}
+function fiiRow(d,i){
+  var tick=d.post_url?'<a href="'+d.post_url+'" target="_parent">'+d.ticker+'</a>':'<span>'+d.ticker+'</span>';
+  var ana=d.post_url?'<span class="badge-ana">análise</span>':'';
+  var seg=d.segmento?'<span class="badge-seg">'+d.segmento+'</span>':'';
+  return '<tr data-tipo="'+d.tipo+'" data-seg="'+(d.segmento||'')+'">'+
+    '<td class="rk">'+i+'</td><td class="tk">'+tick+ana+'</td><td class="nm">'+d.nome+'</td>'+
+    '<td><span class="badge-tipo">'+d.tipo+'</span>'+seg+'</td>'+
+    '<td class="tc"><span class="sc '+sc(d.perene)+'">'+d.perene+'</span></td>'+
+    '<td class="tc"><span class="sc '+sc(d.renda)+'">'+d.renda+'</span></td>'+
+    '<td class="tc"><span class="sc '+sc(d.valorizacao)+'">'+d.valorizacao+'</span></td>'+
+    '<td class="tc"><span class="sc '+sc(d.liquidez)+'">'+d.liquidez+'</span></td>'+
+    '<td class="tc tot">'+d.nota.toFixed(1)+'</td></tr>';
 }
-
-function buildFilters(panel, data, key) {
-  const tipos = ['Todos', ...new Set(data.map(d => d[key]))];
-  document.getElementById(panel+'-filters').innerHTML = tipos.map((t,i) =>
-    `<button class="fbtn${i===0?' on':''}" onclick="filter('${panel}','${t}',this)">${t}</button>`
+function acRow(d,i){
+  var tick=d.post_url?'<a href="'+d.post_url+'" target="_parent">'+d.ticker+'</a>':'<span>'+d.ticker+'</span>';
+  var ana=d.post_url?'<span class="badge-ana">análise</span>':'';
+  return '<tr data-setor="'+d.setor+'">'+
+    '<td class="rk">'+i+'</td><td class="tk">'+tick+ana+'</td><td class="nm">'+d.nome+'</td>'+
+    '<td><span class="badge-tipo">'+d.setor+'</span></td>'+
+    '<td class="tc"><span class="sc '+sc(d.perene)+'">'+d.perene+'</span></td>'+
+    '<td class="tc"><span class="sc '+sc(d.renda)+'">'+d.renda+'</span></td>'+
+    '<td class="tc"><span class="sc '+sc(d.valorizacao)+'">'+d.valorizacao+'</span></td>'+
+    '<td class="tc"><span class="sc '+sc(d.liquidez)+'">'+d.liquidez+'</span></td>'+
+    '<td class="tc tot">'+d.nota.toFixed(1)+'</td></tr>';
+}
+function renderFiis(){
+  if(!_data)return;
+  var sorted=[..._data.fiis].sort((a,b)=>b.nota-a.nota);
+  var n=1;
+  document.getElementById('fii-body').innerHTML=sorted.map(d=>{
+    var show=true;
+    if(_fiiTipo!=='Todos'&&d.tipo!==_fiiTipo)show=false;
+    if(_fiiSeg&&d.segmento!==_fiiSeg)show=false;
+    var row=fiiRow(d,show?n:0);if(show)n++;
+    return show?row:row.replace('<tr ','<tr style="display:none" ');
+  }).join('');
+  document.querySelectorAll('#fii-body tr:not([style*="none"])').forEach((r,i)=>r.querySelector('.rk').textContent=i+1);
+}
+function renderAcoes(){
+  if(!_data)return;
+  var sorted=[..._data.acoes].sort((a,b)=>b.nota-a.nota);
+  var n=1;
+  document.getElementById('ac-body').innerHTML=sorted.map(d=>{
+    var show=_acSetor==='Todos'||d.setor===_acSetor;
+    var row=acRow(d,show?n:0);if(show)n++;
+    return show?row:row.replace('<tr ','<tr style="display:none" ');
+  }).join('');
+  document.querySelectorAll('#ac-body tr:not([style*="none"])').forEach((r,i)=>r.querySelector('.rk').textContent=i+1);
+}
+function buildAcFiltros(acoes){
+  var setores=['Todos',...new Set(acoes.map(a=>a.setor))];
+  document.getElementById('ac-setor-btns').innerHTML=setores.map((s,i)=>
+    '<button class="fbtn'+(i===0?' all-btn active-parent':'')+'" onclick="acFilter(''+s+'',this)">'+s+'</button>'
   ).join('');
 }
-
-function filter(panel, tipo, btn) {
-  document.querySelectorAll('#'+panel+'-filters .fbtn').forEach(b => b.classList.remove('on'));
-  btn.classList.add('on');
-  let n = 1;
-  document.querySelectorAll('#'+panel+'-body tr').forEach(r => {
-    const show = tipo === 'Todos' || r.dataset.tipo === tipo;
-    r.style.display = show ? '' : 'none';
-    if (show) r.querySelector('.rk').textContent = n++;
-  });
+function fiiFilterTipo(tipo,btn){
+  _fiiTipo=tipo;_fiiSeg=null;
+  document.querySelectorAll('#fii-tipo-btns .fbtn').forEach(b=>b.classList.remove('active-parent'));
+  btn.classList.add('active-parent');
+  var sub=document.getElementById('fii-sub-tijolo');
+  if(tipo==='Tijolo'){sub.classList.add('visible');sub.querySelectorAll('.fbtn').forEach((b,i)=>{b.classList.remove('active-sub');if(i===0)b.classList.add('active-sub');});}
+  else sub.classList.remove('visible');
+  renderFiis();
 }
-
-function show(which, btn) {
-  document.getElementById('fii-panel').style.display = which === 'fii' ? '' : 'none';
-  document.getElementById('ac-panel').style.display = which === 'ac' ? '' : 'none';
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+function fiiFilterSeg(seg,btn){
+  _fiiSeg=seg;
+  document.querySelectorAll('#fii-sub-tijolo .fbtn').forEach(b=>b.classList.remove('active-sub'));
+  btn.classList.add('active-sub');renderFiis();
+}
+function acFilter(setor,btn){
+  _acSetor=setor;
+  document.querySelectorAll('#ac-setor-btns .fbtn').forEach(b=>b.classList.remove('active-parent'));
+  btn.classList.add('active-parent');renderAcoes();
+}
+function showPanel(which,btn){
+  document.getElementById('fii-panel').style.display=which==='fii'?'':'none';
+  document.getElementById('ac-panel').style.display=which==='ac'?'':'none';
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   btn.classList.add('active');
 }
 </script>
