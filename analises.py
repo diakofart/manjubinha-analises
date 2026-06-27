@@ -145,20 +145,16 @@ def buscar_ultimo_doc(ticker, inv10_tipo):
             return None
         href = link["href"]
         doc_id = href.rstrip("/").split("/")[-1]
-        # Extrai descricao e data das celulas <td> da linha
-        tr = link.find_parent("tr")
+        # Extrai descricao e data pelas classes do Investidor10 (communication-card)
+        card = link.find_parent("div", class_=lambda c: bool(c and "communication-card" in " ".join(c)))
         descricao, data = "Comunicado", ""
-        if tr:
-            for td in tr.find_all("td"):
-                text = td.get_text(strip=True)
-                if not text or text.upper() == "ABRIR":
-                    continue
-                if re.match(r"\d{2}/\d{2}/\d{4}", text) and not data:
-                    data = text
-                elif len(text) > 3 and descricao == "Comunicado":
-                    # descricao nao deve ser apenas uma data
-                    if not re.search(r"\d{2}/\d{2}/\d{4}", text):
-                        descricao = text[:100]
+        if card:
+            p = card.find("p", class_=lambda c: bool(c and "content" in " ".join(c)))
+            span = card.find("span", class_=lambda c: bool(c and "card-date--content" in " ".join(c)))
+            if p:
+                descricao = p.get_text(strip=True)[:100]
+            if span:
+                data = span.get_text(strip=True)
         return {"id": doc_id, "descricao": descricao, "data": data, "url_doc": href}
     except Exception as e:
         print(f"  Erro scraping {ticker}: {e}")
