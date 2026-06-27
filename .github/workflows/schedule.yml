@@ -11,7 +11,7 @@ on:
 jobs:
   analisar:
     runs-on: ubuntu-latest
-    steps:h
+    steps:
       - name: Baixar repositorio
         uses: actions/checkout@v4
         with:
