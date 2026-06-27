@@ -1,12 +1,14 @@
 """
 Manjubinha Investidor - Analises Automaticas
 Roda 4x por dia (a cada 6h). Processa 2 FIIs + 2 Acoes por rodada.
-Ciclo carrossel: cobre todos os ~60 ativos antes de repetir qualquer um.
+Carrossel continuo: publica o doc mais recente de cada ativo via Investidor10.
+Controle por ID do documento - nunca repete o mesmo doc.
 """
 
-import os, json, requests, time
+import os, json, requests, time, re
 from datetime import datetime
 from pathlib import Path
+from bs4 import BeautifulSoup
 
 # Config
 WP_URL    = "https://manjubinhainvestidor.com.br"
@@ -24,14 +26,14 @@ GEMINI_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.
 CONTROLE   = Path("controle_docs.json")
 POR_RODADA = 2  # 2 FIIs + 2 Acoes = 4 por rodada
 
-# Status que contam como "concluido" no ciclo (nao retentam nem bloqueiam avanco)
-STATUS_CONCLUIDO = ("ok", "sem_analise")
+INV10_HEADERS = {"User-Agent": "Mozilla/5.0 (compatible; Manjubinha/1.0)"}
 
-PROMPT_FII = """Voce e analista do site Manjubinha Investidor. Pesquise informacoes recentes do FII {ticker} ({nome}) e escreva uma analise completa em HTML puro para WordPress seguindo EXATAMENTE esta estrutura:
+PROMPT_FII = """Voce e analista do site Manjubinha Investidor. Pesquise informacoes recentes do FII {ticker} ({nome}) com base no documento: {descricao_doc} de {data_doc} (link: {url_doc}).
+Escreva uma analise completa em HTML puro para WordPress seguindo EXATAMENTE esta estrutura:
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
-<div class="wp-block-group"><!-- wp:heading {"level":4} --><h4 class="wp-block-heading"><mark style="background-color:rgba(0,0,0,0);color:#ff6900" class="has-inline-color">TIPO DO DOCUMENTO - PERIODO</mark></h4><!-- /wp:heading -->
-<!-- wp:paragraph {"style":{"typography":{"fontSize":"14px"}}} --><p style="font-size:14px">Publicado em: DD/MM/AAAA - <a href="{ri_url}" target="_blank" rel="noreferrer noopener">Site oficial do fundo ({gestora})</a></p><!-- /wp:paragraph -->
+<div class="wp-block-group"><!-- wp:heading {"level":4} --><h4 class="wp-block-heading"><mark style="background-color:rgba(0,0,0,0);color:#ff6900" class="has-inline-color">{descricao_doc} - {data_doc}</mark></h4><!-- /wp:heading -->
+<!-- wp:paragraph {"style":{"typography":{"fontSize":"14px"}}} --><p style="font-size:14px">Publicado em: {data_doc} - <a href="{ri_url}" target="_blank" rel="noreferrer noopener">Site oficial do fundo ({gestora})</a></p><!-- /wp:paragraph -->
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"14px"}}} --><p style="font-size:14px">Tipo: {tipo} - Gestora: {gestora}</p><!-- /wp:paragraph --></div><!-- /wp:group -->
 
 <!-- wp:separator --><hr class="wp-block-separator has-alpha-channel-opacity"/><!-- /wp:separator -->
@@ -71,11 +73,12 @@ PROMPT_FII = """Voce e analista do site Manjubinha Investidor. Pesquise informac
 
 Regras: linguagem simples, maximo 600 palavras, numeros reais, sem markdown extra."""
 
-PROMPT_ACAO = """Voce e analista do site Manjubinha Investidor. Pesquise informacoes recentes da empresa {ticker} ({nome}) e escreva uma analise completa em HTML puro para WordPress seguindo EXATAMENTE esta estrutura:
+PROMPT_ACAO = """Voce e analista do site Manjubinha Investidor. Pesquise informacoes recentes da empresa {ticker} ({nome}) com base no documento: {descricao_doc} de {data_doc} (link: {url_doc}).
+Escreva uma analise completa em HTML puro para WordPress seguindo EXATAMENTE esta estrutura:
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
-<div class="wp-block-group"><!-- wp:heading {"level":4} --><h4 class="wp-block-heading"><mark style="background-color:rgba(0,0,0,0);color:#ff6900" class="has-inline-color">TIPO DO DOCUMENTO - PERIODO</mark></h4><!-- /wp:heading -->
-<!-- wp:paragraph {"style":{"typography":{"fontSize":"14px"}}} --><p style="font-size:14px">Publicado em: DD/MM/AAAA - <a href="{ri_url}" target="_blank" rel="noreferrer noopener">Site oficial de RI ({nome})</a></p><!-- /wp:paragraph -->
+<div class="wp-block-group"><!-- wp:heading {"level":4} --><h4 class="wp-block-heading"><mark style="background-color:rgba(0,0,0,0);color:#ff6900" class="has-inline-color">{descricao_doc} - {data_doc}</mark></h4><!-- /wp:heading -->
+<!-- wp:paragraph {"style":{"typography":{"fontSize":"14px"}}} --><p style="font-size:14px">Publicado em: {data_doc} - <a href="{ri_url}" target="_blank" rel="noreferrer noopener">Site oficial de RI ({nome})</a></p><!-- /wp:paragraph -->
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"14px"}}} --><p style="font-size:14px">Setor: {setor} - Empresa: {nome}</p><!-- /wp:paragraph --></div><!-- /wp:group -->
 
 <!-- wp:separator --><hr class="wp-block-separator has-alpha-channel-opacity"/><!-- /wp:separator -->
@@ -123,6 +126,41 @@ def carregar(path, default):
 def salvar(path, data):
     Path(path).write_text(json.dumps(data, indent=2, ensure_ascii=False))
 
+def buscar_ultimo_doc(ticker, inv10_tipo):
+    """
+    Raspa o Investidor10 e retorna o documento mais recente do ativo.
+    inv10_tipo: "fiis" ou "acoes"
+    Retorna: {"id": str, "descricao": str, "data": str, "url_doc": str} ou None
+    """
+    url = f"https://investidor10.com.br/{inv10_tipo}/{ticker.lower()}/"
+    try:
+        r = requests.get(url, timeout=15, headers=INV10_HEADERS)
+        if r.status_code != 200:
+            print(f"  Investidor10 {r.status_code} para {ticker}")
+            return None
+        soup = BeautifulSoup(r.text, "html.parser")
+        link = soup.find("a", href=re.compile(r"link_comunicado"))
+        if not link:
+            print(f"  Nenhum comunicado encontrado para {ticker}")
+            return None
+        href = link["href"]
+        doc_id = href.rstrip("/").split("/")[-1]
+        # Extrai descricao e data da linha do link
+        row = link.find_parent("tr") or link.find_parent("li") or link.find_parent("div")
+        descricao, data = "Comunicado", ""
+        if row:
+            for cell in row.find_all(["td", "span", "p", "div"]):
+                text = cell.get_text(strip=True)
+                if re.match(r"\d{2}/\d{2}/\d{4}", text):
+                    data = text
+                elif text and text.upper() not in ("ABRIR", "") and len(text) > 3:
+                    if descricao == "Comunicado":
+                        descricao = text[:120]
+        return {"id": doc_id, "descricao": descricao, "data": data, "url_doc": href}
+    except Exception as e:
+        print(f"  Erro scraping {ticker}: {e}")
+        return None
+
 def limpar_markdown(texto):
     """Remove blocos de codigo markdown que modelos mais novos adicionam mesmo sem pedir."""
     texto = texto.strip()
@@ -136,6 +174,12 @@ def limpar_markdown(texto):
     return texto
 
 def gemini(prompt):
+    """
+    Retorna:
+      str   -> analise gerada com sucesso (ja sem markdown)
+      None  -> falha por quota (429): nao gravar, retentar na proxima rodada
+      False -> erro permanente: marcar sem_analise
+    """
     time.sleep(5)
     payload = {"contents": [{"parts": [{"text": prompt}]}],
                "generationConfig": {"temperature": 0.2, "maxOutputTokens": 2048}}
@@ -157,6 +201,7 @@ def gemini(prompt):
         return None
     return False
 
+# Categorias fixas do WordPress Manjubinha Hostinger
 CAT_FII_PRINCIPAL = 13
 CAT_ACAO_PRINCIPAL = 2
 
@@ -242,80 +287,97 @@ def atualizar_ranking(ticker, url, tipo):
     salvar("ranking.json", ranking)
 
 def proximos(lista, controle, n):
-    ciclo = controle.get("ciclo_atual", 1)
+    """Retorna os N ativos com a data de ultima analise mais antiga (carrossel continuo)."""
     pendentes = []
     for ativo in lista:
         t = ativo["ticker"]
-        entrada = controle.get(t, {})
-        if entrada.get("status") in STATUS_CONCLUIDO and entrada.get("ciclo") == ciclo:
-            continue
-        ultima = entrada.get("ultima", "0")
+        ultima = controle.get(t, {}).get("ultima", "0")
         pendentes.append((ultima, ativo))
     pendentes.sort(key=lambda x: x[0])
     return [a for _, a in pendentes[:n]]
 
 def processar_ativo(ativo, controle, tipo):
-    t     = ativo["ticker"]
-    ciclo = controle.get("ciclo_atual", 1)
-    hoje  = datetime.today().strftime("%Y-%m-%d")
+    t    = ativo["ticker"]
+    hoje = datetime.today().strftime("%Y-%m-%d")
     print(f"  -> {t} ({ativo['nome']})")
+
+    # 1. Busca ultimo doc no Investidor10
+    inv10_tipo = "fiis" if tipo == "fii" else "acoes"
+    doc = buscar_ultimo_doc(t, inv10_tipo)
+    if not doc:
+        print(f"  {t} sem doc disponivel - tentara na proxima rodada")
+        return  # nao atualiza ultima: ativo fica no inicio da fila para retentar logo
+
+    # 2. Verifica se esse doc ja foi publicado
+    chave = f"{t}_{doc['id']}"
+    if controle.get(chave, {}).get("status") == "ok":
+        print(f"  {t} doc ja publicado ({doc['descricao']} | {doc['data']}) - sem novidade")
+        controle.setdefault(t, {})["ultima"] = hoje  # empurra para o fim da fila
+        salvar(CONTROLE, controle)
+        return
+
+    # 3. Monta prompt com info do documento
+    print(f"  Novo doc: {doc['descricao']} ({doc['data']})")
     if tipo == "fii":
-        prompt = PROMPT_FII.replace("{ticker}", t).replace("{nome}", ativo["nome"]).replace("{ri_url}", ativo.get("ri_url", "")).replace("{tipo}", ativo.get("tipo", "")).replace("{gestora}", ativo.get("gestora", ""))
+        prompt = PROMPT_FII \
+            .replace("{ticker}", t) \
+            .replace("{nome}", ativo["nome"]) \
+            .replace("{descricao_doc}", doc["descricao"]) \
+            .replace("{data_doc}", doc["data"]) \
+            .replace("{url_doc}", doc["url_doc"]) \
+            .replace("{ri_url}", ativo.get("ri_url", "")) \
+            .replace("{tipo}", ativo.get("tipo", "")) \
+            .replace("{gestora}", ativo.get("gestora", ""))
         categorias = get_fii_categories(ativo)
     else:
-        prompt = PROMPT_ACAO.replace("{ticker}", t).replace("{nome}", ativo["nome"]).replace("{ri_url}", ativo.get("ri_url", "")).replace("{setor}", ativo.get("setor", ""))
+        prompt = PROMPT_ACAO \
+            .replace("{ticker}", t) \
+            .replace("{nome}", ativo["nome"]) \
+            .replace("{descricao_doc}", doc["descricao"]) \
+            .replace("{data_doc}", doc["data"]) \
+            .replace("{url_doc}", doc["url_doc"]) \
+            .replace("{ri_url}", ativo.get("ri_url", "")) \
+            .replace("{setor}", ativo.get("setor", ""))
         categorias = get_acao_categories(ativo)
+
     print(f"  Categorias: {categorias}")
     print("  Gemini...")
     analise = gemini(prompt)
+
     if analise is None:
         print(f"  {t} adiado - quota Gemini, retenta na proxima rodada")
-        return
+        return  # nao atualiza ultima nem chave
+
     if analise is False:
-        print(f"  {t} marcado como sem_analise - nao bloqueara o proximo ciclo")
-        controle[t] = {"status": "sem_analise", "ciclo": ciclo, "data": hoje, "ultima": controle.get(t, {}).get("ultima", "0")}
+        print(f"  {t} erro permanente Gemini - marcando doc como sem_analise")
+        controle[chave] = {"status": "sem_analise", "data": hoje}
+        controle.setdefault(t, {})["ultima"] = hoje
         salvar(CONTROLE, controle)
         return
+
     mes    = datetime.today().strftime("%m/%Y")
-    titulo = f"{t} - {ativo['nome']} | Analise {mes}"
+    titulo = f"{t} - {ativo['nome']} | {doc['descricao']} {mes}"
     print("  Publicando...")
     url = publicar(titulo, analise, categorias, t)
     if url:
         atualizar_ranking(t, url, tipo)
-        controle[t] = {"status": "ok", "url": url, "data": hoje, "ciclo": ciclo, "ultima": controle.get(t, {}).get("ultima", "0")}
+        controle[chave] = {"status": "ok", "url": url, "data": hoje, "descricao": doc["descricao"]}
+        controle.setdefault(t, {})["ultima"] = hoje
         salvar(CONTROLE, controle)
-        print(f"  Salvo (ciclo {ciclo})")
+        print(f"  Salvo: {chave}")
     else:
-        print(f"  {t} adiado - erro WP, retenta na proxima rodada")
-
-def verificar_e_avancar_ciclo(config, controle):
-    ciclo = controle.get("ciclo_atual", 1)
-    todos = config.get("fiis", []) + config.get("acoes", [])
-    feitos = sum(1 for a in todos if controle.get(a["ticker"], {}).get("status") in STATUS_CONCLUIDO and controle.get(a["ticker"], {}).get("ciclo") == ciclo)
-    total = len(todos)
-    print(f"Progresso ciclo {ciclo}: {feitos}/{total} ativos concluidos")
-    if total > 0 and feitos == total:
-        hoje = datetime.today().strftime("%Y-%m-%d")
-        for a in todos:
-            t = a["ticker"]
-            if t in controle:
-                controle[t]["ultima"] = controle[t].get("data", hoje)
-        controle["ciclo_atual"] = ciclo + 1
-        salvar(CONTROLE, controle)
-        print(f"Ciclo {ciclo} completo! Iniciando ciclo {ciclo + 1}")
+        print(f"  {t} erro WP - retenta na proxima rodada")
+        # nao atualiza: retenta logo
 
 def main():
     print(f"Manjubinha - {datetime.today().strftime('%Y-%m-%d %H:%M UTC')}")
     print(f"Rodada: 2 FIIs + 2 Acoes")
     config   = carregar("config.json", {})
-    controle = carregar(CONTROLE, {"ciclo_atual": 1})
-    ciclo    = controle.get("ciclo_atual", 1)
-    print(f"Ciclo atual: {ciclo}")
+    controle = carregar(CONTROLE, {})
     fiis_rodada  = proximos(config.get("fiis",  []), controle, POR_RODADA)
     acoes_rodada = proximos(config.get("acoes", []), controle, POR_RODADA)
     if not fiis_rodada and not acoes_rodada:
-        print("Todos os ativos ja analisados neste ciclo!")
-        verificar_e_avancar_ciclo(config, controle)
+        print("Nenhum ativo configurado.")
         return
     print(f"FIIs:  {[a['ticker'] for a in fiis_rodada]}")
     for ativo in fiis_rodada:
@@ -323,10 +385,13 @@ def main():
     print(f"Acoes: {[a['ticker'] for a in acoes_rodada]}")
     for ativo in acoes_rodada:
         processar_ativo(ativo, controle, "acao")
-    verificar_e_avancar_ciclo(config, controle)
-    pf = len(proximos(config.get("fiis",  []), controle, 99))
-    pa = len(proximos(config.get("acoes", []), controle, 99))
-    print(f"Concluido! Restam {pf} FIIs e {pa} Acoes neste ciclo.")
+    # Resumo
+    total_fiis  = len(config.get("fiis",  []))
+    total_acoes = len(config.get("acoes", []))
+    hoje = datetime.today().strftime("%Y-%m-%d")
+    atualizados_f = sum(1 for a in config.get("fiis",  []) if controle.get(a["ticker"], {}).get("ultima") == hoje)
+    atualizados_a = sum(1 for a in config.get("acoes", []) if controle.get(a["ticker"], {}).get("ultima") == hoje)
+    print(f"Concluido! Verificados hoje: {atualizados_f}/{total_fiis} FIIs, {atualizados_a}/{total_acoes} Acoes.")
 
 if __name__ == "__main__":
     main()
