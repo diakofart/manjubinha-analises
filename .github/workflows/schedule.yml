@@ -1,53 +1,37 @@
-name: "Manjubinha — Análises Automáticas"
+name: Manjubinha - Analises Automaticas
 
 on:
   schedule:
-    - cron: "0 12 * * 2"
-    - cron: "0 12 * * 5"
+    - cron: '0 9 * * *'
+    - cron: '0 15 * * *'
+    - cron: '0 21 * * *'
+    - cron: '0 3 * * *'
   workflow_dispatch:
 
 jobs:
   analisar:
     runs-on: ubuntu-latest
-    name: analisar
-
     steps:
-      - name: Baixar repositório
+      - name: Baixar repositorio
         uses: actions/checkout@v4
-
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Configurar Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
-
-      - name: Instalar dependências
-        run: pip install requests
-
-      - name: Rodar análises
+          python-version: '3.11'
+      - name: Instalar dependencias
+        run: pip install requests pypdf
+      - name: Rodar analises
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          WP_USER:        ${{ secrets.WP_USER }}
+          WP_APP_PASS:    ${{ secrets.WP_APP_PASS }}
         run: python analises.py
-        continue-on-error: true
-        env:
-          WP_USER: ${{ secrets.WP_USER }}
-          WP_APP_PASS: ${{ secrets.WP_APP_PASS }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-
-      - name: Publicar pagina de ranking
-        run: python publicar_ranking.py
-        env:
-          WP_USER: ${{ secrets.WP_USER }}
-          WP_APP_PASS: ${{ secrets.WP_APP_PASS }}
-
-      - name: Setup do site (menu + CSS)
-        run: python setup_site.py
-        continue-on-error: true
-        env:
-          WP_USER: ${{ secrets.WP_USER }}
-          WP_APP_PASS: ${{ secrets.WP_APP_PASS }}
-
-      - name: Salvar controle e ranking atualizados
+      - name: Salvar controle e ranking
         run: |
-          git config user.name "ManjubinhaInvestidor"
-          git config user.email "contato@manjubinhainvestidor.com.br"
+          git config user.name "Manjubinha Bot"
+          git config user.email "bot@manjubinha.com"
           git add controle_docs.json ranking.json
-          git diff --cached --quiet || git commit -m "Auto: $(date -u '+%Y-%m-%d')"
+          git diff --staged --quiet || git commit -m "Auto: $(date '+%Y-%m-%d %H:%M')"
           git push
