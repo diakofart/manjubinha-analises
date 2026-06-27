@@ -1,7 +1,7 @@
 """
 Manjubinha Investidor - Analises Automaticas
 Roda 4x por dia (a cada 6h). Processa 2 FIIs + 2 Acoes por rodada.
-Ciclo semanal: cobre todos os 60 ativos em ~5 dias.
+Ciclo carrossel: cobre todos os ~60 ativos antes de repetir qualquer um.
 """
 
 import os, json, requests, time
@@ -9,12 +9,12 @@ from datetime import datetime
 from pathlib import Path
 
 # Config
-WP_URL     = "https://manjubinhainvestidor.com.br"
-WP_USER    = os.environ["WP_USER"]
-WP_PASS    = os.environ["WP_APP_PASS"]
+WP_URL    = "https://manjubinhainvestidor.com.br"
+WP_USER   = os.environ["WP_USER"]
+WP_PASS   = os.environ["WP_APP_PASS"]
 GEMINI_KEY = os.environ["GEMINI_API_KEY"]
 
-WP_API     = f"{WP_URL}/wp-json/wp/v2"
+WP_API = f"{WP_URL}/wp-json/wp/v2"
 import base64
 _cred = base64.b64encode(f"{WP_USER}:{WP_PASS}".encode()).decode()
 WP_HEADERS = {"Authorization": f"Basic {_cred}"}
@@ -120,10 +120,6 @@ def carregar(path, default):
 def salvar(path, data):
     Path(path).write_text(json.dumps(data, indent=2, ensure_ascii=False))
 
-def semana_atual():
-    hoje = datetime.today()
-    return f"{hoje.year}-W{hoje.isocalendar()[1]:02d}"
-
 def gemini(prompt):
     time.sleep(5)
     payload = {"contents": [{"parts": [{"text": prompt}]}],
@@ -139,7 +135,7 @@ def gemini(prompt):
         else:
             print(f"  Gemini {r.status_code}: {r.text[:300]}")
             return None
-    print("  Gemini falhou apos 3 tentativas - continuando...")
+    print("  Gemini falhou apos 3 tentativas - pulando ativo")
     return None
 
 # Categorias fixas do WordPress Manjubinha Hostinger
@@ -151,12 +147,11 @@ CAT_FII_TIPO = {
     "Tijolo": 31, "tijolo": 31,
     "FoF": 26, "fof": 26,
     "Hibrido": 27, "hibrido": 27,
-    "Hibrido": 27,
     "Fiagro": 25, "fiagro": 25,
 }
 
 CAT_FII_SEG = {
-    "Logistico": 19, "Logistico": 19,
+    "Logistico": 19,
     "Shoppings": 22,
     "Lajes Corp.": 18,
     "TVM": 23,
@@ -164,7 +159,7 @@ CAT_FII_SEG = {
 
 CAT_ACAO_SETOR = {
     "Bens Industriais": 3,
-    "Consumo Ciclico": 4, "Consumo Ciclico": 4,
+    "Consumo Ciclico": 4,
     "Consumo Nao Ciclico": 5,
     "Financeiro": 6,
     "Materiais Basicos": 7,
@@ -178,7 +173,7 @@ CAT_ACAO_SETOR = {
 def get_fii_categories(ativo):
     cats = [CAT_FII_PRINCIPAL]
     tipo = ativo.get("tipo", "")
-    seg = ativo.get("segmento", "")
+    seg  = ativo.get("segmento", "")
     if tipo.lower() == "tijolo" and seg:
         cat = CAT_FII_SEG.get(seg)
         cats.append(cat if cat else 31)
@@ -195,14 +190,6 @@ def get_acao_categories(ativo):
     if cat:
         cats.append(cat)
     return cats
-
-def get_or_create_category(slug, name):
-    r = requests.get(f"{WP_API}/categories", headers=WP_HEADERS, params={"slug": slug})
-    cats = r.json()
-    if isinstance(cats, list) and cats:
-        return cats[0]["id"]
-    nova = requests.post(f"{WP_API}/categories", headers=WP_HEADERS, json={"name": name, "slug": slug})
-    return nova.json().get("id")
 
 def get_tag(ticker):
     r = requests.get(f"{WP_API}/tags", headers=WP_HEADERS, params={"search": ticker})
@@ -236,67 +223,100 @@ def atualizar_ranking(ticker, url, tipo):
     ranking["ultima_atualizacao"] = datetime.today().strftime("%Y-%m-%d")
     salvar("ranking.json", ranking)
 
-def proximos(lista, controle, semana, n):
+def proximos(lista, controle, n):
+    """Retorna os N ativos pendentes no ciclo atual, priorizando os analisados ha mais tempo."""
+    ciclo = controle.get("ciclo_atual", 1)
     pendentes = []
     for ativo in lista:
         t = ativo["ticker"]
-        chave = f"{t}_{semana}"
-        if chave not in controle or controle[chave].get("status") != "ok":
-            ultima = controle.get(f"{t}_ultima", "0")
-            pendentes.append((ultima, ativo))
+        entrada = controle.get(t, {})
+        # Pula apenas se concluido com OK neste ciclo
+        if entrada.get("status") == "ok" and entrada.get("ciclo") == ciclo:
+            continue
+        ultima = entrada.get("ultima", "0")
+        pendentes.append((ultima, ativo))
     pendentes.sort(key=lambda x: x[0])
     return [a for _, a in pendentes[:n]]
 
-def processar_ativo(ativo, controle, semana, cat, tipo):
-    t = ativo["ticker"]
-    chave = f"{t}_{semana}"
+def processar_ativo(ativo, controle, tipo):
+    t     = ativo["ticker"]
+    ciclo = controle.get("ciclo_atual", 1)
+    hoje  = datetime.today().strftime("%Y-%m-%d")
     print(f"  -> {t} ({ativo['nome']})")
     if tipo == "fii":
-        prompt = PROMPT_FII.replace("{ticker}", t).replace("{nome}", ativo["nome"]).replace("{ri_url}", ativo.get("ri_url","")).replace("{tipo}", ativo.get("tipo","")).replace("{gestora}", ativo.get("gestora",""))
+        prompt = PROMPT_FII.replace("{ticker}", t).replace("{nome}", ativo["nome"]).replace("{ri_url}", ativo.get("ri_url", "")).replace("{tipo}", ativo.get("tipo", "")).replace("{gestora}", ativo.get("gestora", ""))
         categorias = get_fii_categories(ativo)
     else:
-        prompt = PROMPT_ACAO.replace("{ticker}", t).replace("{nome}", ativo["nome"]).replace("{ri_url}", ativo.get("ri_url","")).replace("{setor}", ativo.get("setor",""))
+        prompt = PROMPT_ACAO.replace("{ticker}", t).replace("{nome}", ativo["nome"]).replace("{ri_url}", ativo.get("ri_url", "")).replace("{setor}", ativo.get("setor", ""))
         categorias = get_acao_categories(ativo)
-    print(f"     Categorias: {categorias}")
-    print("     Gemini...")
+    print(f"  Categorias: {categorias}")
+    print("  Gemini...")
     analise = gemini(prompt)
     if not analise:
-        controle[chave] = {"status": "erro_gemini"}
-        salvar(CONTROLE, controle)
-        return
-    mes = datetime.today().strftime("%m/%Y")
+        print(f"  {t} pulado - tentara na proxima rodada")
+        return  # nao grava: retenta no proximo run
+    mes    = datetime.today().strftime("%m/%Y")
     titulo = f"{t} - {ativo['nome']} | Analise {mes}"
-    print("     Publicando...")
+    print("  Publicando...")
     url = publicar(titulo, analise, categorias, t)
     if url:
         atualizar_ranking(t, url, tipo)
-        controle[chave] = {"status": "ok", "url": url, "data": datetime.today().strftime("%Y-%m-%d")}
-        controle[f"{t}_ultima"] = datetime.today().strftime("%Y-%m-%d")
+        ultima_anterior = controle.get(t, {}).get("ultima", "0")
+        controle[t] = {
+            "status": "ok",
+            "url":    url,
+            "data":   hoje,
+            "ciclo":  ciclo,
+            "ultima": ultima_anterior
+        }
+        salvar(CONTROLE, controle)
+        print(f"  Salvo (ciclo {ciclo})")
     else:
-        controle[chave] = {"status": "erro_wp"}
-    salvar(CONTROLE, controle)
+        print(f"  {t} pulado (erro WP) - tentara na proxima rodada")
+
+def verificar_e_avancar_ciclo(config, controle):
+    ciclo = controle.get("ciclo_atual", 1)
+    todos = config.get("fiis", []) + config.get("acoes", [])
+    feitos = sum(
+        1 for a in todos
+        if controle.get(a["ticker"], {}).get("status") == "ok"
+        and controle.get(a["ticker"], {}).get("ciclo") == ciclo
+    )
+    total = len(todos)
+    print(f"Progresso ciclo {ciclo}: {feitos}/{total} ativos concluidos")
+    if total > 0 and feitos == total:
+        hoje = datetime.today().strftime("%Y-%m-%d")
+        for a in todos:
+            t = a["ticker"]
+            if t in controle:
+                controle[t]["ultima"] = controle[t].get("data", hoje)
+        controle["ciclo_atual"] = ciclo + 1
+        salvar(CONTROLE, controle)
+        print(f"Ciclo {ciclo} completo! Iniciando ciclo {ciclo + 1}")
 
 def main():
     print(f"Manjubinha - {datetime.today().strftime('%Y-%m-%d %H:%M UTC')}")
     print(f"Rodada: 2 FIIs + 2 Acoes")
     config   = carregar("config.json", {})
-    controle = carregar(CONTROLE, {})
-    semana   = semana_atual()
-    print(f"Semana: {semana}")
-    fiis_rodada  = proximos(config.get("fiis",  []), controle, semana, POR_RODADA)
-    acoes_rodada = proximos(config.get("acoes", []), controle, semana, POR_RODADA)
+    controle = carregar(CONTROLE, {"ciclo_atual": 1})
+    ciclo    = controle.get("ciclo_atual", 1)
+    print(f"Ciclo atual: {ciclo}")
+    fiis_rodada  = proximos(config.get("fiis",  []), controle, POR_RODADA)
+    acoes_rodada = proximos(config.get("acoes", []), controle, POR_RODADA)
     if not fiis_rodada and not acoes_rodada:
-        print("Todos os 60 ativos ja analisados esta semana!")
+        print("Todos os ativos ja analisados neste ciclo!")
+        verificar_e_avancar_ciclo(config, controle)
         return
-    print(f"FIIs: {[a['ticker'] for a in fiis_rodada]}")
+    print(f"FIIs:  {[a['ticker'] for a in fiis_rodada]}")
     for ativo in fiis_rodada:
-        processar_ativo(ativo, controle, semana, None, "fii")
+        processar_ativo(ativo, controle, "fii")
     print(f"Acoes: {[a['ticker'] for a in acoes_rodada]}")
     for ativo in acoes_rodada:
-        processar_ativo(ativo, controle, semana, None, "acao")
-    pf = len(proximos(config.get("fiis",[]),  controle, semana, 99))
-    pa = len(proximos(config.get("acoes",[]), controle, semana, 99))
-    print(f"Concluido! Restam {pf} FIIs e {pa} Acoes esta semana.")
+        processar_ativo(ativo, controle, "acao")
+    verificar_e_avancar_ciclo(config, controle)
+    pf = len(proximos(config.get("fiis",  []), controle, 99))
+    pa = len(proximos(config.get("acoes", []), controle, 99))
+    print(f"Concluido! Restam {pf} FIIs e {pa} Acoes neste ciclo.")
 
 if __name__ == "__main__":
     main()
