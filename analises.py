@@ -123,33 +123,45 @@ def carregar(path, default):
 def salvar(path, data):
     Path(path).write_text(json.dumps(data, indent=2, ensure_ascii=False))
 
+def limpar_markdown(texto):
+    """Remove blocos de codigo markdown que modelos mais novos adicionam mesmo sem pedir."""
+    texto = texto.strip()
+    fence = chr(96) * 3  # equivale a tres backticks sem usar backtick aqui
+    if texto.startswith(fence):
+        linhas = texto.split("\n")
+        linhas = linhas[1:]  # remove linha de abertura (ex: fence + html)
+        if linhas and linhas[-1].strip() == fence:
+            linhas = linhas[:-1]  # remove linha de fechamento
+        texto = "\n".join(linhas).strip()
+    return texto
+
 def gemini(prompt):
     """
     Retorna:
-      str   -> analise gerada com sucesso
+      str   -> analise gerada com sucesso (ja sem markdown)
       None  -> falha por quota (429): nao gravar, retentar na proxima rodada
-      False -> erro permanente (modelo sem conteudo, erro de API): marcar sem_analise
+      False -> erro permanente: marcar sem_analise
     """
     time.sleep(5)
     payload = {"contents": [{"parts": [{"text": prompt}]}],
                "generationConfig": {"temperature": 0.2, "maxOutputTokens": 2048}}
-    so_quota = True  # assume que todas as falhas sao 429 ate provar o contrario
+    so_quota = True
     for tentativa in range(3):
         r = requests.post(GEMINI_URL, json=payload, timeout=90)
         if r.status_code == 200:
-            return r.json()["candidates"][0]["content"]["parts"][0]["text"]
+            texto = r.json()["candidates"][0]["content"]["parts"][0]["text"]
+            return limpar_markdown(texto)
         elif r.status_code == 429:
             print(f"  429 quota: aguardando 60s ({tentativa+1}/3)")
             time.sleep(60)
         else:
             so_quota = False
             print(f"  Gemini {r.status_code}: {r.text[:200]}")
-            return False  # erro nao recuperavel: marcar sem_analise
-    # Esgotou 3 tentativas
+            return False
     if so_quota:
         print("  Quota esgotada apos 3 tentativas - retentara na proxima rodada")
-        return None   # retenta depois
-    return False      # mix de erros - marca sem_analise
+        return None
+    return False
 
 # Categorias fixas do WordPress Manjubinha Hostinger
 CAT_FII_PRINCIPAL = 13
@@ -243,7 +255,6 @@ def proximos(lista, controle, n):
     for ativo in lista:
         t = ativo["ticker"]
         entrada = controle.get(t, {})
-        # Pula se ja concluido neste ciclo (ok ou sem_analise)
         if entrada.get("status") in STATUS_CONCLUIDO and entrada.get("ciclo") == ciclo:
             continue
         ultima = entrada.get("ultima", "0")
@@ -267,12 +278,10 @@ def processar_ativo(ativo, controle, tipo):
     analise = gemini(prompt)
 
     if analise is None:
-        # Quota esgotada: nao grava, retenta na proxima rodada
         print(f"  {t} adiado - quota Gemini, retenta na proxima rodada")
         return
 
     if analise is False:
-        # Erro permanente: marca sem_analise para nao travar o ciclo
         print(f"  {t} marcado como sem_analise - nao bloqueara o proximo ciclo")
         controle[t] = {
             "status": "sem_analise",
@@ -299,7 +308,6 @@ def processar_ativo(ativo, controle, tipo):
         salvar(CONTROLE, controle)
         print(f"  Salvo (ciclo {ciclo})")
     else:
-        # Erro WP transitorio: nao grava, retenta na proxima rodada
         print(f"  {t} adiado - erro WP, retenta na proxima rodada")
 
 def verificar_e_avancar_ciclo(config, controle):
