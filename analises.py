@@ -19,7 +19,7 @@ import base64
 _cred = base64.b64encode(f"{WP_USER}:{WP_PASS}".encode()).decode()
 WP_HEADERS = {"Authorization": f"Basic {_cred}"}
 
-GEMINI_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key={GEMINI_KEY}"
+GEMINI_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key={GEMINI_KEY}"
 
 CONTROLE   = Path("controle_docs.json")
 POR_RODADA = 2  # 2 FIIs + 2 Acoes = 4 por rodada
