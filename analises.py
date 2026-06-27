@@ -146,11 +146,12 @@ def buscar_ultimo_doc(ticker, inv10_tipo):
         href = link["href"]
         doc_id = href.rstrip("/").split("/")[-1]
         # Extrai descricao e data via classes do Investidor10 (communication-card)
-        card = link.find_parent("div", class_=lambda c: bool(c and "communication-card" in " ".join(c)))
+        # usa match exato para evitar bater em communication-card--disclosure
+        card = link.find_parent("div", class_="communication-card")
         descricao, data = "Comunicado", ""
         if card:
-            p = card.find("p", class_=lambda c: bool(c and "content" in " ".join(c)))
-            span = card.find("span", class_=lambda c: bool(c and "card-date--content" in " ".join(c)))
+            p = card.find("p", class_="communication-card--content")
+            span = card.find("span", class_="card-date--content")
             if p:
                 descricao = p.get_text(strip=True)[:100]
             if span:
