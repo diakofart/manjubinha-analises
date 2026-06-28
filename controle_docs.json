@@ -25,5 +25,41 @@
   },
   "VALE3": {
     "ultima": "2026-06-27"
+  },
+  "HGLG11_23342": {
+    "status": "ok",
+    "url": "https://manjubinhainvestidor.com.br/hglg11-cshg-logistica-fatos-relevantes-06-2026/",
+    "data": "2026-06-28",
+    "descricao": "Fatos Relevantes"
+  },
+  "HGLG11": {
+    "ultima": "2026-06-28"
+  },
+  "XPML11_23072": {
+    "status": "ok",
+    "url": "https://manjubinhainvestidor.com.br/xpml11-xp-malls-informe-mensal-06-2026/",
+    "data": "2026-06-28",
+    "descricao": "Informe Mensal"
+  },
+  "XPML11": {
+    "ultima": "2026-06-28"
+  },
+  "PETR4_44699": {
+    "status": "ok",
+    "url": "https://manjubinhainvestidor.com.br/petr4-petrobras-comunicado-ao-mercado-06-2026/",
+    "data": "2026-06-28",
+    "descricao": "Comunicado ao Mercado"
+  },
+  "PETR4": {
+    "ultima": "2026-06-28"
+  },
+  "ITUB4_44665": {
+    "status": "ok",
+    "url": "https://manjubinhainvestidor.com.br/itub4-itau-unibanco-calendario-de-eventos-corporativos-06-2026/",
+    "data": "2026-06-28",
+    "descricao": "Calendário de Eventos Corporativos"
+  },
+  "ITUB4": {
+    "ultima": "2026-06-28"
   }
 }
