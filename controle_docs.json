@@ -97,5 +97,41 @@
   },
   "WEGE3": {
     "ultima": "2026-06-28"
+  },
+  "CPTS11_23316": {
+    "status": "ok",
+    "url": "https://manjubinhainvestidor.com.br/cpts11-capitania-securities-ii-informe-mensal-06-2026/",
+    "data": "2026-06-28",
+    "descricao": "Informe Mensal"
+  },
+  "CPTS11": {
+    "ultima": "2026-06-28"
+  },
+  "GGRC11_23620": {
+    "status": "ok",
+    "url": "https://manjubinhainvestidor.com.br/ggrc11-ggr-covepi-renda-fatos-relevantes-06-2026/",
+    "data": "2026-06-28",
+    "descricao": "Fatos Relevantes"
+  },
+  "GGRC11": {
+    "ultima": "2026-06-28"
+  },
+  "BBDC4_44887": {
+    "status": "ok",
+    "url": "https://manjubinhainvestidor.com.br/bbdc4-bradesco-diretoria-06-2026/",
+    "data": "2026-06-28",
+    "descricao": "Diretoria"
+  },
+  "BBDC4": {
+    "ultima": "2026-06-28"
+  },
+  "ABEV3_42735": {
+    "status": "ok",
+    "url": "https://manjubinhainvestidor.com.br/abev3-ambev-conselho-de-administracao-06-2026/",
+    "data": "2026-06-28",
+    "descricao": "Conselho de Administração"
+  },
+  "ABEV3": {
+    "ultima": "2026-06-28"
   }
 }
