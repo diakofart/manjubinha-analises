@@ -232,5 +232,41 @@
   },
   "SBSP3": {
     "ultima": "2026-06-29"
+  },
+  "TRBL11_23447": {
+    "status": "ok",
+    "url": "https://manjubinhainvestidor.com.br/trbl11-tellus-rio-bravo-logistica-relatorio-gerencial-06-2026/",
+    "data": "2026-06-29",
+    "descricao": "Relatório Gerencial"
+  },
+  "TRBL11": {
+    "ultima": "2026-06-29"
+  },
+  "PVBI11_23402": {
+    "status": "ok",
+    "url": "https://manjubinhainvestidor.com.br/pvbi11-vbi-prime-properties-informe-mensal-06-2026/",
+    "data": "2026-06-29",
+    "descricao": "Informe Mensal"
+  },
+  "PVBI11": {
+    "ultima": "2026-06-29"
+  },
+  "RDOR3_44874": {
+    "status": "ok",
+    "url": "https://manjubinhainvestidor.com.br/rdor3-rede-dor-aviso-aos-acionistas-06-2026/",
+    "data": "2026-06-29",
+    "descricao": "Aviso aos Acionistas"
+  },
+  "RDOR3": {
+    "ultima": "2026-06-29"
+  },
+  "B3SA3_44745": {
+    "status": "ok",
+    "url": "https://manjubinhainvestidor.com.br/b3sa3-b3-bolsa-de-valores-comunicado-ao-mercado-06-2026/",
+    "data": "2026-06-29",
+    "descricao": "Comunicado ao Mercado"
+  },
+  "B3SA3": {
+    "ultima": "2026-06-29"
   }
 }
