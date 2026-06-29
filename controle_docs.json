@@ -205,5 +205,32 @@
   },
   "VIVT3": {
     "ultima": "2026-06-29"
+  },
+  "RECR11_23281": {
+    "status": "ok",
+    "url": "https://manjubinhainvestidor.com.br/recr11-rec-recebiveis-imobiliarios-informe-mensal-06-2026/",
+    "data": "2026-06-29",
+    "descricao": "Informe Mensal"
+  },
+  "RECR11": {
+    "ultima": "2026-06-29"
+  },
+  "PRIO3_44871": {
+    "status": "ok",
+    "url": "https://manjubinhainvestidor.com.br/prio3-prio-comunicado-ao-mercado-06-2026/",
+    "data": "2026-06-29",
+    "descricao": "Comunicado ao Mercado"
+  },
+  "PRIO3": {
+    "ultima": "2026-06-29"
+  },
+  "SBSP3_44881": {
+    "status": "ok",
+    "url": "https://manjubinhainvestidor.com.br/sbsp3-sabesp-comunicado-ao-mercado-06-2026/",
+    "data": "2026-06-29",
+    "descricao": "Comunicado ao Mercado"
+  },
+  "SBSP3": {
+    "ultima": "2026-06-29"
   }
 }
