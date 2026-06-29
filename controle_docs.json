@@ -169,5 +169,41 @@
   },
   "CPLE6": {
     "ultima": "2026-06-29"
+  },
+  "BTLG11_23251": {
+    "status": "ok",
+    "url": "https://manjubinhainvestidor.com.br/btlg11-btg-pactual-logistica-informe-mensal-06-2026/",
+    "data": "2026-06-29",
+    "descricao": "Informe Mensal"
+  },
+  "BTLG11": {
+    "ultima": "2026-06-29"
+  },
+  "OUJP11_23642": {
+    "status": "ok",
+    "url": "https://manjubinhainvestidor.com.br/oujp11-ourinvest-jpp-informe-mensal-06-2026/",
+    "data": "2026-06-29",
+    "descricao": "Informe Mensal"
+  },
+  "OUJP11": {
+    "ultima": "2026-06-29"
+  },
+  "EGIE3_44842": {
+    "status": "ok",
+    "url": "https://manjubinhainvestidor.com.br/egie3-engie-brasil-comunicado-ao-mercado-06-2026/",
+    "data": "2026-06-29",
+    "descricao": "Comunicado ao Mercado"
+  },
+  "EGIE3": {
+    "ultima": "2026-06-29"
+  },
+  "VIVT3_44450": {
+    "status": "ok",
+    "url": "https://manjubinhainvestidor.com.br/vivt3-telefonica-vivo-assembleia-06-2026/",
+    "data": "2026-06-29",
+    "descricao": "Assembleia"
+  },
+  "VIVT3": {
+    "ultima": "2026-06-29"
   }
 }
