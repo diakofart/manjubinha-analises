@@ -304,5 +304,41 @@
   },
   "ENGI11": {
     "ultima": "2026-06-30"
+  },
+  "IRDM11_16704": {
+    "status": "ok",
+    "url": "https://manjubinhainvestidor.com.br/irdm11-iridium-recebiveis-imobiliarios-fatos-relevantes-06-2026/",
+    "data": "2026-06-30",
+    "descricao": "Fatos Relevantes"
+  },
+  "IRDM11": {
+    "ultima": "2026-06-30"
+  },
+  "VGIP11_23617": {
+    "status": "ok",
+    "url": "https://manjubinhainvestidor.com.br/vgip11-valora-cri-ipca-relatorio-gerencial-06-2026/",
+    "data": "2026-06-30",
+    "descricao": "Relatório Gerencial"
+  },
+  "VGIP11": {
+    "ultima": "2026-06-30"
+  },
+  "CPFE3_44682": {
+    "status": "ok",
+    "url": "https://manjubinhainvestidor.com.br/cpfe3-cpfl-energia-conselho-de-administracao-06-2026/",
+    "data": "2026-06-30",
+    "descricao": "Conselho de Administração"
+  },
+  "CPFE3": {
+    "ultima": "2026-06-30"
+  },
+  "TOTS3_44471": {
+    "status": "ok",
+    "url": "https://manjubinhainvestidor.com.br/tots3-totvs-reuniao-da-administracao-06-2026/",
+    "data": "2026-06-30",
+    "descricao": "Reunião da Administração"
+  },
+  "TOTS3": {
+    "ultima": "2026-06-30"
   }
 }
