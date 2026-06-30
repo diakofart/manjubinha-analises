@@ -33,7 +33,7 @@ Escreva uma analise completa em HTML puro para WordPress seguindo EXATAMENTE est
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
 <div class="wp-block-group"><!-- wp:heading {"level":4} --><h4 class="wp-block-heading"><mark style="background-color:rgba(0,0,0,0);color:#ff6900" class="has-inline-color">{descricao_doc} - {data_doc}</mark></h4><!-- /wp:heading -->
-<!-- wp:paragraph {"style":{"typography":{"fontSize":"14px"}}} --><p style="font-size:14px">Publicado em: {data_doc} - <a href="{ri_url}" target="_blank" rel="noreferrer noopener">Site oficial do fundo ({gestora})</a></p><!-- /wp:paragraph -->
+<!-- wp:paragraph {"style":{"typography":{"fontSize":"14px"}}} --><p style="font-size:14px">Publicado em: {data_doc} - <a href="{url_doc}" target="_blank" rel="noreferrer noopener">Documento oficial ({gestora})</a></p><!-- /wp:paragraph -->
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"14px"}}} --><p style="font-size:14px">Tipo: {tipo} - Gestora: {gestora}</p><!-- /wp:paragraph --></div><!-- /wp:group -->
 
 <!-- wp:separator --><hr class="wp-block-separator has-alpha-channel-opacity"/><!-- /wp:separator -->
@@ -78,7 +78,7 @@ Escreva uma analise completa em HTML puro para WordPress seguindo EXATAMENTE est
 
 <!-- wp:group {"layout":{"type":"constrained"}} -->
 <div class="wp-block-group"><!-- wp:heading {"level":4} --><h4 class="wp-block-heading"><mark style="background-color:rgba(0,0,0,0);color:#ff6900" class="has-inline-color">{descricao_doc} - {data_doc}</mark></h4><!-- /wp:heading -->
-<!-- wp:paragraph {"style":{"typography":{"fontSize":"14px"}}} --><p style="font-size:14px">Publicado em: {data_doc} - <a href="{ri_url}" target="_blank" rel="noreferrer noopener">Site oficial de RI ({nome})</a></p><!-- /wp:paragraph -->
+<!-- wp:paragraph {"style":{"typography":{"fontSize":"14px"}}} --><p style="font-size:14px">Publicado em: {data_doc} - <a href="{url_doc}" target="_blank" rel="noreferrer noopener">Documento oficial ({nome})</a></p><!-- /wp:paragraph -->
 <!-- wp:paragraph {"style":{"typography":{"fontSize":"14px"}}} --><p style="font-size:14px">Setor: {setor} - Empresa: {nome}</p><!-- /wp:paragraph --></div><!-- /wp:group -->
 
 <!-- wp:separator --><hr class="wp-block-separator has-alpha-channel-opacity"/><!-- /wp:separator -->
