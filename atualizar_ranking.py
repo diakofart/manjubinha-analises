@@ -36,7 +36,19 @@ CORTE_ACAO_TAG_ALONG = 80
 PESO_LIQUIDEZ = 2
 
 # Preencher manualmente se a coleta automatica nao encontrar (ticker: %)
-TAG_ALONG_MANUAL = {}
+TAG_ALONG_MANUAL = {
+    # Novo Mercado (regulamento B3 exige 100% para ON)
+    "VALE3": 100, "BBAS3": 100, "WEGE3": 100, "PRIO3": 100, "SBSP3": 100,
+    "RDOR3": 100, "B3SA3": 100, "SUZB3": 100, "CPFE3": 100, "TOTS3": 100,
+    "EMBR3": 100, "RENT3": 100, "CSAN3": 100, "HAPV3": 100, "IRBR3": 100,
+    "EGIE3": 100,
+    # Nivel 2 (regulamento B3 exige 100% para ON e PN)
+    "TAEE11": 100, "ALUP11": 100, "ENGI11": 100, "KLBN11": 100,
+    "BPAC11": 100, "POMO4": 100,
+    # Minimo legal ON (Lei 6.404) / estatuto documentado
+    "ABEV3": 80, "VIVT3": 80, "ITUB4": 80, "BBDC4": 80,
+    # PETR4 e CPLE6: confirmar manualmente e adicionar aqui
+}
 
 
 def carregar(path, default):
