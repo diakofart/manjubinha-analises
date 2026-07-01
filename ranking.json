@@ -19,7 +19,7 @@
         "dy_12m": 13.3,
         "p_vp": 1.05,
         "anos_listado": 11.9,
-        "retorno_total_24m": 29.6
+        "retorno_total_24m": 28.5
       },
       "posicoes": {
         "liquidez": 1,
@@ -41,15 +41,15 @@
         "dy_12m": 13.09,
         "p_vp": 1.05,
         "anos_listado": 11.9,
-        "retorno_total_24m": 20.6
+        "retorno_total_24m": 19.5
       },
       "posicoes": {
         "liquidez": 3,
         "perenidade": 3,
         "renda": 5,
-        "valorizacao": 4
+        "valorizacao": 5
       },
-      "score": 18
+      "score": 19
     },
     {
       "ticker": "XPML11",
@@ -62,7 +62,7 @@
         "dy_12m": 10.47,
         "p_vp": 0.96,
         "anos_listado": 6.1,
-        "retorno_total_24m": 734.2
+        "retorno_total_24m": 727.4
       },
       "posicoes": {
         "liquidez": 2,
@@ -84,7 +84,7 @@
         "dy_12m": 9.23,
         "p_vp": 1.0,
         "anos_listado": 11.9,
-        "retorno_total_24m": 19.5
+        "retorno_total_24m": 18.7
       },
       "posicoes": {
         "liquidez": 5,
@@ -191,7 +191,7 @@
         "dy_12m": 8.09,
         "p_vp": 0.94,
         "anos_listado": 11.9,
-        "retorno_total_24m": 18.1
+        "retorno_total_24m": 17.3
       },
       "posicoes": {
         "liquidez": 9,
@@ -239,9 +239,9 @@
         "liquidez": 13,
         "perenidade": 17,
         "renda": 6,
-        "valorizacao": 5
+        "valorizacao": 4
       },
-      "score": 54
+      "score": 53
     },
     {
       "ticker": "BRCO11",
@@ -317,7 +317,7 @@
         "dy_12m": 9.98,
         "p_vp": 0.94,
         "anos_listado": 8.5,
-        "retorno_total_24m": 12.1
+        "retorno_total_24m": 11.4
       },
       "posicoes": {
         "liquidez": 14,
@@ -370,7 +370,363 @@
       "score": 64
     }
   ],
-  "acoes": [],
+  "acoes": [
+    {
+      "ticker": "VALE3",
+      "nome": "Vale",
+      "setor": "Commodities",
+      "post_url": "https://manjubinhainvestidor.com.br/vale3-vale-outros-comunicados-nao-considerados-fatos-relevantes-comunicado-ao-mercado-06-2026-2/",
+      "metricas": {
+        "liquidez_diaria": 1498280000.0,
+        "dy_12m": 7.19,
+        "p_vp": 1.81,
+        "anos_listado": 26.5,
+        "retorno_total_24m": 49.4,
+        "retorno_total_5a": 28.3,
+        "tag_along": 100
+      },
+      "posicoes": {
+        "liquidez": 1,
+        "perenidade": 1,
+        "renda": 5,
+        "valorizacao": 4
+      },
+      "score": 12,
+      "destaque": "Maior liquidez da lista"
+    },
+    {
+      "ticker": "ITUB4",
+      "nome": "Itau Unibanco",
+      "setor": "Financeiro",
+      "post_url": "https://manjubinhainvestidor.com.br/itub4-itau-unibanco-calendario-de-eventos-corporativos-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 1308460000.0,
+        "dy_12m": 8.18,
+        "p_vp": 2.33,
+        "anos_listado": 25.5,
+        "retorno_total_24m": 54.7,
+        "retorno_total_5a": 113.6,
+        "tag_along": 80
+      },
+      "posicoes": {
+        "liquidez": 2,
+        "perenidade": 9,
+        "renda": 4,
+        "valorizacao": 3
+      },
+      "score": 20
+    },
+    {
+      "ticker": "ABEV3",
+      "nome": "Ambev",
+      "setor": "Consumo",
+      "post_url": "https://manjubinhainvestidor.com.br/abev3-ambev-conselho-de-administracao-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 465472000.0,
+        "dy_12m": 5.55,
+        "p_vp": 2.85,
+        "anos_listado": 26.5,
+        "retorno_total_24m": 42.0,
+        "retorno_total_5a": 22.9,
+        "tag_along": 80
+      },
+      "posicoes": {
+        "liquidez": 7,
+        "perenidade": 4,
+        "renda": 8,
+        "valorizacao": 6
+      },
+      "score": 32
+    },
+    {
+      "ticker": "B3SA3",
+      "nome": "B3 Bolsa de Valores",
+      "setor": "Financeiro",
+      "post_url": "https://manjubinhainvestidor.com.br/b3sa3-b3-bolsa-de-valores-comunicado-ao-mercado-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 658498000.0,
+        "dy_12m": 5.33,
+        "p_vp": 4.02,
+        "anos_listado": 18.7,
+        "retorno_total_24m": 22.8,
+        "retorno_total_5a": 22.8,
+        "tag_along": 100
+      },
+      "posicoes": {
+        "liquidez": 3,
+        "perenidade": 11,
+        "renda": 9,
+        "valorizacao": 10
+      },
+      "score": 36
+    },
+    {
+      "ticker": "VIVT3",
+      "nome": "Telefonica Vivo",
+      "setor": "Telecom",
+      "post_url": "https://manjubinhainvestidor.com.br/vivt3-telefonica-vivo-assembleia-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 177085000.0,
+        "dy_12m": 7.17,
+        "p_vp": 1.58,
+        "anos_listado": 26.5,
+        "retorno_total_24m": 47.6,
+        "retorno_total_5a": 112.0,
+        "tag_along": 80
+      },
+      "posicoes": {
+        "liquidez": 10,
+        "perenidade": 5,
+        "renda": 6,
+        "valorizacao": 5
+      },
+      "score": 36
+    },
+    {
+      "ticker": "BBDC4",
+      "nome": "Bradesco",
+      "setor": "Financeiro",
+      "post_url": "https://manjubinhainvestidor.com.br/bbdc4-bradesco-diretoria-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 545325000.0,
+        "dy_12m": 6.68,
+        "p_vp": 1.1,
+        "anos_listado": 18.5,
+        "retorno_total_24m": 35.4,
+        "retorno_total_5a": 21.4,
+        "tag_along": 80
+      },
+      "posicoes": {
+        "liquidez": 5,
+        "perenidade": 13,
+        "renda": 7,
+        "valorizacao": 8
+      },
+      "score": 38
+    },
+    {
+      "ticker": "SBSP3",
+      "nome": "Sabesp",
+      "setor": "Energia",
+      "post_url": "https://manjubinhainvestidor.com.br/sbsp3-sabesp-comunicado-ao-mercado-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 450264000.0,
+        "dy_12m": 2.28,
+        "p_vp": 2.39,
+        "anos_listado": 26.5,
+        "retorno_total_24m": 72.2,
+        "retorno_total_5a": 382.4,
+        "tag_along": 100
+      },
+      "posicoes": {
+        "liquidez": 8,
+        "perenidade": 6,
+        "renda": 15,
+        "valorizacao": 2
+      },
+      "score": 39
+    },
+    {
+      "ticker": "CPFE3",
+      "nome": "CPFL Energia",
+      "setor": "Energia",
+      "post_url": "https://manjubinhainvestidor.com.br/cpfe3-cpfl-energia-conselho-de-administracao-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 83395300.0,
+        "dy_12m": 8.33,
+        "p_vp": 2.12,
+        "anos_listado": 26.5,
+        "retorno_total_24m": 40.2,
+        "retorno_total_5a": 113.6,
+        "tag_along": 100
+      },
+      "posicoes": {
+        "liquidez": 12,
+        "perenidade": 7,
+        "renda": 2,
+        "valorizacao": 7
+      },
+      "score": 40
+    },
+    {
+      "ticker": "BPAC11",
+      "nome": "BTG Pactual",
+      "setor": "Financeiro",
+      "post_url": "https://manjubinhainvestidor.com.br/bpac11-btg-pactual-comunicado-ao-mercado-07-2026/",
+      "metricas": {
+        "liquidez_diaria": 593691000.0,
+        "dy_12m": 2.27,
+        "p_vp": 2.82,
+        "anos_listado": 9.3,
+        "retorno_total_24m": 77.6,
+        "retorno_total_5a": 102.3,
+        "tag_along": 100
+      },
+      "posicoes": {
+        "liquidez": 4,
+        "perenidade": 16,
+        "renda": 16,
+        "valorizacao": 1
+      },
+      "score": 41,
+      "destaque": "Maior valorizacao da lista"
+    },
+    {
+      "ticker": "BBAS3",
+      "nome": "Banco do Brasil",
+      "setor": "Financeiro",
+      "post_url": "https://manjubinhainvestidor.com.br/bbas3-banco-do-brasil-relatorio-de-agencia-de-rating-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 487269000.0,
+        "dy_12m": 2.76,
+        "p_vp": 0.61,
+        "anos_listado": 26.5,
+        "retorno_total_24m": -22.7,
+        "retorno_total_5a": 87.6,
+        "tag_along": 100
+      },
+      "posicoes": {
+        "liquidez": 6,
+        "perenidade": 2,
+        "renda": 14,
+        "valorizacao": 16
+      },
+      "score": 44
+    },
+    {
+      "ticker": "WEGE3",
+      "nome": "WEG S.A.",
+      "setor": "Industrial",
+      "post_url": "https://manjubinhainvestidor.com.br/wege3-weg-s-a-reuniao-da-administracao-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 336990000.0,
+        "dy_12m": 4.64,
+        "p_vp": 11.1,
+        "anos_listado": 26.5,
+        "retorno_total_24m": -9.2,
+        "retorno_total_5a": 45.3,
+        "tag_along": 100
+      },
+      "posicoes": {
+        "liquidez": 9,
+        "perenidade": 3,
+        "renda": 10,
+        "valorizacao": 15
+      },
+      "score": 46
+    },
+    {
+      "ticker": "TAEE11",
+      "nome": "Taesa",
+      "setor": "Energia",
+      "post_url": "https://manjubinhainvestidor.com.br/taee11-taesa-comunicado-ao-mercado-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 67602200.0,
+        "dy_12m": 8.23,
+        "p_vp": 1.72,
+        "anos_listado": 18.6,
+        "retorno_total_24m": 29.5,
+        "retorno_total_5a": 66.1,
+        "tag_along": 100
+      },
+      "posicoes": {
+        "liquidez": 14,
+        "perenidade": 12,
+        "renda": 3,
+        "valorizacao": 9
+      },
+      "score": 52
+    },
+    {
+      "ticker": "POMO4",
+      "nome": "Marcopolo",
+      "setor": "Industrial",
+      "post_url": "",
+      "metricas": {
+        "liquidez_diaria": 46359200.0,
+        "dy_12m": 15.76,
+        "p_vp": 1.84,
+        "anos_listado": 26.5,
+        "retorno_total_24m": 8.7,
+        "retorno_total_5a": 320.4,
+        "tag_along": 100
+      },
+      "posicoes": {
+        "liquidez": 15,
+        "perenidade": 8,
+        "renda": 1,
+        "valorizacao": 13
+      },
+      "score": 52,
+      "destaque": "Maior renda da lista"
+    },
+    {
+      "ticker": "ENGI11",
+      "nome": "Energisa",
+      "setor": "Energia",
+      "post_url": "https://manjubinhainvestidor.com.br/engi11-energisa-comunicado-ao-mercado-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 105497000.0,
+        "dy_12m": 3.22,
+        "p_vp": 1.23,
+        "anos_listado": 16.7,
+        "retorno_total_24m": 19.4,
+        "retorno_total_5a": 48.4,
+        "tag_along": 100
+      },
+      "posicoes": {
+        "liquidez": 11,
+        "perenidade": 14,
+        "renda": 13,
+        "valorizacao": 11
+      },
+      "score": 60
+    },
+    {
+      "ticker": "EGIE3",
+      "nome": "Engie Brasil",
+      "setor": "Energia",
+      "post_url": "https://manjubinhainvestidor.com.br/egie3-engie-brasil-comunicado-ao-mercado-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 80585500.0,
+        "dy_12m": 3.46,
+        "p_vp": 2.93,
+        "anos_listado": 24.3,
+        "retorno_total_24m": 8.6,
+        "retorno_total_5a": 59.0,
+        "tag_along": 100
+      },
+      "posicoes": {
+        "liquidez": 13,
+        "perenidade": 10,
+        "renda": 11,
+        "valorizacao": 14
+      },
+      "score": 61
+    },
+    {
+      "ticker": "ALUP11",
+      "nome": "Alupar",
+      "setor": "Energia",
+      "post_url": "https://manjubinhainvestidor.com.br/alup11-alupar-aviso-aos-acionistas-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 31144200.0,
+        "dy_12m": 3.35,
+        "p_vp": 1.14,
+        "anos_listado": 13.2,
+        "retorno_total_24m": 11.4,
+        "retorno_total_5a": 76.3,
+        "tag_along": 100
+      },
+      "posicoes": {
+        "liquidez": 16,
+        "perenidade": 15,
+        "renda": 12,
+        "valorizacao": 12
+      },
+      "score": 71
+    }
+  ],
   "reprovados": {
     "fiis": [
       {
@@ -580,120 +936,8 @@
           "dy_12m": 7.85,
           "p_vp": 1.09,
           "anos_listado": 26.5,
-          "retorno_total_24m": 22.5,
-          "retorno_total_5a": 383.3,
-          "tag_along": null
-        },
-        "motivo_exclusao": "dados indisponiveis nesta coleta (nao e reprovacao): tag along"
-      },
-      {
-        "ticker": "VALE3",
-        "nome": "Vale",
-        "setor": "Commodities",
-        "post_url": "https://manjubinhainvestidor.com.br/vale3-vale-outros-comunicados-nao-considerados-fatos-relevantes-comunicado-ao-mercado-06-2026-2/",
-        "metricas": {
-          "liquidez_diaria": 1498280000.0,
-          "dy_12m": 7.19,
-          "p_vp": 1.81,
-          "anos_listado": 26.5,
-          "retorno_total_24m": 54.9,
-          "retorno_total_5a": 28.3,
-          "tag_along": null
-        },
-        "motivo_exclusao": "dados indisponiveis nesta coleta (nao e reprovacao): tag along"
-      },
-      {
-        "ticker": "ITUB4",
-        "nome": "Itau Unibanco",
-        "setor": "Financeiro",
-        "post_url": "https://manjubinhainvestidor.com.br/itub4-itau-unibanco-calendario-de-eventos-corporativos-06-2026/",
-        "metricas": {
-          "liquidez_diaria": 1308460000.0,
-          "dy_12m": 8.18,
-          "p_vp": 2.33,
-          "anos_listado": 25.5,
-          "retorno_total_24m": 54.7,
-          "retorno_total_5a": 114.4,
-          "tag_along": null
-        },
-        "motivo_exclusao": "dados indisponiveis nesta coleta (nao e reprovacao): tag along"
-      },
-      {
-        "ticker": "BBAS3",
-        "nome": "Banco do Brasil",
-        "setor": "Financeiro",
-        "post_url": "https://manjubinhainvestidor.com.br/bbas3-banco-do-brasil-relatorio-de-agencia-de-rating-06-2026/",
-        "metricas": {
-          "liquidez_diaria": 487269000.0,
-          "dy_12m": 2.76,
-          "p_vp": 0.61,
-          "anos_listado": 26.5,
-          "retorno_total_24m": -21.4,
-          "retorno_total_5a": 89.8,
-          "tag_along": null
-        },
-        "motivo_exclusao": "dados indisponiveis nesta coleta (nao e reprovacao): tag along"
-      },
-      {
-        "ticker": "WEGE3",
-        "nome": "WEG S.A.",
-        "setor": "Industrial",
-        "post_url": "https://manjubinhainvestidor.com.br/wege3-weg-s-a-reuniao-da-administracao-06-2026/",
-        "metricas": {
-          "liquidez_diaria": 336990000.0,
-          "dy_12m": 4.64,
-          "p_vp": 11.1,
-          "anos_listado": 26.5,
-          "retorno_total_24m": -8.9,
-          "retorno_total_5a": 46.0,
-          "tag_along": null
-        },
-        "motivo_exclusao": "dados indisponiveis nesta coleta (nao e reprovacao): tag along"
-      },
-      {
-        "ticker": "BBDC4",
-        "nome": "Bradesco",
-        "setor": "Financeiro",
-        "post_url": "https://manjubinhainvestidor.com.br/bbdc4-bradesco-diretoria-06-2026/",
-        "metricas": {
-          "liquidez_diaria": 545325000.0,
-          "dy_12m": 6.68,
-          "p_vp": 1.1,
-          "anos_listado": 18.5,
-          "retorno_total_24m": 35.4,
-          "retorno_total_5a": 21.4,
-          "tag_along": null
-        },
-        "motivo_exclusao": "dados indisponiveis nesta coleta (nao e reprovacao): tag along"
-      },
-      {
-        "ticker": "ABEV3",
-        "nome": "Ambev",
-        "setor": "Consumo",
-        "post_url": "https://manjubinhainvestidor.com.br/abev3-ambev-conselho-de-administracao-06-2026/",
-        "metricas": {
-          "liquidez_diaria": 465472000.0,
-          "dy_12m": 5.55,
-          "p_vp": 2.85,
-          "anos_listado": 26.5,
-          "retorno_total_24m": 42.0,
-          "retorno_total_5a": 22.9,
-          "tag_along": null
-        },
-        "motivo_exclusao": "dados indisponiveis nesta coleta (nao e reprovacao): tag along"
-      },
-      {
-        "ticker": "TAEE11",
-        "nome": "Taesa",
-        "setor": "Energia",
-        "post_url": "https://manjubinhainvestidor.com.br/taee11-taesa-comunicado-ao-mercado-06-2026/",
-        "metricas": {
-          "liquidez_diaria": 67602200.0,
-          "dy_12m": 8.23,
-          "p_vp": 1.72,
-          "anos_listado": 18.6,
-          "retorno_total_24m": 31.9,
-          "retorno_total_5a": 66.1,
+          "retorno_total_24m": 19.1,
+          "retorno_total_5a": 356.2,
           "tag_along": null
         },
         "motivo_exclusao": "dados indisponiveis nesta coleta (nao e reprovacao): tag along"
@@ -715,38 +959,6 @@
         "motivo_exclusao": "liquidez abaixo de R$10 mi/dia; sem dividendos nos ultimos 12m"
       },
       {
-        "ticker": "EGIE3",
-        "nome": "Engie Brasil",
-        "setor": "Energia",
-        "post_url": "https://manjubinhainvestidor.com.br/egie3-engie-brasil-comunicado-ao-mercado-06-2026/",
-        "metricas": {
-          "liquidez_diaria": 80585500.0,
-          "dy_12m": 3.46,
-          "p_vp": 2.93,
-          "anos_listado": 24.3,
-          "retorno_total_24m": 11.3,
-          "retorno_total_5a": 63.1,
-          "tag_along": null
-        },
-        "motivo_exclusao": "dados indisponiveis nesta coleta (nao e reprovacao): tag along"
-      },
-      {
-        "ticker": "VIVT3",
-        "nome": "Telefonica Vivo",
-        "setor": "Telecom",
-        "post_url": "https://manjubinhainvestidor.com.br/vivt3-telefonica-vivo-assembleia-06-2026/",
-        "metricas": {
-          "liquidez_diaria": 177085000.0,
-          "dy_12m": 7.17,
-          "p_vp": 1.58,
-          "anos_listado": 26.5,
-          "retorno_total_24m": 48.3,
-          "retorno_total_5a": 112.0,
-          "tag_along": null
-        },
-        "motivo_exclusao": "dados indisponiveis nesta coleta (nao e reprovacao): tag along"
-      },
-      {
         "ticker": "PRIO3",
         "nome": "PRIO",
         "setor": "Commodities",
@@ -758,25 +970,9 @@
           "anos_listado": 15.7,
           "retorno_total_24m": 11.9,
           "retorno_total_5a": 173.8,
-          "tag_along": null
+          "tag_along": 100
         },
         "motivo_exclusao": "sem dividendos nos ultimos 12m"
-      },
-      {
-        "ticker": "SBSP3",
-        "nome": "Sabesp",
-        "setor": "Energia",
-        "post_url": "https://manjubinhainvestidor.com.br/sbsp3-sabesp-comunicado-ao-mercado-06-2026/",
-        "metricas": {
-          "liquidez_diaria": 450264000.0,
-          "dy_12m": 2.28,
-          "p_vp": 2.39,
-          "anos_listado": 26.5,
-          "retorno_total_24m": 72.2,
-          "retorno_total_5a": 382.4,
-          "tag_along": null
-        },
-        "motivo_exclusao": "dados indisponiveis nesta coleta (nao e reprovacao): tag along"
       },
       {
         "ticker": "RDOR3",
@@ -790,25 +986,9 @@
           "anos_listado": 5.5,
           "retorno_total_24m": 41.1,
           "retorno_total_5a": -40.0,
-          "tag_along": null
+          "tag_along": 100
         },
         "motivo_exclusao": "menos de 8 anos de listagem; retorno total negativo em 5 anos"
-      },
-      {
-        "ticker": "B3SA3",
-        "nome": "B3 Bolsa de Valores",
-        "setor": "Financeiro",
-        "post_url": "https://manjubinhainvestidor.com.br/b3sa3-b3-bolsa-de-valores-comunicado-ao-mercado-06-2026/",
-        "metricas": {
-          "liquidez_diaria": 658498000.0,
-          "dy_12m": 5.33,
-          "p_vp": 4.02,
-          "anos_listado": 18.7,
-          "retorno_total_24m": 22.8,
-          "retorno_total_5a": 22.8,
-          "tag_along": null
-        },
-        "motivo_exclusao": "dados indisponiveis nesta coleta (nao e reprovacao): tag along"
       },
       {
         "ticker": "SUZB3",
@@ -822,41 +1002,9 @@
           "anos_listado": 21.9,
           "retorno_total_24m": -22.1,
           "retorno_total_5a": -23.8,
-          "tag_along": null
+          "tag_along": 100
         },
         "motivo_exclusao": "retorno total negativo em 5 anos"
-      },
-      {
-        "ticker": "ENGI11",
-        "nome": "Energisa",
-        "setor": "Energia",
-        "post_url": "https://manjubinhainvestidor.com.br/engi11-energisa-comunicado-ao-mercado-06-2026/",
-        "metricas": {
-          "liquidez_diaria": 105497000.0,
-          "dy_12m": 3.22,
-          "p_vp": 1.23,
-          "anos_listado": 16.7,
-          "retorno_total_24m": 22.0,
-          "retorno_total_5a": 50.7,
-          "tag_along": null
-        },
-        "motivo_exclusao": "dados indisponiveis nesta coleta (nao e reprovacao): tag along"
-      },
-      {
-        "ticker": "CPFE3",
-        "nome": "CPFL Energia",
-        "setor": "Energia",
-        "post_url": "https://manjubinhainvestidor.com.br/cpfe3-cpfl-energia-conselho-de-administracao-06-2026/",
-        "metricas": {
-          "liquidez_diaria": 83395300.0,
-          "dy_12m": 8.33,
-          "p_vp": 2.12,
-          "anos_listado": 26.5,
-          "retorno_total_24m": 40.2,
-          "retorno_total_5a": 113.6,
-          "tag_along": null
-        },
-        "motivo_exclusao": "dados indisponiveis nesta coleta (nao e reprovacao): tag along"
       },
       {
         "ticker": "TOTS3",
@@ -868,9 +1016,9 @@
           "dy_12m": 2.37,
           "p_vp": 3.47,
           "anos_listado": 20.3,
-          "retorno_total_24m": 0.9,
-          "retorno_total_5a": -20.9,
-          "tag_along": null
+          "retorno_total_24m": 0.1,
+          "retorno_total_5a": -21.1,
+          "tag_along": 100
         },
         "motivo_exclusao": "retorno total negativo em 5 anos"
       },
@@ -891,22 +1039,6 @@
         "motivo_exclusao": "liquidez abaixo de R$10 mi/dia; sem dividendos nos ultimos 12m"
       },
       {
-        "ticker": "ALUP11",
-        "nome": "Alupar",
-        "setor": "Energia",
-        "post_url": "https://manjubinhainvestidor.com.br/alup11-alupar-aviso-aos-acionistas-06-2026/",
-        "metricas": {
-          "liquidez_diaria": 31144200.0,
-          "dy_12m": 3.35,
-          "p_vp": 1.14,
-          "anos_listado": 13.2,
-          "retorno_total_24m": 12.1,
-          "retorno_total_5a": 76.3,
-          "tag_along": null
-        },
-        "motivo_exclusao": "dados indisponiveis nesta coleta (nao e reprovacao): tag along"
-      },
-      {
         "ticker": "KLBN11",
         "nome": "Klabin",
         "setor": "Commodities",
@@ -916,27 +1048,11 @@
           "dy_12m": 8.42,
           "p_vp": 2.31,
           "anos_listado": 12.4,
-          "retorno_total_24m": -9.7,
+          "retorno_total_24m": -11.1,
           "retorno_total_5a": -3.2,
-          "tag_along": null
+          "tag_along": 100
         },
         "motivo_exclusao": "retorno total negativo em 5 anos"
-      },
-      {
-        "ticker": "BPAC11",
-        "nome": "BTG Pactual",
-        "setor": "Financeiro",
-        "post_url": "https://manjubinhainvestidor.com.br/bpac11-btg-pactual-comunicado-ao-mercado-07-2026/",
-        "metricas": {
-          "liquidez_diaria": 593691000.0,
-          "dy_12m": 2.27,
-          "p_vp": 2.82,
-          "anos_listado": 9.3,
-          "retorno_total_24m": 77.6,
-          "retorno_total_5a": 103.4,
-          "tag_along": null
-        },
-        "motivo_exclusao": "dados indisponiveis nesta coleta (nao e reprovacao): tag along"
       },
       {
         "ticker": "EMBR3",
@@ -950,9 +1066,9 @@
           "anos_listado": null,
           "retorno_total_24m": null,
           "retorno_total_5a": null,
-          "tag_along": null
+          "tag_along": 100
         },
-        "motivo_exclusao": "dados indisponiveis nesta coleta (nao e reprovacao): liquidez, idade, DY, retorno 5a, tag along"
+        "motivo_exclusao": "dados indisponiveis nesta coleta (nao e reprovacao): liquidez, idade, DY, retorno 5a"
       },
       {
         "ticker": "RENT3",
@@ -966,7 +1082,7 @@
           "anos_listado": 21.1,
           "retorno_total_24m": 9.4,
           "retorno_total_5a": -12.0,
-          "tag_along": null
+          "tag_along": 100
         },
         "motivo_exclusao": "retorno total negativo em 5 anos"
       },
@@ -982,7 +1098,7 @@
           "anos_listado": 20.6,
           "retorno_total_24m": -72.3,
           "retorno_total_5a": -81.4,
-          "tag_along": null
+          "tag_along": 100
         },
         "motivo_exclusao": "sem dividendos nos ultimos 12m; retorno total negativo em 5 anos"
       },
@@ -998,25 +1114,9 @@
           "anos_listado": 8.2,
           "retorno_total_24m": -81.9,
           "retorno_total_5a": -95.1,
-          "tag_along": null
+          "tag_along": 100
         },
         "motivo_exclusao": "sem dividendos nos ultimos 12m; retorno total negativo em 5 anos"
-      },
-      {
-        "ticker": "POMO4",
-        "nome": "Marcopolo",
-        "setor": "Industrial",
-        "post_url": "",
-        "metricas": {
-          "liquidez_diaria": 46359200.0,
-          "dy_12m": 15.76,
-          "p_vp": 1.84,
-          "anos_listado": 26.5,
-          "retorno_total_24m": 10.6,
-          "retorno_total_5a": 320.4,
-          "tag_along": null
-        },
-        "motivo_exclusao": "dados indisponiveis nesta coleta (nao e reprovacao): tag along"
       },
       {
         "ticker": "ALLL3",
@@ -1046,7 +1146,7 @@
           "anos_listado": 8.9,
           "retorno_total_24m": 87.1,
           "retorno_total_5a": -61.3,
-          "tag_along": null
+          "tag_along": 100
         },
         "motivo_exclusao": "retorno total negativo em 5 anos"
       }
