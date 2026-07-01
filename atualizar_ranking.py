@@ -47,6 +47,8 @@ TAG_ALONG_MANUAL = {
     "BPAC11": 100, "POMO4": 100,
     # Minimo legal ON (Lei 6.404) / estatuto documentado
     "ABEV3": 80, "VIVT3": 80, "ITUB4": 80, "BBDC4": 80,
+    "RAIL3": 100,  # Novo Mercado
+    "ITSA4": 80,   # estatuto documentado
     # PETR4 e CPLE6: confirmar manualmente e adicionar aqui
 }
 
