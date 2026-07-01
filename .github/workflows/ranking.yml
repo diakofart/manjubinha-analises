@@ -1,0 +1,34 @@
+name: Manjubinha - Atualizar Ranking
+
+on:
+  schedule:
+    - cron: '0 12 1 * *'   # dia 1 de cada mes, 09h Brasilia
+  workflow_dispatch:
+
+jobs:
+  ranking:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Baixar repositorio
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configurar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Instalar dependencias
+        run: pip install requests beautifulsoup4
+
+      - name: Atualizar ranking com dados de mercado
+        run: python -u atualizar_ranking.py
+
+      - name: Salvar ranking
+        run: |
+          git config user.name "Manjubinha Bot"
+          git config user.email "bot@manjubinhainvestidor.com.br"
+          git add ranking.json
+          git diff --cached --quiet || git commit -m "Ranking mensal: dados de mercado atualizados"
+          git push
