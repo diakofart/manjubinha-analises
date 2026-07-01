@@ -1,698 +1,1056 @@
 {
   "ultima_atualizacao": "2026-07-01",
   "proxima_atualizacao": "2026-07-25",
+  "metodologia": {
+    "ordenacao": "Soma das posicoes nos 4 pilares (liquidez com peso 2). Menor soma = melhor colocado.",
+    "pilares": "Liquidez (vol. medio diario), Perenidade (anos de B3), Renda (DY 12m), Valorizacao (retorno total 24m, ajustado por proventos).",
+    "cortes_fiis": "Liquidez >= R$500 mil/dia; 5+ anos de listagem; DY 12m > 0; P/VP entre 0,70 e 1,20.",
+    "cortes_acoes": "Liquidez >= R$10 mi/dia; 8+ anos de listagem; DY 12m > 0; retorno total positivo em 5 anos; tag along >= 80%."
+  },
   "fiis": [
-    {
-      "ticker": "MXRF11",
-      "nome": "Maxi Renda",
-      "tipo": "Papel",
-      "segmento": "TVM",
-      "perene": 9,
-      "renda": 8,
-      "valorizacao": 6,
-      "liquidez": 10,
-      "nota": 8.3,
-      "post_url": "https://manjubinhainvestidor.com.br/mxrf11-maxi-renda-oferta-publica-06-2026-2/"
-    },
     {
       "ticker": "KNCR11",
       "nome": "Kinea Rendimentos Imob.",
       "tipo": "Papel",
       "segmento": "TVM",
-      "perene": 8,
-      "renda": 9,
-      "valorizacao": 7,
-      "liquidez": 9,
-      "nota": 8.3,
-      "post_url": "https://manjubinhainvestidor.com.br/kncr11-kinea-rendimentos-imobiliarios-informe-mensal-06-2026-2/"
+      "post_url": "https://manjubinhainvestidor.com.br/kncr11-kinea-rendimentos-imobiliarios-informe-mensal-06-2026-2/",
+      "metricas": {
+        "liquidez_diaria": 23806000.0,
+        "dy_12m": 13.3,
+        "p_vp": 1.05,
+        "anos_listado": 11.9,
+        "retorno_total_24m": 28.5
+      },
+      "posicoes": {
+        "liquidez": 1,
+        "perenidade": 3,
+        "renda": 4,
+        "valorizacao": 2
+      },
+      "score": 11,
+      "destaque": "Maior liquidez da lista"
     },
     {
-      "ticker": "HGLG11",
-      "nome": "CSHG Logistica",
-      "tipo": "Tijolo",
-      "segmento": "Logistico",
-      "perene": 9,
-      "renda": 7,
-      "valorizacao": 8,
-      "liquidez": 8,
-      "nota": 8,
-      "post_url": "https://manjubinhainvestidor.com.br/hglg11-cshg-logistica-fatos-relevantes-06-2026/"
+      "ticker": "MXRF11",
+      "nome": "Maxi Renda",
+      "tipo": "Papel",
+      "segmento": "TVM",
+      "post_url": "https://manjubinhainvestidor.com.br/mxrf11-maxi-renda-oferta-publica-06-2026-2/",
+      "metricas": {
+        "liquidez_diaria": 15002800.0,
+        "dy_12m": 13.09,
+        "p_vp": 1.05,
+        "anos_listado": 11.9,
+        "retorno_total_24m": 19.5
+      },
+      "posicoes": {
+        "liquidez": 3,
+        "perenidade": 2,
+        "renda": 5,
+        "valorizacao": 4
+      },
+      "score": 17
     },
     {
       "ticker": "XPML11",
       "nome": "XP Malls",
       "tipo": "Tijolo",
       "segmento": "Shoppings",
-      "perene": 7,
-      "renda": 7,
-      "valorizacao": 8,
-      "liquidez": 9,
-      "nota": 7.8,
-      "post_url": "https://manjubinhainvestidor.com.br/xpml11-xp-malls-informe-mensal-06-2026/"
-    },
-    {
-      "ticker": "KNRI11",
-      "nome": "Kinea Renda Imobiliaria",
-      "tipo": "Hibrido",
-      "segmento": null,
-      "perene": 9,
-      "renda": 8,
-      "valorizacao": 8,
-      "liquidez": 7,
-      "nota": 8,
-      "post_url": "https://manjubinhainvestidor.com.br/knri11-kinea-renda-imobiliaria-informe-mensal-06-2026/"
-    },
-    {
-      "ticker": "GARE11",
-      "nome": "Guardian Real Estate",
-      "tipo": "Tijolo",
-      "segmento": "Logistico",
-      "perene": 6,
-      "renda": 9,
-      "valorizacao": 8,
-      "liquidez": 9,
-      "nota": 8,
-      "post_url": "https://manjubinhainvestidor.com.br/gare11-guardian-real-estate-informe-mensal-06-2026/"
-    },
-    {
-      "ticker": "CPTS11",
-      "nome": "Capitania Securities II",
-      "tipo": "Papel",
-      "segmento": "TVM",
-      "perene": 7,
-      "renda": 9,
-      "valorizacao": 6,
-      "liquidez": 9,
-      "nota": 7.8,
-      "post_url": "https://manjubinhainvestidor.com.br/cpts11-capitania-securities-ii-informe-mensal-06-2026/"
-    },
-    {
-      "ticker": "GGRC11",
-      "nome": "GGR Covepi Renda",
-      "tipo": "Tijolo",
-      "segmento": "Logistico",
-      "perene": 6,
-      "renda": 8,
-      "valorizacao": 7,
-      "liquidez": 9,
-      "nota": 7.5,
-      "post_url": "https://manjubinhainvestidor.com.br/ggrc11-ggr-covepi-renda-fatos-relevantes-06-2026/"
-    },
-    {
-      "ticker": "KNSC11",
-      "nome": "Kinea Securities",
-      "tipo": "Papel",
-      "segmento": "TVM",
-      "perene": 7,
-      "renda": 9,
-      "valorizacao": 7,
-      "liquidez": 8,
-      "nota": 7.8,
-      "post_url": "https://manjubinhainvestidor.com.br/knsc11-kinea-securities-informe-mensal-06-2026/"
-    },
-    {
-      "ticker": "VISC11",
-      "nome": "Vinci Shopping Centers",
-      "tipo": "Tijolo",
-      "segmento": "Shoppings",
-      "perene": 8,
-      "renda": 7,
-      "valorizacao": 7,
-      "liquidez": 8,
-      "nota": 7.5,
-      "post_url": "https://manjubinhainvestidor.com.br/visc11-vinci-shopping-centers-fatos-relevantes-06-2026/"
+      "post_url": "https://manjubinhainvestidor.com.br/xpml11-xp-malls-informe-mensal-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 18114600.0,
+        "dy_12m": 10.47,
+        "p_vp": 0.96,
+        "anos_listado": 6.1,
+        "retorno_total_24m": 728.0
+      },
+      "posicoes": {
+        "liquidez": 2,
+        "perenidade": 16,
+        "renda": 10,
+        "valorizacao": 1
+      },
+      "score": 31,
+      "destaque": "Maior valorizacao da lista"
     },
     {
       "ticker": "BTLG11",
       "nome": "BTG Pactual Logistica",
       "tipo": "Tijolo",
       "segmento": "Logistico",
-      "perene": 7,
-      "renda": 7,
-      "valorizacao": 8,
-      "liquidez": 8,
-      "nota": 7.5,
-      "post_url": "https://manjubinhainvestidor.com.br/btlg11-btg-pactual-logistica-informe-mensal-06-2026/"
+      "post_url": "https://manjubinhainvestidor.com.br/btlg11-btg-pactual-logistica-informe-mensal-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 13100200.0,
+        "dy_12m": 9.23,
+        "p_vp": 1.0,
+        "anos_listado": 11.9,
+        "retorno_total_24m": 18.7
+      },
+      "posicoes": {
+        "liquidez": 5,
+        "perenidade": 5,
+        "renda": 15,
+        "valorizacao": 6
+      },
+      "score": 36
+    },
+    {
+      "ticker": "HGLG11",
+      "nome": "CSHG Logistica",
+      "tipo": "Tijolo",
+      "segmento": "Logistico",
+      "post_url": "https://manjubinhainvestidor.com.br/hglg11-cshg-logistica-fatos-relevantes-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 14627000.0,
+        "dy_12m": 8.68,
+        "p_vp": 0.91,
+        "anos_listado": 15.3,
+        "retorno_total_24m": 7.8
+      },
+      "posicoes": {
+        "liquidez": 4,
+        "perenidade": 1,
+        "renda": 16,
+        "valorizacao": 13
+      },
+      "score": 38,
+      "destaque": "Mais antigo da lista"
+    },
+    {
+      "ticker": "GGRC11",
+      "nome": "GGR Covepi Renda",
+      "tipo": "Tijolo",
+      "segmento": "Logistico",
+      "post_url": "https://manjubinhainvestidor.com.br/ggrc11-ggr-covepi-renda-fatos-relevantes-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 12990400.0,
+        "dy_12m": 12.06,
+        "p_vp": 0.9,
+        "anos_listado": 8.7,
+        "retorno_total_24m": 11.3
+      },
+      "posicoes": {
+        "liquidez": 6,
+        "perenidade": 7,
+        "renda": 9,
+        "valorizacao": 11
+      },
+      "score": 39
+    },
+    {
+      "ticker": "CPTS11",
+      "nome": "Capitania Securities II",
+      "tipo": "Papel",
+      "segmento": "TVM",
+      "post_url": "https://manjubinhainvestidor.com.br/cpts11-capitania-securities-ii-informe-mensal-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 10729500.0,
+        "dy_12m": 14.06,
+        "p_vp": 0.85,
+        "anos_listado": 8.7,
+        "retorno_total_24m": -5.9
+      },
+      "posicoes": {
+        "liquidez": 7,
+        "perenidade": 6,
+        "renda": 2,
+        "valorizacao": 17
+      },
+      "score": 39
+    },
+    {
+      "ticker": "KNRI11",
+      "nome": "Kinea Renda Imobiliaria",
+      "tipo": "Hibrido",
+      "segmento": null,
+      "post_url": "https://manjubinhainvestidor.com.br/knri11-kinea-renda-imobiliaria-informe-mensal-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 9607030.0,
+        "dy_12m": 8.09,
+        "p_vp": 0.94,
+        "anos_listado": 11.9,
+        "retorno_total_24m": 17.3
+      },
+      "posicoes": {
+        "liquidez": 9,
+        "perenidade": 4,
+        "renda": 17,
+        "valorizacao": 8
+      },
+      "score": 47
     },
     {
       "ticker": "OUJP11",
       "nome": "Ourinvest JPP",
       "tipo": "Papel",
       "segmento": "TVM",
-      "perene": 7,
-      "renda": 9,
-      "valorizacao": 9,
-      "liquidez": 7,
-      "nota": 8,
-      "post_url": "https://manjubinhainvestidor.com.br/oujp11-ourinvest-jpp-informe-mensal-06-2026/"
+      "post_url": "https://manjubinhainvestidor.com.br/oujp11-ourinvest-jpp-informe-mensal-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 656163.0,
+        "dy_12m": 17.54,
+        "p_vp": 0.76,
+        "anos_listado": 8.7,
+        "retorno_total_24m": 22.7
+      },
+      "posicoes": {
+        "liquidez": 17,
+        "perenidade": 9,
+        "renda": 1,
+        "valorizacao": 3
+      },
+      "score": 47,
+      "destaque": "Maior renda da lista"
+    },
+    {
+      "ticker": "VISC11",
+      "nome": "Vinci Shopping Centers",
+      "tipo": "Tijolo",
+      "segmento": "Shoppings",
+      "post_url": "https://manjubinhainvestidor.com.br/visc11-vinci-shopping-centers-fatos-relevantes-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 9766520.0,
+        "dy_12m": 9.27,
+        "p_vp": 0.91,
+        "anos_listado": 8.7,
+        "retorno_total_24m": 8.7
+      },
+      "posicoes": {
+        "liquidez": 8,
+        "perenidade": 8,
+        "renda": 14,
+        "valorizacao": 12
+      },
+      "score": 50
     },
     {
       "ticker": "RECR11",
       "nome": "REC Recebiveis Imob.",
       "tipo": "Papel",
       "segmento": "TVM",
-      "perene": 7,
-      "renda": 9,
-      "valorizacao": 7,
-      "liquidez": 7,
-      "nota": 7.5,
-      "post_url": "https://manjubinhainvestidor.com.br/recr11-rec-recebiveis-imobiliarios-informe-mensal-06-2026/"
-    },
-    {
-      "ticker": "TRBL11",
-      "nome": "Tellus Rio Bravo Log.",
-      "tipo": "Tijolo",
-      "segmento": "Logistico",
-      "perene": 6,
-      "renda": 7,
-      "valorizacao": 9,
-      "liquidez": 7,
-      "nota": 7.3,
-      "post_url": "https://manjubinhainvestidor.com.br/trbl11-tellus-rio-bravo-logistica-relatorio-gerencial-06-2026/"
-    },
-    {
-      "ticker": "PVBI11",
-      "nome": "VBI Prime Properties",
-      "tipo": "Tijolo",
-      "segmento": "Lajes Corp.",
-      "perene": 6,
-      "renda": 7,
-      "valorizacao": 8,
-      "liquidez": 7,
-      "nota": 7,
-      "post_url": "https://manjubinhainvestidor.com.br/pvbi11-vbi-prime-properties-informe-mensal-06-2026/"
-    },
-    {
-      "ticker": "ALZR11",
-      "nome": "Alianza Trust Renda",
-      "tipo": "Tijolo",
-      "segmento": "Logistico",
-      "perene": 7,
-      "renda": 8,
-      "valorizacao": 7,
-      "liquidez": 7,
-      "nota": 7.3,
-      "post_url": "https://manjubinhainvestidor.com.br/alzr11-alianza-trust-renda-imobiliaria-fatos-relevantes-06-2026/"
-    },
-    {
-      "ticker": "HSML11",
-      "nome": "HSI Malls",
-      "tipo": "Tijolo",
-      "segmento": "Shoppings",
-      "perene": 7,
-      "renda": 7,
-      "valorizacao": 7,
-      "liquidez": 8,
-      "nota": 7.3,
-      "post_url": "https://manjubinhainvestidor.com.br/hsml11-hsi-malls-informe-mensal-06-2026/"
-    },
-    {
-      "ticker": "IRDM11",
-      "nome": "Iridium Recebiveis",
-      "tipo": "Papel",
-      "segmento": "TVM",
-      "perene": 7,
-      "renda": 8,
-      "valorizacao": 7,
-      "liquidez": 7,
-      "nota": 7.3,
-      "post_url": "https://manjubinhainvestidor.com.br/irdm11-iridium-recebiveis-imobiliarios-fatos-relevantes-06-2026/"
-    },
-    {
-      "ticker": "VGIP11",
-      "nome": "Valora CRI IPCA",
-      "tipo": "Papel",
-      "segmento": "TVM",
-      "perene": 6,
-      "renda": 9,
-      "valorizacao": 6,
-      "liquidez": 7,
-      "nota": 7,
-      "post_url": "https://manjubinhainvestidor.com.br/vgip11-valora-cri-ipca-relatorio-gerencial-06-2026/"
-    },
-    {
-      "ticker": "RBRR11",
-      "nome": "RBR High Grade",
-      "tipo": "Papel",
-      "segmento": "TVM",
-      "perene": 7,
-      "renda": 8,
-      "valorizacao": 6,
-      "liquidez": 7,
-      "nota": 7,
-      "post_url": "https://manjubinhainvestidor.com.br/rbrr11-rbr-high-grade-relatorio-gerencial-06-2026/"
-    },
-    {
-      "ticker": "BCFF11",
-      "nome": "BTG Pactual FoF",
-      "tipo": "FoF",
-      "segmento": null,
-      "perene": 8,
-      "renda": 7,
-      "valorizacao": 7,
-      "liquidez": 7,
-      "nota": 7.3,
-      "post_url": "https://manjubinhainvestidor.com.br/bcff11-btg-pactual-fundo-de-fundos-outros-comunicados-06-2026/"
-    },
-    {
-      "ticker": "RBRF11",
-      "nome": "RBR Alpha Multiestrategia",
-      "tipo": "FoF",
-      "segmento": null,
-      "perene": 7,
-      "renda": 7,
-      "valorizacao": 7,
-      "liquidez": 7,
-      "nota": 7,
-      "post_url": "https://manjubinhainvestidor.com.br/rbrf11-rbr-alpha-multiestrategia-outros-comunicados-07-2026-2/"
-    },
-    {
-      "ticker": "VCJR11",
-      "nome": "Vinci Credito Imobiliario",
-      "tipo": "Papel",
-      "segmento": "TVM",
-      "perene": 6,
-      "renda": 8,
-      "valorizacao": 7,
-      "liquidez": 6,
-      "nota": 6.8,
-      "post_url": "https://manjubinhainvestidor.com.br/vcjr11-vinci-credito-imobiliario-informe-mensal-07-2026/"
+      "post_url": "https://manjubinhainvestidor.com.br/recr11-rec-recebiveis-imobiliarios-informe-mensal-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 3679210.0,
+        "dy_12m": 12.92,
+        "p_vp": 0.92,
+        "anos_listado": 5.1,
+        "retorno_total_24m": 19.5
+      },
+      "posicoes": {
+        "liquidez": 13,
+        "perenidade": 17,
+        "renda": 6,
+        "valorizacao": 5
+      },
+      "score": 54
     },
     {
       "ticker": "BRCO11",
       "nome": "Bresco Logistica",
       "tipo": "Tijolo",
       "segmento": "Logistico",
-      "perene": 7,
-      "renda": 7,
-      "valorizacao": 8,
-      "liquidez": 6,
-      "nota": 7,
-      "post_url": ""
+      "post_url": "",
+      "metricas": {
+        "liquidez_diaria": 6138380.0,
+        "dy_12m": 9.41,
+        "p_vp": 0.99,
+        "anos_listado": 6.6,
+        "retorno_total_24m": 17.4
+      },
+      "posicoes": {
+        "liquidez": 11,
+        "perenidade": 13,
+        "renda": 13,
+        "valorizacao": 7
+      },
+      "score": 55
     },
     {
-      "ticker": "PATL11",
-      "nome": "Patria Logistica",
+      "ticker": "RBRR11",
+      "nome": "RBR High Grade",
+      "tipo": "Papel",
+      "segmento": "TVM",
+      "post_url": "https://manjubinhainvestidor.com.br/rbrr11-rbr-high-grade-relatorio-gerencial-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 4166070.0,
+        "dy_12m": 12.59,
+        "p_vp": 0.84,
+        "anos_listado": 8.2,
+        "retorno_total_24m": 7.5
+      },
+      "posicoes": {
+        "liquidez": 12,
+        "perenidade": 11,
+        "renda": 7,
+        "valorizacao": 14
+      },
+      "score": 56
+    },
+    {
+      "ticker": "HSML11",
+      "nome": "HSI Malls",
+      "tipo": "Tijolo",
+      "segmento": "Shoppings",
+      "post_url": "https://manjubinhainvestidor.com.br/hsml11-hsi-malls-informe-mensal-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 7224940.0,
+        "dy_12m": 9.63,
+        "p_vp": 0.82,
+        "anos_listado": 6.9,
+        "retorno_total_24m": 5.7
+      },
+      "posicoes": {
+        "liquidez": 10,
+        "perenidade": 12,
+        "renda": 12,
+        "valorizacao": 15
+      },
+      "score": 59
+    },
+    {
+      "ticker": "ALZR11",
+      "nome": "Alianza Trust Renda",
       "tipo": "Tijolo",
       "segmento": "Logistico",
-      "perene": 6,
-      "renda": 7,
-      "valorizacao": 7,
-      "liquidez": 7,
-      "nota": 6.8,
-      "post_url": ""
+      "post_url": "https://manjubinhainvestidor.com.br/alzr11-alianza-trust-renda-imobiliaria-fatos-relevantes-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 3369960.0,
+        "dy_12m": 9.98,
+        "p_vp": 0.94,
+        "anos_listado": 8.5,
+        "retorno_total_24m": 11.4
+      },
+      "posicoes": {
+        "liquidez": 14,
+        "perenidade": 10,
+        "renda": 11,
+        "valorizacao": 10
+      },
+      "score": 59
     },
     {
-      "ticker": "RCRB11",
-      "nome": "Rio Bravo Renda Corp.",
-      "tipo": "Tijolo",
-      "segmento": "Lajes Corp.",
-      "perene": 8,
-      "renda": 6,
-      "valorizacao": 6,
-      "liquidez": 7,
-      "nota": 6.8,
-      "post_url": ""
-    },
-    {
-      "ticker": "MGFF11",
-      "nome": "Mogno FoF",
-      "tipo": "FoF",
-      "segmento": null,
-      "perene": 6,
-      "renda": 7,
-      "valorizacao": 7,
-      "liquidez": 6,
-      "nota": 6.5,
-      "post_url": ""
-    },
-    {
-      "ticker": "XPCO11",
-      "nome": "XP Credito Imobiliario",
+      "ticker": "VCJR11",
+      "nome": "Vinci Credito Imobiliario",
       "tipo": "Papel",
       "segmento": "TVM",
-      "perene": 6,
-      "renda": 8,
-      "valorizacao": 6,
-      "liquidez": 6,
-      "nota": 6.5,
-      "post_url": ""
+      "post_url": "https://manjubinhainvestidor.com.br/vcjr11-vinci-credito-imobiliario-informe-mensal-07-2026/",
+      "metricas": {
+        "liquidez_diaria": 2471660.0,
+        "dy_12m": 13.77,
+        "p_vp": 0.81,
+        "anos_listado": 6.4,
+        "retorno_total_24m": 2.3
+      },
+      "posicoes": {
+        "liquidez": 15,
+        "perenidade": 14,
+        "renda": 3,
+        "valorizacao": 16
+      },
+      "score": 63
     },
     {
-      "ticker": "RZTR11",
-      "nome": "Riza Terrax Fiagro",
-      "tipo": "Fiagro",
-      "segmento": null,
-      "perene": 5,
-      "renda": 8,
-      "valorizacao": 7,
-      "liquidez": 6,
-      "nota": 6.5,
-      "post_url": ""
-    },
-    {
-      "ticker": "HCTR11",
-      "nome": "Hectare CE",
+      "ticker": "VGIP11",
+      "nome": "Valora CRI IPCA",
       "tipo": "Papel",
       "segmento": "TVM",
-      "perene": 5,
-      "renda": 8,
-      "valorizacao": 6,
-      "liquidez": 7,
-      "nota": 6.5,
-      "post_url": ""
+      "post_url": "https://manjubinhainvestidor.com.br/vgip11-valora-cri-ipca-relatorio-gerencial-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 2356590.0,
+        "dy_12m": 12.28,
+        "p_vp": 0.89,
+        "anos_listado": 6.3,
+        "retorno_total_24m": 16.7
+      },
+      "posicoes": {
+        "liquidez": 16,
+        "perenidade": 15,
+        "renda": 8,
+        "valorizacao": 9
+      },
+      "score": 64
     }
   ],
-  "acoes": [
-    {
-      "ticker": "PETR4",
-      "nome": "Petrobras",
-      "setor": "Commodities",
-      "perene": 10,
-      "renda": 9,
-      "valorizacao": 9,
-      "liquidez": 10,
-      "nota": 9.5,
-      "post_url": "https://manjubinhainvestidor.com.br/petr4-petrobras-comunicado-ao-mercado-06-2026/"
-    },
-    {
-      "ticker": "VALE3",
-      "nome": "Vale",
-      "setor": "Commodities",
-      "perene": 10,
-      "renda": 8,
-      "valorizacao": 8,
-      "liquidez": 10,
-      "nota": 9,
-      "post_url": "https://manjubinhainvestidor.com.br/vale3-vale-outros-comunicados-nao-considerados-fatos-relevantes-comunicado-ao-mercado-06-2026-2/"
-    },
-    {
-      "ticker": "ITUB4",
-      "nome": "Itau Unibanco",
-      "setor": "Financeiro",
-      "perene": 10,
-      "renda": 8,
-      "valorizacao": 9,
-      "liquidez": 10,
-      "nota": 9.3,
-      "post_url": "https://manjubinhainvestidor.com.br/itub4-itau-unibanco-calendario-de-eventos-corporativos-06-2026/"
-    },
-    {
-      "ticker": "BBAS3",
-      "nome": "Banco do Brasil",
-      "setor": "Financeiro",
-      "perene": 9,
-      "renda": 9,
-      "valorizacao": 8,
-      "liquidez": 9,
-      "nota": 8.8,
-      "post_url": "https://manjubinhainvestidor.com.br/bbas3-banco-do-brasil-relatorio-de-agencia-de-rating-06-2026/"
-    },
-    {
-      "ticker": "WEGE3",
-      "nome": "WEG S.A.",
-      "setor": "Industrial",
-      "perene": 9,
-      "renda": 5,
-      "valorizacao": 10,
-      "liquidez": 9,
-      "nota": 8.3,
-      "post_url": "https://manjubinhainvestidor.com.br/wege3-weg-s-a-reuniao-da-administracao-06-2026/"
-    },
-    {
-      "ticker": "BBDC4",
-      "nome": "Bradesco",
-      "setor": "Financeiro",
-      "perene": 10,
-      "renda": 8,
-      "valorizacao": 7,
-      "liquidez": 9,
-      "nota": 8.5,
-      "post_url": "https://manjubinhainvestidor.com.br/bbdc4-bradesco-diretoria-06-2026/"
-    },
-    {
-      "ticker": "ABEV3",
-      "nome": "Ambev",
-      "setor": "Consumo",
-      "perene": 10,
-      "renda": 7,
-      "valorizacao": 6,
-      "liquidez": 9,
-      "nota": 8,
-      "post_url": "https://manjubinhainvestidor.com.br/abev3-ambev-conselho-de-administracao-06-2026/"
-    },
-    {
-      "ticker": "TAEE11",
-      "nome": "Taesa",
-      "setor": "Energia",
-      "perene": 9,
-      "renda": 10,
-      "valorizacao": 7,
-      "liquidez": 8,
-      "nota": 8.5,
-      "post_url": "https://manjubinhainvestidor.com.br/taee11-taesa-comunicado-ao-mercado-06-2026/"
-    },
-    {
-      "ticker": "CPLE6",
-      "nome": "Copel",
-      "setor": "Energia",
-      "perene": 9,
-      "renda": 9,
-      "valorizacao": 8,
-      "liquidez": 8,
-      "nota": 8.5,
-      "post_url": "https://manjubinhainvestidor.com.br/cple6-copel-conselho-de-administracao-06-2026/"
-    },
-    {
-      "ticker": "EGIE3",
-      "nome": "Engie Brasil",
-      "setor": "Energia",
-      "perene": 8,
-      "renda": 9,
-      "valorizacao": 8,
-      "liquidez": 8,
-      "nota": 8.3,
-      "post_url": "https://manjubinhainvestidor.com.br/egie3-engie-brasil-comunicado-ao-mercado-06-2026/"
-    },
-    {
-      "ticker": "VIVT3",
-      "nome": "Telefonica Vivo",
-      "setor": "Telecom",
-      "perene": 9,
-      "renda": 9,
-      "valorizacao": 7,
-      "liquidez": 8,
-      "nota": 8.3,
-      "post_url": "https://manjubinhainvestidor.com.br/vivt3-telefonica-vivo-assembleia-06-2026/"
-    },
-    {
-      "ticker": "PRIO3",
-      "nome": "PRIO",
-      "setor": "Commodities",
-      "perene": 6,
-      "renda": 6,
-      "valorizacao": 10,
-      "liquidez": 8,
-      "nota": 7.5,
-      "post_url": "https://manjubinhainvestidor.com.br/prio3-prio-comunicado-ao-mercado-06-2026/"
-    },
-    {
-      "ticker": "SBSP3",
-      "nome": "Sabesp",
-      "setor": "Energia",
-      "perene": 9,
-      "renda": 7,
-      "valorizacao": 8,
-      "liquidez": 8,
-      "nota": 8,
-      "post_url": "https://manjubinhainvestidor.com.br/sbsp3-sabesp-comunicado-ao-mercado-06-2026/"
-    },
-    {
-      "ticker": "RDOR3",
-      "nome": "Rede D'Or",
-      "setor": "Saude",
-      "perene": 7,
-      "renda": 5,
-      "valorizacao": 9,
-      "liquidez": 8,
-      "nota": 7.3,
-      "post_url": "https://manjubinhainvestidor.com.br/rdor3-rede-dor-aviso-aos-acionistas-06-2026/"
-    },
-    {
-      "ticker": "B3SA3",
-      "nome": "B3 Bolsa de Valores",
-      "setor": "Financeiro",
-      "perene": 8,
-      "renda": 7,
-      "valorizacao": 8,
-      "liquidez": 9,
-      "nota": 8,
-      "post_url": "https://manjubinhainvestidor.com.br/b3sa3-b3-bolsa-de-valores-comunicado-ao-mercado-06-2026/"
-    },
-    {
-      "ticker": "SUZB3",
-      "nome": "Suzano",
-      "setor": "Commodities",
-      "perene": 8,
-      "renda": 6,
-      "valorizacao": 8,
-      "liquidez": 8,
-      "nota": 7.5,
-      "post_url": "https://manjubinhainvestidor.com.br/suzb3-suzano-reuniao-da-administracao-06-2026/"
-    },
-    {
-      "ticker": "ENGI11",
-      "nome": "Energisa",
-      "setor": "Energia",
-      "perene": 8,
-      "renda": 8,
-      "valorizacao": 8,
-      "liquidez": 7,
-      "nota": 7.8,
-      "post_url": "https://manjubinhainvestidor.com.br/engi11-energisa-comunicado-ao-mercado-06-2026/"
-    },
-    {
-      "ticker": "CPFE3",
-      "nome": "CPFL Energia",
-      "setor": "Energia",
-      "perene": 9,
-      "renda": 9,
-      "valorizacao": 7,
-      "liquidez": 7,
-      "nota": 8,
-      "post_url": "https://manjubinhainvestidor.com.br/cpfe3-cpfl-energia-conselho-de-administracao-06-2026/"
-    },
-    {
-      "ticker": "TOTS3",
-      "nome": "TOTVS",
-      "setor": "Industrial",
-      "perene": 8,
-      "renda": 6,
-      "valorizacao": 9,
-      "liquidez": 7,
-      "nota": 7.5,
-      "post_url": "https://manjubinhainvestidor.com.br/tots3-totvs-reuniao-da-administracao-06-2026/"
-    },
-    {
-      "ticker": "JBSS3",
-      "nome": "JBS",
-      "setor": "Consumo",
-      "perene": 8,
-      "renda": 7,
-      "valorizacao": 7,
-      "liquidez": 8,
-      "nota": 7.5,
-      "post_url": "https://manjubinhainvestidor.com.br/jbss3-jbs-comunicacao-sobre-transacao-entre-partes-relacionadascomunicacao-sobre-transicao-entre-partes-rela-06-2026/"
-    },
-    {
-      "ticker": "ALUP11",
-      "nome": "Alupar",
-      "setor": "Energia",
-      "perene": 8,
-      "renda": 9,
-      "valorizacao": 7,
-      "liquidez": 7,
-      "nota": 7.8,
-      "post_url": "https://manjubinhainvestidor.com.br/alup11-alupar-aviso-aos-acionistas-06-2026/"
-    },
-    {
-      "ticker": "KLBN11",
-      "nome": "Klabin",
-      "setor": "Commodities",
-      "perene": 8,
-      "renda": 7,
-      "valorizacao": 7,
-      "liquidez": 7,
-      "nota": 7.3,
-      "post_url": "https://manjubinhainvestidor.com.br/klbn11-klabin-fato-relevante-07-2026/"
-    },
-    {
-      "ticker": "BPAC11",
-      "nome": "BTG Pactual",
-      "setor": "Financeiro",
-      "perene": 7,
-      "renda": 6,
-      "valorizacao": 9,
-      "liquidez": 7,
-      "nota": 7.3,
-      "post_url": "https://manjubinhainvestidor.com.br/bpac11-btg-pactual-comunicado-ao-mercado-07-2026/"
-    },
-    {
-      "ticker": "EMBR3",
-      "nome": "Embraer",
-      "setor": "Industrial",
-      "perene": 8,
-      "renda": 4,
-      "valorizacao": 9,
-      "liquidez": 7,
-      "nota": 7,
-      "post_url": ""
-    },
-    {
-      "ticker": "RENT3",
-      "nome": "Localiza",
-      "setor": "Consumo",
-      "perene": 8,
-      "renda": 5,
-      "valorizacao": 8,
-      "liquidez": 7,
-      "nota": 7,
-      "post_url": ""
-    },
-    {
-      "ticker": "CSAN3",
-      "nome": "Cosan",
-      "setor": "Commodities",
-      "perene": 7,
-      "renda": 6,
-      "valorizacao": 7,
-      "liquidez": 7,
-      "nota": 6.8,
-      "post_url": ""
-    },
-    {
-      "ticker": "HAPV3",
-      "nome": "Hapvida",
-      "setor": "Saude",
-      "perene": 7,
-      "renda": 4,
-      "valorizacao": 8,
-      "liquidez": 7,
-      "nota": 6.5,
-      "post_url": ""
-    },
-    {
-      "ticker": "POMO4",
-      "nome": "Marcopolo",
-      "setor": "Industrial",
-      "perene": 9,
-      "renda": 7,
-      "valorizacao": 7,
-      "liquidez": 6,
-      "nota": 7.3,
-      "post_url": ""
-    },
-    {
-      "ticker": "ALLL3",
-      "nome": "Rumo Logistica",
-      "setor": "Industrial",
-      "perene": 7,
-      "renda": 5,
-      "valorizacao": 8,
-      "liquidez": 7,
-      "nota": 6.8,
-      "post_url": ""
-    },
-    {
-      "ticker": "IRBR3",
-      "nome": "IRB Brasil",
-      "setor": "Financeiro",
-      "perene": 7,
-      "renda": 6,
-      "valorizacao": 7,
-      "liquidez": 6,
-      "nota": 6.5,
-      "post_url": ""
-    }
-  ]
+  "acoes": [],
+  "reprovados": {
+    "fiis": [
+      {
+        "ticker": "GARE11",
+        "nome": "Guardian Real Estate",
+        "tipo": "Tijolo",
+        "segmento": "Logistico",
+        "post_url": "https://manjubinhainvestidor.com.br/gare11-guardian-real-estate-informe-mensal-06-2026/",
+        "metricas": {
+          "liquidez_diaria": 12115400.0,
+          "dy_12m": 12.07,
+          "p_vp": 0.88,
+          "anos_listado": 2.3,
+          "retorno_total_24m": 8.9
+        },
+        "motivo_exclusao": "menos de 5 anos de listagem"
+      },
+      {
+        "ticker": "KNSC11",
+        "nome": "Kinea Securities",
+        "tipo": "Papel",
+        "segmento": "TVM",
+        "post_url": "https://manjubinhainvestidor.com.br/knsc11-kinea-securities-informe-mensal-06-2026/",
+        "metricas": {
+          "liquidez_diaria": 5344090.0,
+          "dy_12m": 12.17,
+          "p_vp": 1.05,
+          "anos_listado": 4.4,
+          "retorno_total_24m": 23.7
+        },
+        "motivo_exclusao": "menos de 5 anos de listagem"
+      },
+      {
+        "ticker": "TRBL11",
+        "nome": "Tellus Rio Bravo Log.",
+        "tipo": "Tijolo",
+        "segmento": "Logistico",
+        "post_url": "https://manjubinhainvestidor.com.br/trbl11-tellus-rio-bravo-logistica-relatorio-gerencial-06-2026/",
+        "metricas": {
+          "liquidez_diaria": 3620260.0,
+          "dy_12m": 12.71,
+          "p_vp": 0.79,
+          "anos_listado": 2.9,
+          "retorno_total_24m": -26.0
+        },
+        "motivo_exclusao": "menos de 5 anos de listagem"
+      },
+      {
+        "ticker": "PVBI11",
+        "nome": "VBI Prime Properties",
+        "tipo": "Tijolo",
+        "segmento": "Lajes Corp.",
+        "post_url": "https://manjubinhainvestidor.com.br/pvbi11-vbi-prime-properties-informe-mensal-06-2026/",
+        "metricas": {
+          "liquidez_diaria": 4058940.0,
+          "dy_12m": 7.27,
+          "p_vp": 0.68,
+          "anos_listado": 2.4,
+          "retorno_total_24m": -12.5
+        },
+        "motivo_exclusao": "menos de 5 anos de listagem; P/VP fora da faixa 0,70-1,20"
+      },
+      {
+        "ticker": "IRDM11",
+        "nome": "Iridium Recebiveis",
+        "tipo": "Papel",
+        "segmento": "TVM",
+        "post_url": "https://manjubinhainvestidor.com.br/irdm11-iridium-recebiveis-imobiliarios-fatos-relevantes-06-2026/",
+        "metricas": {
+          "liquidez_diaria": 0.0,
+          "dy_12m": 8.86,
+          "p_vp": 0.74,
+          "anos_listado": 6.1,
+          "retorno_total_24m": 6.0
+        },
+        "motivo_exclusao": "liquidez abaixo de R$500 mil/dia"
+      },
+      {
+        "ticker": "BCFF11",
+        "nome": "BTG Pactual FoF",
+        "tipo": "FoF",
+        "segmento": null,
+        "post_url": "https://manjubinhainvestidor.com.br/bcff11-btg-pactual-fundo-de-fundos-outros-comunicados-06-2026/",
+        "metricas": {
+          "liquidez_diaria": 0.0,
+          "dy_12m": 0.0,
+          "p_vp": 0.84,
+          "anos_listado": null,
+          "retorno_total_24m": null
+        },
+        "motivo_exclusao": "liquidez abaixo de R$500 mil/dia; menos de 5 anos de listagem; sem distribuicao nos ultimos 12m"
+      },
+      {
+        "ticker": "RBRF11",
+        "nome": "RBR Alpha Multiestrategia",
+        "tipo": "FoF",
+        "segmento": null,
+        "post_url": "https://manjubinhainvestidor.com.br/rbrf11-rbr-alpha-multiestrategia-outros-comunicados-07-2026-2/",
+        "metricas": {
+          "liquidez_diaria": 0.0,
+          "dy_12m": 5.46,
+          "p_vp": 0.78,
+          "anos_listado": 8.7,
+          "retorno_total_24m": 8.5
+        },
+        "motivo_exclusao": "liquidez abaixo de R$500 mil/dia"
+      },
+      {
+        "ticker": "PATL11",
+        "nome": "Patria Logistica",
+        "tipo": "Tijolo",
+        "segmento": "Logistico",
+        "post_url": "",
+        "metricas": {
+          "liquidez_diaria": 331104.0,
+          "dy_12m": 10.08,
+          "p_vp": 0.94,
+          "anos_listado": 2.4,
+          "retorno_total_24m": 29.9
+        },
+        "motivo_exclusao": "liquidez abaixo de R$500 mil/dia; menos de 5 anos de listagem"
+      },
+      {
+        "ticker": "RCRB11",
+        "nome": "Rio Bravo Renda Corp.",
+        "tipo": "Tijolo",
+        "segmento": "Lajes Corp.",
+        "post_url": "",
+        "metricas": {
+          "liquidez_diaria": 1148050.0,
+          "dy_12m": 8.24,
+          "p_vp": 0.69,
+          "anos_listado": 6.7,
+          "retorno_total_24m": 21.2
+        },
+        "motivo_exclusao": "P/VP fora da faixa 0,70-1,20"
+      },
+      {
+        "ticker": "MGFF11",
+        "nome": "Mogno FoF",
+        "tipo": "FoF",
+        "segmento": null,
+        "post_url": "",
+        "metricas": {
+          "liquidez_diaria": 0.0,
+          "dy_12m": 0.0,
+          "p_vp": 0.0,
+          "anos_listado": null,
+          "retorno_total_24m": null
+        },
+        "motivo_exclusao": "liquidez abaixo de R$500 mil/dia; menos de 5 anos de listagem; sem distribuicao nos ultimos 12m; P/VP fora da faixa 0,70-1,20"
+      },
+      {
+        "ticker": "XPCO11",
+        "nome": "XP Credito Imobiliario",
+        "tipo": "Papel",
+        "segmento": "TVM",
+        "post_url": "",
+        "metricas": {
+          "liquidez_diaria": null,
+          "dy_12m": null,
+          "p_vp": null,
+          "anos_listado": null,
+          "retorno_total_24m": null
+        },
+        "motivo_exclusao": "liquidez abaixo de R$500 mil/dia; menos de 5 anos de listagem; sem distribuicao nos ultimos 12m; P/VP fora da faixa 0,70-1,20"
+      },
+      {
+        "ticker": "RZTR11",
+        "nome": "Riza Terrax Fiagro",
+        "tipo": "Fiagro",
+        "segmento": null,
+        "post_url": "",
+        "metricas": {
+          "liquidez_diaria": 4279540.0,
+          "dy_12m": 13.28,
+          "p_vp": 0.91,
+          "anos_listado": 2.4,
+          "retorno_total_24m": 17.3
+        },
+        "motivo_exclusao": "menos de 5 anos de listagem"
+      },
+      {
+        "ticker": "HCTR11",
+        "nome": "Hectare CE",
+        "tipo": "Papel",
+        "segmento": "TVM",
+        "post_url": "",
+        "metricas": {
+          "liquidez_diaria": 797184.0,
+          "dy_12m": 21.04,
+          "p_vp": 0.16,
+          "anos_listado": 7.0,
+          "retorno_total_24m": -24.7
+        },
+        "motivo_exclusao": "P/VP fora da faixa 0,70-1,20"
+      }
+    ],
+    "acoes": [
+      {
+        "ticker": "PETR4",
+        "nome": "Petrobras",
+        "setor": "Commodities",
+        "post_url": "https://manjubinhainvestidor.com.br/petr4-petrobras-comunicado-ao-mercado-06-2026/",
+        "metricas": {
+          "liquidez_diaria": 1961700000.0,
+          "dy_12m": 7.85,
+          "p_vp": 1.09,
+          "anos_listado": 26.5,
+          "retorno_total_24m": 19.1,
+          "retorno_total_5a": 356.2,
+          "tag_along": 0
+        },
+        "motivo_exclusao": "tag along abaixo de 80%"
+      },
+      {
+        "ticker": "VALE3",
+        "nome": "Vale",
+        "setor": "Commodities",
+        "post_url": "https://manjubinhainvestidor.com.br/vale3-vale-outros-comunicados-nao-considerados-fatos-relevantes-comunicado-ao-mercado-06-2026-2/",
+        "metricas": {
+          "liquidez_diaria": 1498280000.0,
+          "dy_12m": 7.19,
+          "p_vp": 1.81,
+          "anos_listado": 26.5,
+          "retorno_total_24m": 49.4,
+          "retorno_total_5a": 28.3,
+          "tag_along": 0
+        },
+        "motivo_exclusao": "tag along abaixo de 80%"
+      },
+      {
+        "ticker": "ITUB4",
+        "nome": "Itau Unibanco",
+        "setor": "Financeiro",
+        "post_url": "https://manjubinhainvestidor.com.br/itub4-itau-unibanco-calendario-de-eventos-corporativos-06-2026/",
+        "metricas": {
+          "liquidez_diaria": 1308460000.0,
+          "dy_12m": 8.18,
+          "p_vp": 2.33,
+          "anos_listado": 25.5,
+          "retorno_total_24m": 54.7,
+          "retorno_total_5a": 113.6,
+          "tag_along": 0
+        },
+        "motivo_exclusao": "tag along abaixo de 80%"
+      },
+      {
+        "ticker": "BBAS3",
+        "nome": "Banco do Brasil",
+        "setor": "Financeiro",
+        "post_url": "https://manjubinhainvestidor.com.br/bbas3-banco-do-brasil-relatorio-de-agencia-de-rating-06-2026/",
+        "metricas": {
+          "liquidez_diaria": 487269000.0,
+          "dy_12m": 2.76,
+          "p_vp": 0.61,
+          "anos_listado": 26.5,
+          "retorno_total_24m": -22.7,
+          "retorno_total_5a": 87.6,
+          "tag_along": 0
+        },
+        "motivo_exclusao": "tag along abaixo de 80%"
+      },
+      {
+        "ticker": "WEGE3",
+        "nome": "WEG S.A.",
+        "setor": "Industrial",
+        "post_url": "https://manjubinhainvestidor.com.br/wege3-weg-s-a-reuniao-da-administracao-06-2026/",
+        "metricas": {
+          "liquidez_diaria": 336990000.0,
+          "dy_12m": 4.64,
+          "p_vp": 11.1,
+          "anos_listado": 26.5,
+          "retorno_total_24m": -9.2,
+          "retorno_total_5a": 45.3,
+          "tag_along": 0
+        },
+        "motivo_exclusao": "tag along abaixo de 80%"
+      },
+      {
+        "ticker": "BBDC4",
+        "nome": "Bradesco",
+        "setor": "Financeiro",
+        "post_url": "https://manjubinhainvestidor.com.br/bbdc4-bradesco-diretoria-06-2026/",
+        "metricas": {
+          "liquidez_diaria": 545325000.0,
+          "dy_12m": 6.68,
+          "p_vp": 1.1,
+          "anos_listado": 18.5,
+          "retorno_total_24m": 35.4,
+          "retorno_total_5a": 21.4,
+          "tag_along": 0
+        },
+        "motivo_exclusao": "tag along abaixo de 80%"
+      },
+      {
+        "ticker": "ABEV3",
+        "nome": "Ambev",
+        "setor": "Consumo",
+        "post_url": "https://manjubinhainvestidor.com.br/abev3-ambev-conselho-de-administracao-06-2026/",
+        "metricas": {
+          "liquidez_diaria": 465472000.0,
+          "dy_12m": 5.55,
+          "p_vp": 2.85,
+          "anos_listado": 26.5,
+          "retorno_total_24m": 42.0,
+          "retorno_total_5a": 22.9,
+          "tag_along": 0
+        },
+        "motivo_exclusao": "tag along abaixo de 80%"
+      },
+      {
+        "ticker": "TAEE11",
+        "nome": "Taesa",
+        "setor": "Energia",
+        "post_url": "https://manjubinhainvestidor.com.br/taee11-taesa-comunicado-ao-mercado-06-2026/",
+        "metricas": {
+          "liquidez_diaria": 67602200.0,
+          "dy_12m": 8.23,
+          "p_vp": 1.72,
+          "anos_listado": 18.6,
+          "retorno_total_24m": 29.5,
+          "retorno_total_5a": 66.1,
+          "tag_along": 0
+        },
+        "motivo_exclusao": "tag along abaixo de 80%"
+      },
+      {
+        "ticker": "CPLE6",
+        "nome": "Copel",
+        "setor": "Energia",
+        "post_url": "https://manjubinhainvestidor.com.br/cple6-copel-conselho-de-administracao-06-2026/",
+        "metricas": {
+          "liquidez_diaria": 0.0,
+          "dy_12m": 0.0,
+          "p_vp": 1.78,
+          "anos_listado": null,
+          "retorno_total_24m": null,
+          "retorno_total_5a": null,
+          "tag_along": 0
+        },
+        "motivo_exclusao": "liquidez abaixo de R$10 mi/dia; menos de 8 anos de listagem; sem dividendos nos ultimos 12m; retorno total negativo em 5 anos; tag along abaixo de 80%"
+      },
+      {
+        "ticker": "EGIE3",
+        "nome": "Engie Brasil",
+        "setor": "Energia",
+        "post_url": "https://manjubinhainvestidor.com.br/egie3-engie-brasil-comunicado-ao-mercado-06-2026/",
+        "metricas": {
+          "liquidez_diaria": 80585500.0,
+          "dy_12m": 3.46,
+          "p_vp": 2.93,
+          "anos_listado": 24.3,
+          "retorno_total_24m": 8.6,
+          "retorno_total_5a": 59.0,
+          "tag_along": 0
+        },
+        "motivo_exclusao": "tag along abaixo de 80%"
+      },
+      {
+        "ticker": "VIVT3",
+        "nome": "Telefonica Vivo",
+        "setor": "Telecom",
+        "post_url": "https://manjubinhainvestidor.com.br/vivt3-telefonica-vivo-assembleia-06-2026/",
+        "metricas": {
+          "liquidez_diaria": 177085000.0,
+          "dy_12m": 7.17,
+          "p_vp": 1.58,
+          "anos_listado": 26.5,
+          "retorno_total_24m": 47.6,
+          "retorno_total_5a": 112.0,
+          "tag_along": 0
+        },
+        "motivo_exclusao": "tag along abaixo de 80%"
+      },
+      {
+        "ticker": "PRIO3",
+        "nome": "PRIO",
+        "setor": "Commodities",
+        "post_url": "https://manjubinhainvestidor.com.br/prio3-prio-comunicado-ao-mercado-06-2026/",
+        "metricas": {
+          "liquidez_diaria": 597699000.0,
+          "dy_12m": 0.0,
+          "p_vp": 1.71,
+          "anos_listado": 15.7,
+          "retorno_total_24m": 11.9,
+          "retorno_total_5a": 173.8,
+          "tag_along": 0
+        },
+        "motivo_exclusao": "sem dividendos nos ultimos 12m; tag along abaixo de 80%"
+      },
+      {
+        "ticker": "SBSP3",
+        "nome": "Sabesp",
+        "setor": "Energia",
+        "post_url": "https://manjubinhainvestidor.com.br/sbsp3-sabesp-comunicado-ao-mercado-06-2026/",
+        "metricas": {
+          "liquidez_diaria": 450264000.0,
+          "dy_12m": 2.28,
+          "p_vp": 2.39,
+          "anos_listado": 26.5,
+          "retorno_total_24m": 72.2,
+          "retorno_total_5a": 382.4,
+          "tag_along": 0
+        },
+        "motivo_exclusao": "tag along abaixo de 80%"
+      },
+      {
+        "ticker": "RDOR3",
+        "nome": "Rede D'Or",
+        "setor": "Saude",
+        "post_url": "https://manjubinhainvestidor.com.br/rdor3-rede-dor-aviso-aos-acionistas-06-2026/",
+        "metricas": {
+          "liquidez_diaria": 294578000.0,
+          "dy_12m": 12.51,
+          "p_vp": 3.93,
+          "anos_listado": 5.5,
+          "retorno_total_24m": 24.2,
+          "retorno_total_5a": -39.0,
+          "tag_along": 0
+        },
+        "motivo_exclusao": "menos de 8 anos de listagem; retorno total negativo em 5 anos; tag along abaixo de 80%"
+      },
+      {
+        "ticker": "B3SA3",
+        "nome": "B3 Bolsa de Valores",
+        "setor": "Financeiro",
+        "post_url": "https://manjubinhainvestidor.com.br/b3sa3-b3-bolsa-de-valores-comunicado-ao-mercado-06-2026/",
+        "metricas": {
+          "liquidez_diaria": 658498000.0,
+          "dy_12m": 5.33,
+          "p_vp": 4.02,
+          "anos_listado": 18.7,
+          "retorno_total_24m": 22.8,
+          "retorno_total_5a": 22.8,
+          "tag_along": 0
+        },
+        "motivo_exclusao": "tag along abaixo de 80%"
+      },
+      {
+        "ticker": "SUZB3",
+        "nome": "Suzano",
+        "setor": "Commodities",
+        "post_url": "https://manjubinhainvestidor.com.br/suzb3-suzano-reuniao-da-administracao-06-2026/",
+        "metricas": {
+          "liquidez_diaria": 269947000.0,
+          "dy_12m": 0.01,
+          "p_vp": 1.05,
+          "anos_listado": 21.9,
+          "retorno_total_24m": -22.1,
+          "retorno_total_5a": -23.8,
+          "tag_along": 0
+        },
+        "motivo_exclusao": "retorno total negativo em 5 anos; tag along abaixo de 80%"
+      },
+      {
+        "ticker": "ENGI11",
+        "nome": "Energisa",
+        "setor": "Energia",
+        "post_url": "https://manjubinhainvestidor.com.br/engi11-energisa-comunicado-ao-mercado-06-2026/",
+        "metricas": {
+          "liquidez_diaria": 105497000.0,
+          "dy_12m": 3.22,
+          "p_vp": 1.23,
+          "anos_listado": 16.7,
+          "retorno_total_24m": 19.4,
+          "retorno_total_5a": 48.4,
+          "tag_along": 0
+        },
+        "motivo_exclusao": "tag along abaixo de 80%"
+      },
+      {
+        "ticker": "CPFE3",
+        "nome": "CPFL Energia",
+        "setor": "Energia",
+        "post_url": "https://manjubinhainvestidor.com.br/cpfe3-cpfl-energia-conselho-de-administracao-06-2026/",
+        "metricas": {
+          "liquidez_diaria": 83395300.0,
+          "dy_12m": 8.33,
+          "p_vp": 2.12,
+          "anos_listado": 26.5,
+          "retorno_total_24m": 40.2,
+          "retorno_total_5a": 113.6,
+          "tag_along": 0
+        },
+        "motivo_exclusao": "tag along abaixo de 80%"
+      },
+      {
+        "ticker": "TOTS3",
+        "nome": "TOTVS",
+        "setor": "Industrial",
+        "post_url": "https://manjubinhainvestidor.com.br/tots3-totvs-reuniao-da-administracao-06-2026/",
+        "metricas": {
+          "liquidez_diaria": 281775000.0,
+          "dy_12m": 2.37,
+          "p_vp": 3.47,
+          "anos_listado": 20.3,
+          "retorno_total_24m": 0.1,
+          "retorno_total_5a": -21.1,
+          "tag_along": 0
+        },
+        "motivo_exclusao": "retorno total negativo em 5 anos; tag along abaixo de 80%"
+      },
+      {
+        "ticker": "JBSS3",
+        "nome": "JBS",
+        "setor": "Consumo",
+        "post_url": "https://manjubinhainvestidor.com.br/jbss3-jbs-comunicacao-sobre-transacao-entre-partes-relacionadascomunicacao-sobre-transicao-entre-partes-rela-06-2026/",
+        "metricas": {
+          "liquidez_diaria": 0.0,
+          "dy_12m": 0.0,
+          "p_vp": 0.84,
+          "anos_listado": null,
+          "retorno_total_24m": null,
+          "retorno_total_5a": null,
+          "tag_along": 10
+        },
+        "motivo_exclusao": "liquidez abaixo de R$10 mi/dia; menos de 8 anos de listagem; sem dividendos nos ultimos 12m; retorno total negativo em 5 anos; tag along abaixo de 80%"
+      },
+      {
+        "ticker": "ALUP11",
+        "nome": "Alupar",
+        "setor": "Energia",
+        "post_url": "https://manjubinhainvestidor.com.br/alup11-alupar-aviso-aos-acionistas-06-2026/",
+        "metricas": {
+          "liquidez_diaria": 31144200.0,
+          "dy_12m": 3.35,
+          "p_vp": 1.14,
+          "anos_listado": 13.2,
+          "retorno_total_24m": 11.4,
+          "retorno_total_5a": 76.3,
+          "tag_along": 0
+        },
+        "motivo_exclusao": "tag along abaixo de 80%"
+      },
+      {
+        "ticker": "KLBN11",
+        "nome": "Klabin",
+        "setor": "Commodities",
+        "post_url": "https://manjubinhainvestidor.com.br/klbn11-klabin-fato-relevante-07-2026/",
+        "metricas": {
+          "liquidez_diaria": 93065400.0,
+          "dy_12m": 8.42,
+          "p_vp": 2.31,
+          "anos_listado": 12.4,
+          "retorno_total_24m": -11.1,
+          "retorno_total_5a": -3.2,
+          "tag_along": 0
+        },
+        "motivo_exclusao": "retorno total negativo em 5 anos; tag along abaixo de 80%"
+      },
+      {
+        "ticker": "BPAC11",
+        "nome": "BTG Pactual",
+        "setor": "Financeiro",
+        "post_url": "https://manjubinhainvestidor.com.br/bpac11-btg-pactual-comunicado-ao-mercado-07-2026/",
+        "metricas": {
+          "liquidez_diaria": 593691000.0,
+          "dy_12m": 2.27,
+          "p_vp": 2.82,
+          "anos_listado": 9.3,
+          "retorno_total_24m": 58.6,
+          "retorno_total_5a": 114.0,
+          "tag_along": 0
+        },
+        "motivo_exclusao": "tag along abaixo de 80%"
+      },
+      {
+        "ticker": "EMBR3",
+        "nome": "Embraer",
+        "setor": "Industrial",
+        "post_url": "",
+        "metricas": {
+          "liquidez_diaria": null,
+          "dy_12m": null,
+          "p_vp": null,
+          "anos_listado": null,
+          "retorno_total_24m": null,
+          "retorno_total_5a": null,
+          "tag_along": 0
+        },
+        "motivo_exclusao": "liquidez abaixo de R$10 mi/dia; menos de 8 anos de listagem; sem dividendos nos ultimos 12m; retorno total negativo em 5 anos; tag along abaixo de 80%"
+      },
+      {
+        "ticker": "RENT3",
+        "nome": "Localiza",
+        "setor": "Consumo",
+        "post_url": "",
+        "metricas": {
+          "liquidez_diaria": 404607000.0,
+          "dy_12m": 4.93,
+          "p_vp": 1.78,
+          "anos_listado": 21.1,
+          "retorno_total_24m": 9.4,
+          "retorno_total_5a": -12.0,
+          "tag_along": 0
+        },
+        "motivo_exclusao": "retorno total negativo em 5 anos; tag along abaixo de 80%"
+      },
+      {
+        "ticker": "CSAN3",
+        "nome": "Cosan",
+        "setor": "Commodities",
+        "post_url": "",
+        "metricas": {
+          "liquidez_diaria": 162137000.0,
+          "dy_12m": 0.0,
+          "p_vp": 4.2,
+          "anos_listado": 20.6,
+          "retorno_total_24m": -72.3,
+          "retorno_total_5a": -81.4,
+          "tag_along": 0
+        },
+        "motivo_exclusao": "sem dividendos nos ultimos 12m; retorno total negativo em 5 anos; tag along abaixo de 80%"
+      },
+      {
+        "ticker": "HAPV3",
+        "nome": "Hapvida",
+        "setor": "Saude",
+        "post_url": "",
+        "metricas": {
+          "liquidez_diaria": 96775400.0,
+          "dy_12m": 0.0,
+          "p_vp": 0.11,
+          "anos_listado": 8.2,
+          "retorno_total_24m": -83.4,
+          "retorno_total_5a": -95.2,
+          "tag_along": 0
+        },
+        "motivo_exclusao": "sem dividendos nos ultimos 12m; retorno total negativo em 5 anos; tag along abaixo de 80%"
+      },
+      {
+        "ticker": "POMO4",
+        "nome": "Marcopolo",
+        "setor": "Industrial",
+        "post_url": "",
+        "metricas": {
+          "liquidez_diaria": 46359200.0,
+          "dy_12m": 15.76,
+          "p_vp": 1.84,
+          "anos_listado": 26.5,
+          "retorno_total_24m": 8.7,
+          "retorno_total_5a": 320.4,
+          "tag_along": 0
+        },
+        "motivo_exclusao": "tag along abaixo de 80%"
+      },
+      {
+        "ticker": "ALLL3",
+        "nome": "Rumo Logistica",
+        "setor": "Industrial",
+        "post_url": "",
+        "metricas": {
+          "liquidez_diaria": 0.0,
+          "dy_12m": 0.0,
+          "p_vp": 0.53,
+          "anos_listado": null,
+          "retorno_total_24m": null,
+          "retorno_total_5a": null,
+          "tag_along": null,
+          "tag_along_pendente": true
+        },
+        "motivo_exclusao": "liquidez abaixo de R$10 mi/dia; menos de 8 anos de listagem; sem dividendos nos ultimos 12m; retorno total negativo em 5 anos"
+      },
+      {
+        "ticker": "IRBR3",
+        "nome": "IRB Brasil",
+        "setor": "Financeiro",
+        "post_url": "",
+        "metricas": {
+          "liquidez_diaria": 20614000.0,
+          "dy_12m": 2.28,
+          "p_vp": 0.85,
+          "anos_listado": 8.9,
+          "retorno_total_24m": 16.0,
+          "retorno_total_5a": -57.8,
+          "tag_along": 0
+        },
+        "motivo_exclusao": "retorno total negativo em 5 anos; tag along abaixo de 80%"
+      }
+    ]
+  }
 }
