@@ -29,6 +29,9 @@ tr:hover td{background:#fafafa}
 .bd.b2{background:#fdeee6;color:#D95218}
 .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .dest{display:inline-block;padding:2px 9px;border-radius:10px;font-size:10.5px;background:#fff6e8;color:#b97a1a;border:1px solid #f3ddb5;white-space:nowrap}
+.radar-t{font-size:13px;font-weight:700;color:#b97a1a;margin:1.4rem 0 .4rem}
+.radar-i{font-size:11.5px;color:#999;margin-bottom:.6rem}
+.mot{font-size:11px;color:#b97a1a}
 .foot{font-size:11.5px;color:#aaa;text-align:right;margin-top:.7rem}
 @media(max-width:640px){.hidem{display:none}}
 </style>
@@ -88,6 +91,22 @@ function render(){
        '<td class="hidem">'+(a.destaque?'<span class="dest">'+a.destaque+'</span>':'')+'</td></tr>';
   }
   h+='</table>';
+  var radar=((D.reprovados||{})[ATIVO]||[]).filter(function(r){return r.metricas&&(r.metricas.liquidez_diaria!=null||r.metricas.dy_12m!=null)});
+  if(radar.length){
+    h+='<div class="radar-t">&#128064; Vale observar</div><div class="radar-i">Ativos no radar do Manjubinha que hoje n&atilde;o atendem a todos os pilares. O motivo aparece ao lado.</div>';
+    h+='<table><tr><th>Ativo</th><th class="num">Liquidez</th><th class="num">DY 12m</th><th class="num">'+(fii?'P/VP':'Tag Along')+'</th><th>Motivo</th></tr>';
+    for(var k=0;k<radar.length;k++){
+      var r=radar[k],rm=r.metricas||{};
+      var rn=r.post_url?'<a href="'+r.post_url+'" target="_top">'+r.ticker+'</a>':r.ticker;
+      var rc3=fii?fmtNum(rm.p_vp):(rm.tag_along!=null?rm.tag_along+'%':'-');
+      h+='<tr><td class="tk">'+rn+'<div class="nm">'+(r.nome||'')+'</div></td>'+
+         '<td class="num">'+fmtMoeda(rm.liquidez_diaria)+'</td>'+
+         '<td class="num">'+fmtPct(rm.dy_12m)+'</td>'+
+         '<td class="num">'+rc3+'</td>'+
+         '<td class="mot">'+(r.motivo_exclusao||'')+'</td></tr>';
+    }
+    h+='</table>';
+  }
   document.getElementById('conteudo').innerHTML=h;
   document.getElementById('foot').textContent='Atualizado em '+(D.ultima_atualizacao||'');
 }
