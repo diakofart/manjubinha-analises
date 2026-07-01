@@ -7,13 +7,13 @@ Controle por ID do documento - nunca repete o mesmo doc.
 
 import os, json, requests, time, re
 from datetime import datetime
-from pathlib import Pathh
-from bs4 import BeautifulSouph
+from pathlib import Path
+from bs4 import BeautifulSoup
 from google.oauth2 import service_account
 from google.auth.transport.requests import Request as GoogleAuthRequest
 
 # Config
-WP_URL    = "https://manjubinhainvestidor.com.brh"
+WP_URL    = "https://manjubinhainvestidor.com.br"
 WP_USER   = os.environ["WP_USER"]
 WP_PASS   = os.environ["WP_APP_PASS"]
 GEMINI_KEY = os.environ["GEMINI_API_KEY"]
