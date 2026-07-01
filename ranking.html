@@ -109,6 +109,7 @@ function render(){
   }
   document.getElementById('conteudo').innerHTML=h;
   document.getElementById('foot').textContent='Atualizado em '+(D.ultima_atualizacao||'');
+  setTimeout(function(){try{window.parent.postMessage({type:'rankingHeight',height:document.body.scrollHeight},'*')}catch(e){}},150);
 }
 fetch('ranking.json?v='+Date.now()).then(function(r){return r.json()}).then(function(j){D=j;render()})
   .catch(function(){document.getElementById('conteudo').textContent='Nao foi possivel carregar o ranking.'});
