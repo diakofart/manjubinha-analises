@@ -376,5 +376,41 @@
   },
   "ALUP11": {
     "ultima": "2026-06-30"
+  },
+  "RBRF11_21325": {
+    "status": "ok",
+    "url": "https://manjubinhainvestidor.com.br/rbrf11-rbr-alpha-multiestrategia-outros-comunicados-07-2026-2/",
+    "data": "2026-07-01",
+    "descricao": "Outros Comunicados"
+  },
+  "RBRF11": {
+    "ultima": "2026-07-01"
+  },
+  "VCJR11_23505": {
+    "status": "ok",
+    "url": "https://manjubinhainvestidor.com.br/vcjr11-vinci-credito-imobiliario-informe-mensal-07-2026/",
+    "data": "2026-07-01",
+    "descricao": "Informe Mensal"
+  },
+  "VCJR11": {
+    "ultima": "2026-07-01"
+  },
+  "KLBN11_44777": {
+    "status": "ok",
+    "url": "https://manjubinhainvestidor.com.br/klbn11-klabin-fato-relevante-07-2026/",
+    "data": "2026-07-01",
+    "descricao": "Fato Relevante"
+  },
+  "KLBN11": {
+    "ultima": "2026-07-01"
+  },
+  "BPAC11_44751": {
+    "status": "ok",
+    "url": "https://manjubinhainvestidor.com.br/bpac11-btg-pactual-comunicado-ao-mercado-07-2026/",
+    "data": "2026-07-01",
+    "descricao": "Comunicado ao Mercado"
+  },
+  "BPAC11": {
+    "ultima": "2026-07-01"
   }
 }
