@@ -49,7 +49,8 @@ TAG_ALONG_MANUAL = {
     "ABEV3": 80, "VIVT3": 80, "ITUB4": 80, "BBDC4": 80,
     "RAIL3": 100,  # Novo Mercado
     "ITSA4": 80,   # estatuto documentado
-    # PETR4 e CPLE6: confirmar manualmente e adicionar aqui
+    "PETR4": 100,  # Nivel 2, estatuto garante 100% as PN
+    "CPLE3": 100,  # Novo Mercado (pos-migracao Copel)
 }
 
 
