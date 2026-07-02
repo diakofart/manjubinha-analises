@@ -1,5 +1,5 @@
 {
-  "ultima_atualizacao": "2026-07-01",
+  "ultima_atualizacao": "2026-07-02",
   "proxima_atualizacao": "2026-07-25",
   "metodologia": {
     "ordenacao": "Soma das posicoes nos 4 pilares (liquidez com peso 2). Menor soma = melhor colocado.",
@@ -15,7 +15,7 @@
       "segmento": "TVM",
       "post_url": "https://manjubinhainvestidor.com.br/kncr11-kinea-rendimentos-imobiliarios-informe-mensal-06-2026-2/",
       "metricas": {
-        "liquidez_diaria": 23806000,
+        "liquidez_diaria": 23806000.0,
         "dy_12m": 13.3,
         "p_vp": 1.05,
         "anos_listado": 11.9,
@@ -37,7 +37,7 @@
       "segmento": "TVM",
       "post_url": "https://manjubinhainvestidor.com.br/mxrf11-maxi-renda-oferta-publica-06-2026-2/",
       "metricas": {
-        "liquidez_diaria": 15002800,
+        "liquidez_diaria": 15002800.0,
         "dy_12m": 13.09,
         "p_vp": 1.05,
         "anos_listado": 11.9,
@@ -58,7 +58,7 @@
       "segmento": "Shoppings",
       "post_url": "https://manjubinhainvestidor.com.br/xpml11-xp-malls-informe-mensal-06-2026/",
       "metricas": {
-        "liquidez_diaria": 18114600,
+        "liquidez_diaria": 18114600.0,
         "dy_12m": 10.47,
         "p_vp": 0.96,
         "anos_listado": 6.1,
@@ -80,9 +80,9 @@
       "segmento": "Logistico",
       "post_url": "https://manjubinhainvestidor.com.br/btlg11-btg-pactual-logistica-informe-mensal-06-2026/",
       "metricas": {
-        "liquidez_diaria": 13100200,
+        "liquidez_diaria": 13100200.0,
         "dy_12m": 9.23,
-        "p_vp": 1,
+        "p_vp": 1.0,
         "anos_listado": 11.9,
         "retorno_total_24m": 18.7
       },
@@ -101,7 +101,7 @@
       "segmento": "Logistico",
       "post_url": "https://manjubinhainvestidor.com.br/hglg11-cshg-logistica-fatos-relevantes-06-2026/",
       "metricas": {
-        "liquidez_diaria": 14627000,
+        "liquidez_diaria": 14627000.0,
         "dy_12m": 8.68,
         "p_vp": 0.91,
         "anos_listado": 15.3,
@@ -123,7 +123,7 @@
       "segmento": "Logistico",
       "post_url": "https://manjubinhainvestidor.com.br/ggrc11-ggr-covepi-renda-fatos-relevantes-06-2026/",
       "metricas": {
-        "liquidez_diaria": 12990400,
+        "liquidez_diaria": 12990400.0,
         "dy_12m": 12.06,
         "p_vp": 0.9,
         "anos_listado": 8.7,
@@ -144,7 +144,7 @@
       "segmento": "TVM",
       "post_url": "https://manjubinhainvestidor.com.br/cpts11-capitania-securities-ii-informe-mensal-06-2026/",
       "metricas": {
-        "liquidez_diaria": 10729500,
+        "liquidez_diaria": 10729500.0,
         "dy_12m": 14.06,
         "p_vp": 0.85,
         "anos_listado": 8.7,
@@ -165,7 +165,7 @@
       "segmento": null,
       "post_url": "https://manjubinhainvestidor.com.br/knri11-kinea-renda-imobiliaria-informe-mensal-06-2026/",
       "metricas": {
-        "liquidez_diaria": 9607030,
+        "liquidez_diaria": 9607030.0,
         "dy_12m": 8.09,
         "p_vp": 0.94,
         "anos_listado": 11.9,
@@ -186,7 +186,7 @@
       "segmento": "TVM",
       "post_url": "https://manjubinhainvestidor.com.br/oujp11-ourinvest-jpp-informe-mensal-06-2026/",
       "metricas": {
-        "liquidez_diaria": 656163,
+        "liquidez_diaria": 656163.0,
         "dy_12m": 17.54,
         "p_vp": 0.76,
         "anos_listado": 8.7,
@@ -208,7 +208,7 @@
       "segmento": "Shoppings",
       "post_url": "https://manjubinhainvestidor.com.br/visc11-vinci-shopping-centers-fatos-relevantes-06-2026/",
       "metricas": {
-        "liquidez_diaria": 9766520,
+        "liquidez_diaria": 9766520.0,
         "dy_12m": 9.27,
         "p_vp": 0.91,
         "anos_listado": 8.7,
@@ -229,7 +229,7 @@
       "segmento": "TVM",
       "post_url": "https://manjubinhainvestidor.com.br/recr11-rec-recebiveis-imobiliarios-informe-mensal-06-2026/",
       "metricas": {
-        "liquidez_diaria": 3679210,
+        "liquidez_diaria": 3679210.0,
         "dy_12m": 12.92,
         "p_vp": 0.92,
         "anos_listado": 5.1,
@@ -250,7 +250,7 @@
       "segmento": "Logistico",
       "post_url": "",
       "metricas": {
-        "liquidez_diaria": 6138380,
+        "liquidez_diaria": 6138380.0,
         "dy_12m": 9.41,
         "p_vp": 0.99,
         "anos_listado": 6.6,
@@ -271,7 +271,7 @@
       "segmento": "TVM",
       "post_url": "https://manjubinhainvestidor.com.br/rbrr11-rbr-high-grade-relatorio-gerencial-06-2026/",
       "metricas": {
-        "liquidez_diaria": 4166070,
+        "liquidez_diaria": 4166070.0,
         "dy_12m": 12.59,
         "p_vp": 0.84,
         "anos_listado": 8.2,
@@ -291,7 +291,7 @@
       "tipo": "Papel",
       "segmento": "TVM",
       "metricas": {
-        "liquidez_diaria": 2005780,
+        "liquidez_diaria": 2005780.0,
         "dy_12m": 12.73,
         "p_vp": 0.96,
         "anos_listado": 6.5,
@@ -312,7 +312,7 @@
       "segmento": "Shoppings",
       "post_url": "https://manjubinhainvestidor.com.br/hsml11-hsi-malls-informe-mensal-06-2026/",
       "metricas": {
-        "liquidez_diaria": 7224940,
+        "liquidez_diaria": 7224940.0,
         "dy_12m": 9.63,
         "p_vp": 0.82,
         "anos_listado": 6.9,
@@ -333,7 +333,7 @@
       "segmento": "Logistico",
       "post_url": "https://manjubinhainvestidor.com.br/alzr11-alianza-trust-renda-imobiliaria-fatos-relevantes-06-2026/",
       "metricas": {
-        "liquidez_diaria": 3369960,
+        "liquidez_diaria": 3369960.0,
         "dy_12m": 9.98,
         "p_vp": 0.94,
         "anos_listado": 8.5,
@@ -354,7 +354,7 @@
       "segmento": "TVM",
       "post_url": "https://manjubinhainvestidor.com.br/vcjr11-vinci-credito-imobiliario-informe-mensal-07-2026/",
       "metricas": {
-        "liquidez_diaria": 2471660,
+        "liquidez_diaria": 2471660.0,
         "dy_12m": 13.77,
         "p_vp": 0.81,
         "anos_listado": 6.4,
@@ -375,7 +375,7 @@
       "segmento": "TVM",
       "post_url": "https://manjubinhainvestidor.com.br/vgip11-valora-cri-ipca-relatorio-gerencial-06-2026/",
       "metricas": {
-        "liquidez_diaria": 2356590,
+        "liquidez_diaria": 2356590.0,
         "dy_12m": 12.28,
         "p_vp": 0.89,
         "anos_listado": 6.3,
@@ -397,7 +397,7 @@
       "setor": "Commodities",
       "post_url": "https://manjubinhainvestidor.com.br/vale3-vale-outros-comunicados-nao-considerados-fatos-relevantes-comunicado-ao-mercado-06-2026-2/",
       "metricas": {
-        "liquidez_diaria": 1498280000,
+        "liquidez_diaria": 1498280000.0,
         "dy_12m": 7.19,
         "p_vp": 1.81,
         "anos_listado": 26.5,
@@ -406,42 +406,20 @@
         "tag_along": 100
       },
       "posicoes": {
-        "liquidez": 1,
-        "perenidade": 1,
-        "renda": 6,
-        "valorizacao": 5
-      },
-      "score": 14,
-      "destaque": "Maior liquidez da lista"
-    },
-    {
-      "ticker": "ITUB4",
-      "nome": "Itau Unibanco",
-      "setor": "Financeiro",
-      "post_url": "https://manjubinhainvestidor.com.br/itub4-itau-unibanco-calendario-de-eventos-corporativos-06-2026/",
-      "metricas": {
-        "liquidez_diaria": 1308460000,
-        "dy_12m": 8.18,
-        "p_vp": 2.33,
-        "anos_listado": 25.5,
-        "retorno_total_24m": 54.7,
-        "retorno_total_5a": 113.6,
-        "tag_along": 80
-      },
-      "posicoes": {
         "liquidez": 2,
-        "perenidade": 10,
-        "renda": 5,
-        "valorizacao": 4
+        "perenidade": 1,
+        "renda": 7,
+        "valorizacao": 6
       },
-      "score": 23
+      "score": 18,
+      "destaque": "Mais antigo da lista"
     },
     {
       "ticker": "ITSA4",
       "nome": "Itausa",
       "setor": "Financeiro",
       "metricas": {
-        "liquidez_diaria": 471986000,
+        "liquidez_diaria": 471986000.0,
         "dy_12m": 9.78,
         "p_vp": 1.66,
         "anos_listado": 26.5,
@@ -450,12 +428,57 @@
         "tag_along": 80
       },
       "posicoes": {
-        "liquidez": 7,
-        "perenidade": 9,
+        "liquidez": 8,
+        "perenidade": 2,
         "renda": 2,
-        "valorizacao": 3
+        "valorizacao": 4
+      },
+      "score": 24
+    },
+    {
+      "ticker": "ITUB4",
+      "nome": "Itau Unibanco",
+      "setor": "Financeiro",
+      "post_url": "https://manjubinhainvestidor.com.br/itub4-itau-unibanco-calendario-de-eventos-corporativos-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 1308460000.0,
+        "dy_12m": 8.18,
+        "p_vp": 2.33,
+        "anos_listado": 25.5,
+        "retorno_total_24m": 54.7,
+        "retorno_total_5a": 113.6,
+        "tag_along": 80
+      },
+      "posicoes": {
+        "liquidez": 3,
+        "perenidade": 12,
+        "renda": 5,
+        "valorizacao": 5
       },
       "score": 28
+    },
+    {
+      "ticker": "PETR4",
+      "nome": "Petrobras",
+      "setor": "Commodities",
+      "post_url": "https://manjubinhainvestidor.com.br/petr4-petrobras-comunicado-ao-mercado-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 1961700000.0,
+        "dy_12m": 7.85,
+        "p_vp": 1.09,
+        "anos_listado": 26.5,
+        "retorno_total_24m": 19.1,
+        "retorno_total_5a": 356.2,
+        "tag_along": 100
+      },
+      "posicoes": {
+        "liquidez": 1,
+        "perenidade": 10,
+        "renda": 6,
+        "valorizacao": 14
+      },
+      "score": 32,
+      "destaque": "Maior liquidez da lista"
     },
     {
       "ticker": "ABEV3",
@@ -463,21 +486,43 @@
       "setor": "Consumo",
       "post_url": "https://manjubinhainvestidor.com.br/abev3-ambev-conselho-de-administracao-06-2026/",
       "metricas": {
-        "liquidez_diaria": 465472000,
+        "liquidez_diaria": 465472000.0,
         "dy_12m": 5.55,
         "p_vp": 2.85,
         "anos_listado": 26.5,
-        "retorno_total_24m": 42,
+        "retorno_total_24m": 42.0,
         "retorno_total_5a": 22.9,
         "tag_along": 80
       },
       "posicoes": {
-        "liquidez": 8,
-        "perenidade": 2,
-        "renda": 9,
-        "valorizacao": 7
+        "liquidez": 9,
+        "perenidade": 3,
+        "renda": 11,
+        "valorizacao": 8
       },
-      "score": 34
+      "score": 40
+    },
+    {
+      "ticker": "CPLE3",
+      "nome": "Copel",
+      "setor": "Energia",
+      "metricas": {
+        "liquidez_diaria": 348066000.0,
+        "dy_12m": 7.08,
+        "p_vp": 1.88,
+        "anos_listado": 26.5,
+        "retorno_total_24m": 80.2,
+        "retorno_total_5a": 265.6,
+        "tag_along": 100
+      },
+      "posicoes": {
+        "liquidez": 11,
+        "perenidade": 11,
+        "renda": 9,
+        "valorizacao": 1
+      },
+      "score": 43,
+      "destaque": "Maior valorizacao da lista"
     },
     {
       "ticker": "VIVT3",
@@ -485,21 +530,21 @@
       "setor": "Telecom",
       "post_url": "https://manjubinhainvestidor.com.br/vivt3-telefonica-vivo-assembleia-06-2026/",
       "metricas": {
-        "liquidez_diaria": 177085000,
+        "liquidez_diaria": 177085000.0,
         "dy_12m": 7.17,
         "p_vp": 1.58,
         "anos_listado": 26.5,
         "retorno_total_24m": 47.6,
-        "retorno_total_5a": 112,
+        "retorno_total_5a": 112.0,
         "tag_along": 80
       },
       "posicoes": {
-        "liquidez": 11,
-        "perenidade": 3,
-        "renda": 7,
-        "valorizacao": 6
+        "liquidez": 13,
+        "perenidade": 4,
+        "renda": 8,
+        "valorizacao": 7
       },
-      "score": 38
+      "score": 45
     },
     {
       "ticker": "B3SA3",
@@ -507,7 +552,7 @@
       "setor": "Financeiro",
       "post_url": "https://manjubinhainvestidor.com.br/b3sa3-b3-bolsa-de-valores-comunicado-ao-mercado-06-2026/",
       "metricas": {
-        "liquidez_diaria": 658498000,
+        "liquidez_diaria": 658498000.0,
         "dy_12m": 5.33,
         "p_vp": 4.02,
         "anos_listado": 18.7,
@@ -516,12 +561,12 @@
         "tag_along": 100
       },
       "posicoes": {
-        "liquidez": 3,
-        "perenidade": 12,
-        "renda": 10,
-        "valorizacao": 11
+        "liquidez": 4,
+        "perenidade": 14,
+        "renda": 12,
+        "valorizacao": 12
       },
-      "score": 39
+      "score": 46
     },
     {
       "ticker": "SBSP3",
@@ -529,7 +574,7 @@
       "setor": "Energia",
       "post_url": "https://manjubinhainvestidor.com.br/sbsp3-sabesp-comunicado-ao-mercado-06-2026/",
       "metricas": {
-        "liquidez_diaria": 450264000,
+        "liquidez_diaria": 450264000.0,
         "dy_12m": 2.28,
         "p_vp": 2.39,
         "anos_listado": 26.5,
@@ -538,12 +583,12 @@
         "tag_along": 100
       },
       "posicoes": {
-        "liquidez": 9,
-        "perenidade": 4,
-        "renda": 16,
-        "valorizacao": 2
+        "liquidez": 10,
+        "perenidade": 5,
+        "renda": 18,
+        "valorizacao": 3
       },
-      "score": 40
+      "score": 46
     },
     {
       "ticker": "BBDC4",
@@ -551,7 +596,7 @@
       "setor": "Financeiro",
       "post_url": "https://manjubinhainvestidor.com.br/bbdc4-bradesco-diretoria-06-2026/",
       "metricas": {
-        "liquidez_diaria": 545325000,
+        "liquidez_diaria": 545325000.0,
         "dy_12m": 6.68,
         "p_vp": 1.1,
         "anos_listado": 18.5,
@@ -560,12 +605,12 @@
         "tag_along": 80
       },
       "posicoes": {
-        "liquidez": 5,
-        "perenidade": 14,
-        "renda": 8,
-        "valorizacao": 9
+        "liquidez": 6,
+        "perenidade": 16,
+        "renda": 10,
+        "valorizacao": 10
       },
-      "score": 41
+      "score": 48
     },
     {
       "ticker": "CPFE3",
@@ -573,7 +618,7 @@
       "setor": "Energia",
       "post_url": "https://manjubinhainvestidor.com.br/cpfe3-cpfl-energia-conselho-de-administracao-06-2026/",
       "metricas": {
-        "liquidez_diaria": 83395300,
+        "liquidez_diaria": 83395300.0,
         "dy_12m": 8.33,
         "p_vp": 2.12,
         "anos_listado": 26.5,
@@ -582,12 +627,12 @@
         "tag_along": 100
       },
       "posicoes": {
-        "liquidez": 13,
-        "perenidade": 5,
+        "liquidez": 15,
+        "perenidade": 6,
         "renda": 3,
-        "valorizacao": 8
+        "valorizacao": 9
       },
-      "score": 42
+      "score": 48
     },
     {
       "ticker": "BPAC11",
@@ -595,7 +640,7 @@
       "setor": "Financeiro",
       "post_url": "https://manjubinhainvestidor.com.br/bpac11-btg-pactual-comunicado-ao-mercado-07-2026/",
       "metricas": {
-        "liquidez_diaria": 593691000,
+        "liquidez_diaria": 593691000.0,
         "dy_12m": 2.27,
         "p_vp": 2.82,
         "anos_listado": 9.3,
@@ -604,13 +649,12 @@
         "tag_along": 100
       },
       "posicoes": {
-        "liquidez": 4,
-        "perenidade": 17,
-        "renda": 17,
-        "valorizacao": 1
+        "liquidez": 5,
+        "perenidade": 19,
+        "renda": 19,
+        "valorizacao": 2
       },
-      "score": 43,
-      "destaque": "Maior valorizacao da lista"
+      "score": 50
     },
     {
       "ticker": "BBAS3",
@@ -618,7 +662,7 @@
       "setor": "Financeiro",
       "post_url": "https://manjubinhainvestidor.com.br/bbas3-banco-do-brasil-relatorio-de-agencia-de-rating-06-2026/",
       "metricas": {
-        "liquidez_diaria": 487269000,
+        "liquidez_diaria": 487269000.0,
         "dy_12m": 2.76,
         "p_vp": 0.61,
         "anos_listado": 26.5,
@@ -627,34 +671,12 @@
         "tag_along": 100
       },
       "posicoes": {
-        "liquidez": 6,
-        "perenidade": 6,
-        "renda": 15,
-        "valorizacao": 17
-      },
-      "score": 50
-    },
-    {
-      "ticker": "WEGE3",
-      "nome": "WEG S.A.",
-      "setor": "Industrial",
-      "post_url": "https://manjubinhainvestidor.com.br/wege3-weg-s-a-reuniao-da-administracao-06-2026/",
-      "metricas": {
-        "liquidez_diaria": 336990000,
-        "dy_12m": 4.64,
-        "p_vp": 11.1,
-        "anos_listado": 26.5,
-        "retorno_total_24m": -9.2,
-        "retorno_total_5a": 45.3,
-        "tag_along": 100
-      },
-      "posicoes": {
-        "liquidez": 10,
+        "liquidez": 7,
         "perenidade": 7,
-        "renda": 11,
-        "valorizacao": 16
+        "renda": 17,
+        "valorizacao": 19
       },
-      "score": 54
+      "score": 57
     },
     {
       "ticker": "POMO4",
@@ -662,7 +684,7 @@
       "setor": "Industrial",
       "post_url": "",
       "metricas": {
-        "liquidez_diaria": 46359200,
+        "liquidez_diaria": 46359200.0,
         "dy_12m": 15.76,
         "p_vp": 1.84,
         "anos_listado": 26.5,
@@ -671,13 +693,35 @@
         "tag_along": 100
       },
       "posicoes": {
-        "liquidez": 16,
-        "perenidade": 8,
+        "liquidez": 18,
+        "perenidade": 9,
         "renda": 1,
-        "valorizacao": 14
+        "valorizacao": 16
       },
-      "score": 55,
+      "score": 62,
       "destaque": "Maior renda da lista"
+    },
+    {
+      "ticker": "WEGE3",
+      "nome": "WEG S.A.",
+      "setor": "Industrial",
+      "post_url": "https://manjubinhainvestidor.com.br/wege3-weg-s-a-reuniao-da-administracao-06-2026/",
+      "metricas": {
+        "liquidez_diaria": 336990000.0,
+        "dy_12m": 4.64,
+        "p_vp": 11.1,
+        "anos_listado": 26.5,
+        "retorno_total_24m": -9.2,
+        "retorno_total_5a": 45.3,
+        "tag_along": 100
+      },
+      "posicoes": {
+        "liquidez": 12,
+        "perenidade": 8,
+        "renda": 13,
+        "valorizacao": 18
+      },
+      "score": 63
     },
     {
       "ticker": "TAEE11",
@@ -685,7 +729,7 @@
       "setor": "Energia",
       "post_url": "https://manjubinhainvestidor.com.br/taee11-taesa-comunicado-ao-mercado-06-2026/",
       "metricas": {
-        "liquidez_diaria": 67602200,
+        "liquidez_diaria": 67602200.0,
         "dy_12m": 8.23,
         "p_vp": 1.72,
         "anos_listado": 18.6,
@@ -694,12 +738,12 @@
         "tag_along": 100
       },
       "posicoes": {
-        "liquidez": 15,
-        "perenidade": 13,
+        "liquidez": 17,
+        "perenidade": 15,
         "renda": 4,
-        "valorizacao": 10
+        "valorizacao": 11
       },
-      "score": 57
+      "score": 64
     },
     {
       "ticker": "ENGI11",
@@ -707,7 +751,7 @@
       "setor": "Energia",
       "post_url": "https://manjubinhainvestidor.com.br/engi11-energisa-comunicado-ao-mercado-06-2026/",
       "metricas": {
-        "liquidez_diaria": 105497000,
+        "liquidez_diaria": 105497000.0,
         "dy_12m": 3.22,
         "p_vp": 1.23,
         "anos_listado": 16.7,
@@ -716,12 +760,12 @@
         "tag_along": 100
       },
       "posicoes": {
-        "liquidez": 12,
-        "perenidade": 15,
-        "renda": 14,
-        "valorizacao": 12
+        "liquidez": 14,
+        "perenidade": 17,
+        "renda": 16,
+        "valorizacao": 13
       },
-      "score": 65
+      "score": 74
     },
     {
       "ticker": "EGIE3",
@@ -729,21 +773,21 @@
       "setor": "Energia",
       "post_url": "https://manjubinhainvestidor.com.br/egie3-engie-brasil-comunicado-ao-mercado-06-2026/",
       "metricas": {
-        "liquidez_diaria": 80585500,
+        "liquidez_diaria": 80585500.0,
         "dy_12m": 3.46,
         "p_vp": 2.93,
         "anos_listado": 24.3,
         "retorno_total_24m": 8.6,
-        "retorno_total_5a": 59,
+        "retorno_total_5a": 59.0,
         "tag_along": 100
       },
       "posicoes": {
-        "liquidez": 14,
-        "perenidade": 11,
-        "renda": 12,
-        "valorizacao": 15
+        "liquidez": 16,
+        "perenidade": 13,
+        "renda": 14,
+        "valorizacao": 17
       },
-      "score": 66
+      "score": 76
     },
     {
       "ticker": "ALUP11",
@@ -751,7 +795,7 @@
       "setor": "Energia",
       "post_url": "https://manjubinhainvestidor.com.br/alup11-alupar-aviso-aos-acionistas-06-2026/",
       "metricas": {
-        "liquidez_diaria": 31144200,
+        "liquidez_diaria": 31144200.0,
         "dy_12m": 3.35,
         "p_vp": 1.14,
         "anos_listado": 13.2,
@@ -760,12 +804,12 @@
         "tag_along": 100
       },
       "posicoes": {
-        "liquidez": 17,
-        "perenidade": 16,
-        "renda": 13,
-        "valorizacao": 13
+        "liquidez": 19,
+        "perenidade": 18,
+        "renda": 15,
+        "valorizacao": 15
       },
-      "score": 76
+      "score": 86
     }
   ],
   "reprovados": {
@@ -777,7 +821,7 @@
         "segmento": "Logistico",
         "post_url": "https://manjubinhainvestidor.com.br/gare11-guardian-real-estate-informe-mensal-06-2026/",
         "metricas": {
-          "liquidez_diaria": 12115400,
+          "liquidez_diaria": 12115400.0,
           "dy_12m": 12.07,
           "p_vp": 0.88,
           "anos_listado": 2.3,
@@ -792,7 +836,7 @@
         "segmento": "TVM",
         "post_url": "https://manjubinhainvestidor.com.br/knsc11-kinea-securities-informe-mensal-06-2026/",
         "metricas": {
-          "liquidez_diaria": 5344090,
+          "liquidez_diaria": 5344090.0,
           "dy_12m": 12.17,
           "p_vp": 1.05,
           "anos_listado": 4.4,
@@ -807,7 +851,7 @@
         "segmento": "Logistico",
         "post_url": "https://manjubinhainvestidor.com.br/trbl11-tellus-rio-bravo-logistica-relatorio-gerencial-06-2026/",
         "metricas": {
-          "liquidez_diaria": 3620260,
+          "liquidez_diaria": 3620260.0,
           "dy_12m": 12.71,
           "p_vp": 0.79,
           "anos_listado": 2.9,
@@ -822,7 +866,7 @@
         "segmento": "Lajes Corp.",
         "post_url": "https://manjubinhainvestidor.com.br/pvbi11-vbi-prime-properties-informe-mensal-06-2026/",
         "metricas": {
-          "liquidez_diaria": 4058940,
+          "liquidez_diaria": 4058940.0,
           "dy_12m": 7.27,
           "p_vp": 0.68,
           "anos_listado": 2.4,
@@ -837,7 +881,7 @@
         "segmento": "TVM",
         "post_url": "https://manjubinhainvestidor.com.br/irdm11-iridium-recebiveis-imobiliarios-fatos-relevantes-06-2026/",
         "metricas": {
-          "liquidez_diaria": 0,
+          "liquidez_diaria": 0.0,
           "dy_12m": 8.86,
           "p_vp": 0.74,
           "anos_listado": 6.1,
@@ -851,7 +895,7 @@
         "tipo": "FoF",
         "segmento": "",
         "metricas": {
-          "liquidez_diaria": 3197560,
+          "liquidez_diaria": 3197560.0,
           "dy_12m": 12.89,
           "p_vp": 0.89,
           "anos_listado": 1.5,
@@ -866,7 +910,7 @@
         "segmento": null,
         "post_url": "https://manjubinhainvestidor.com.br/rbrf11-rbr-alpha-multiestrategia-outros-comunicados-07-2026-2/",
         "metricas": {
-          "liquidez_diaria": 0,
+          "liquidez_diaria": 0.0,
           "dy_12m": 5.46,
           "p_vp": 0.78,
           "anos_listado": 8.7,
@@ -881,7 +925,7 @@
         "segmento": "Logistico",
         "post_url": "",
         "metricas": {
-          "liquidez_diaria": 331104,
+          "liquidez_diaria": 331104.0,
           "dy_12m": 10.08,
           "p_vp": 0.94,
           "anos_listado": 2.4,
@@ -896,7 +940,7 @@
         "segmento": "Lajes Corp.",
         "post_url": "",
         "metricas": {
-          "liquidez_diaria": 1148050,
+          "liquidez_diaria": 1148050.0,
           "dy_12m": 8.24,
           "p_vp": 0.69,
           "anos_listado": 6.7,
@@ -911,9 +955,9 @@
         "segmento": null,
         "post_url": "",
         "metricas": {
-          "liquidez_diaria": 0,
-          "dy_12m": 0,
-          "p_vp": 0,
+          "liquidez_diaria": 0.0,
+          "dy_12m": 0.0,
+          "p_vp": 0.0,
           "anos_listado": null,
           "retorno_total_24m": null
         },
@@ -926,7 +970,7 @@
         "segmento": null,
         "post_url": "",
         "metricas": {
-          "liquidez_diaria": 4279540,
+          "liquidez_diaria": 4279540.0,
           "dy_12m": 13.28,
           "p_vp": 0.91,
           "anos_listado": 2.4,
@@ -941,10 +985,10 @@
         "segmento": "TVM",
         "post_url": "",
         "metricas": {
-          "liquidez_diaria": 797184,
+          "liquidez_diaria": 797184.0,
           "dy_12m": 21.04,
           "p_vp": 0.16,
-          "anos_listado": 7,
+          "anos_listado": 7.0,
           "retorno_total_24m": -29.5
         },
         "motivo_exclusao": "P/VP fora da faixa 0,70-1,20"
@@ -952,34 +996,13 @@
     ],
     "acoes": [
       {
-        "ticker": "PETR4",
-        "nome": "Petrobras",
-        "setor": "Commodities",
-        "post_url": "https://manjubinhainvestidor.com.br/petr4-petrobras-comunicado-ao-mercado-06-2026/",
-        "metricas": {
-          "liquidez_diaria": 1961700000,
-          "dy_12m": 7.85,
-          "p_vp": 1.09,
-          "anos_listado": 26.5,
-          "retorno_total_24m": 19.1,
-          "retorno_total_5a": 356.2,
-          "tag_along": null
-        },
-        "motivo_exclusao": "dados indisponiveis nesta coleta (nao e reprovacao): tag along"
-      },
-      {
-        "ticker": "CPLE3",
-        "nome": "Copel",
-        "setor": "Energia"
-      },
-      {
         "ticker": "PRIO3",
         "nome": "PRIO",
         "setor": "Commodities",
         "post_url": "https://manjubinhainvestidor.com.br/prio3-prio-comunicado-ao-mercado-06-2026/",
         "metricas": {
-          "liquidez_diaria": 597699000,
-          "dy_12m": 0,
+          "liquidez_diaria": 597699000.0,
+          "dy_12m": 0.0,
           "p_vp": 1.71,
           "anos_listado": 15.7,
           "retorno_total_24m": 11.9,
@@ -994,12 +1017,12 @@
         "setor": "Saude",
         "post_url": "https://manjubinhainvestidor.com.br/rdor3-rede-dor-aviso-aos-acionistas-06-2026/",
         "metricas": {
-          "liquidez_diaria": 294578000,
+          "liquidez_diaria": 294578000.0,
           "dy_12m": 12.51,
           "p_vp": 3.93,
           "anos_listado": 5.5,
           "retorno_total_24m": 41.1,
-          "retorno_total_5a": -40,
+          "retorno_total_5a": -40.0,
           "tag_along": 100
         },
         "motivo_exclusao": "menos de 8 anos de listagem; retorno total negativo em 5 anos"
@@ -1010,7 +1033,7 @@
         "setor": "Commodities",
         "post_url": "https://manjubinhainvestidor.com.br/suzb3-suzano-reuniao-da-administracao-06-2026/",
         "metricas": {
-          "liquidez_diaria": 269947000,
+          "liquidez_diaria": 269947000.0,
           "dy_12m": 0.01,
           "p_vp": 1.05,
           "anos_listado": 21.9,
@@ -1026,7 +1049,7 @@
         "setor": "Industrial",
         "post_url": "https://manjubinhainvestidor.com.br/tots3-totvs-reuniao-da-administracao-06-2026/",
         "metricas": {
-          "liquidez_diaria": 281775000,
+          "liquidez_diaria": 281775000.0,
           "dy_12m": 2.37,
           "p_vp": 3.47,
           "anos_listado": 20.3,
@@ -1042,7 +1065,7 @@
         "setor": "Commodities",
         "post_url": "https://manjubinhainvestidor.com.br/klbn11-klabin-fato-relevante-07-2026/",
         "metricas": {
-          "liquidez_diaria": 93065400,
+          "liquidez_diaria": 93065400.0,
           "dy_12m": 8.42,
           "p_vp": 2.31,
           "anos_listado": 12.4,
@@ -1074,12 +1097,12 @@
         "setor": "Consumo",
         "post_url": "",
         "metricas": {
-          "liquidez_diaria": 404607000,
+          "liquidez_diaria": 404607000.0,
           "dy_12m": 4.93,
           "p_vp": 1.78,
           "anos_listado": 21.1,
           "retorno_total_24m": 9.4,
-          "retorno_total_5a": -12,
+          "retorno_total_5a": -12.0,
           "tag_along": 100
         },
         "motivo_exclusao": "retorno total negativo em 5 anos"
@@ -1090,8 +1113,8 @@
         "setor": "Commodities",
         "post_url": "",
         "metricas": {
-          "liquidez_diaria": 162137000,
-          "dy_12m": 0,
+          "liquidez_diaria": 162137000.0,
+          "dy_12m": 0.0,
           "p_vp": 4.2,
           "anos_listado": 20.6,
           "retorno_total_24m": -72.3,
@@ -1106,8 +1129,8 @@
         "setor": "Saude",
         "post_url": "",
         "metricas": {
-          "liquidez_diaria": 96775400,
-          "dy_12m": 0,
+          "liquidez_diaria": 96775400.0,
+          "dy_12m": 0.0,
           "p_vp": 0.11,
           "anos_listado": 8.2,
           "retorno_total_24m": -81.9,
@@ -1121,7 +1144,7 @@
         "nome": "Rumo",
         "setor": "Transporte",
         "metricas": {
-          "liquidez_diaria": 192772000,
+          "liquidez_diaria": 192772000.0,
           "dy_12m": 0.81,
           "p_vp": 1.8,
           "anos_listado": 11.2,
@@ -1137,7 +1160,7 @@
         "setor": "Financeiro",
         "post_url": "",
         "metricas": {
-          "liquidez_diaria": 20614000,
+          "liquidez_diaria": 20614000.0,
           "dy_12m": 2.28,
           "p_vp": 0.85,
           "anos_listado": 8.9,
